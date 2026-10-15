@@ -57,6 +57,9 @@ skill-ui/
     ├── interactive-bento-grid.tsx    # 21st.dev modern feature bento grid
     ├── animated-modal-dialog.tsx     # HeroUI spring-animated dialog
     └── daisy-theme-switcher.tsx      # Pure CSS multi-theme dropdown switcher
+    ├── onboarding-wizard.tsx         # Accessible, stateful workspace onboarding flow
+    ├── pricing-plan-selector.tsx     # Responsive pricing cards with annual billing toggle
+    └── empty-state.tsx               # Composable empty state with creation/import actions
 ```
 
 ---
