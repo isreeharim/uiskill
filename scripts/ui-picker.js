@@ -99,6 +99,55 @@ const LIBRARIES = {
     setup: "npm install framer-motion clsx tailwind-merge",
     bestFor: "Animated typography (ShinyText, TrueFocus), 3D cards (TiltedCard), and canvas backgrounds (Squares)",
   },
+  tremor: {
+    name: "Tremor",
+    url: "https://tremor.so",
+    paradigm: "Modern Tailwind-first analytics & executive KPI dashboards",
+    setup: "npm install @tremor/react",
+    bestFor: "Executive SaaS metrics, financial charts, uptime trackers, and KPI cards",
+  },
+  reactaria: {
+    name: "Adobe React Spectrum / React Aria",
+    url: "https://react-spectrum.adobe.com",
+    paradigm: "World-class 3-layer universal accessibility engine",
+    setup: "npm install @adobe/react-spectrum OR npm install react-aria-components",
+    bestFor: "Strict WCAG AAA accessibility, multi-device touch/mouse/keyboard adaptation, RTL",
+  },
+  baseweb: {
+    name: "Uber Base Web",
+    url: "https://baseweb.design",
+    paradigm: "Uber's Styletron design system with slot overrides",
+    setup: "npm install baseui styletron-engine-atomic styletron-react",
+    bestFor: "Operations backoffices, logistics, fleet management, and deep subcomponent overrides",
+  },
+  fluent: {
+    name: "Microsoft Fluent UI (v9)",
+    url: "https://fluent2.microsoft.design",
+    paradigm: "Microsoft 365, Teams, and Azure design language",
+    setup: "npm install @fluentui/react-components @fluentui/react-icons",
+    bestFor: "Microsoft 365 add-ins, Teams apps, Azure enterprise portals, Windows high-contrast",
+  },
+  chakra: {
+    name: "Chakra UI (v3) / Ark UI",
+    url: "https://chakra-ui.com",
+    paradigm: "Zag.js state machine powered composable component system",
+    setup: "npm install @chakra-ui/react @emotion/react",
+    bestFor: "Rapid composable interfaces, state machine stability, and snippet CLI",
+  },
+  reactnativeweb: {
+    name: "React Native for Web",
+    url: "https://necolas.github.io/react-native-web",
+    paradigm: "Universal cross-platform primitives for Web, iOS, and Android",
+    setup: "npm install react-native-web react-dom",
+    bestFor: "Unified multi-platform codebases (Twitter/X Web standard), universal UI",
+  },
+  virtualized: {
+    name: "React Virtualized / react-window",
+    url: "https://github.com/bvaughn/react-virtualized",
+    paradigm: "High-performance windowing and DOM node recycling",
+    setup: "npm install react-window react-virtualized-auto-sizer",
+    bestFor: "Rendering 10,000 to 1,000,000+ row datasets and infinite feeds at 60 FPS",
+  },
 }
 
 function parseArgs() {
@@ -127,15 +176,43 @@ function evaluateRecommendation(answers) {
     return { primary: LIBRARIES.tailark, secondary: LIBRARIES.shadcn }
   }
 
+  if (projectType === "mobile" || priority === "universal" || priority === "cross-platform") {
+    return { primary: LIBRARIES.reactnativeweb, secondary: LIBRARIES.shadcn }
+  }
+
+  if (projectType === "analytics" || priority === "analytics" || priority === "kpi" || priority === "charts") {
+    return { primary: LIBRARIES.tremor, secondary: LIBRARIES.untitledui }
+  }
+
+  if (priority === "a11y" || priority === "accessibility" || priority === "wcag") {
+    return { primary: LIBRARIES.reactaria, secondary: LIBRARIES.baseui }
+  }
+
+  if (priority === "virtualized" || priority === "infinite" || priority === "big-data") {
+    return { primary: LIBRARIES.virtualized, secondary: LIBRARIES.mui }
+  }
+
+  if (priority === "microsoft" || priority === "fluent" || priority === "teams") {
+    return { primary: LIBRARIES.fluent, secondary: LIBRARIES.mui }
+  }
+
+  if (priority === "uber" || priority === "overrides" || priority === "logistics") {
+    return { primary: LIBRARIES.baseweb, secondary: LIBRARIES.antd }
+  }
+
+  if (priority === "chakra" || priority === "composable") {
+    return { primary: LIBRARIES.chakra, secondary: LIBRARIES.mantine }
+  }
+
   if (projectType === "enterprise") {
     if (priority === "datagrid") {
-      return { primary: LIBRARIES.mui, secondary: LIBRARIES.antd }
+      return { primary: LIBRARIES.mui, secondary: LIBRARIES.virtualized }
     }
     if (priority === "all-in-one") {
       return { primary: LIBRARIES.mantine, secondary: LIBRARIES.antd }
     }
     if (priority === "density") {
-      return { primary: LIBRARIES.antd, secondary: LIBRARIES.mui }
+      return { primary: LIBRARIES.antd, secondary: LIBRARIES.baseweb }
     }
     if (styling === "tailwind") {
       return { primary: LIBRARIES.shadcn, secondary: LIBRARIES.untitledui }
@@ -154,7 +231,7 @@ function evaluateRecommendation(answers) {
     return { primary: LIBRARIES.reshaped, secondary: LIBRARIES.untitledui }
   }
   if (priority === "unstyled") {
-    return { primary: LIBRARIES.baseui, secondary: LIBRARIES.shadcn }
+    return { primary: LIBRARIES.baseui, secondary: LIBRARIES.reactaria }
   }
   if (priority === "high-end-saas") {
     return { primary: LIBRARIES.alignui, secondary: LIBRARIES.untitledui }
@@ -201,7 +278,11 @@ async function runInteractive() {
   console.log("   [6] Unstyled headless primitives for bespoke CSS (Base UI)")
   console.log("   [7] Ultra-lean pure CSS & zero JS bundle impact (DaisyUI)")
   console.log("   [8] Creative animated typography, 3D cards & canvas backgrounds (React Bits)")
-  const prioChoice = (await ask("Select (1-8) [default: 1]: ")).trim() || "1"
+  console.log("   [9] Modern executive analytics, KPI cards & charts (Tremor)")
+  console.log("   [10] Strict WCAG AAA accessibility, multi-device & RTL (React Aria / Spectrum)")
+  console.log("   [11] Universal single codebase for Web, iOS & Android (React Native for Web)")
+  console.log("   [12] High-performance windowing for 100,000+ row datasets (React Virtualized)")
+  const prioChoice = (await ask("Select (1-12) [default: 1]: ")).trim() || "1"
 
   const prioMap = {
     "1": "ownership",
@@ -212,6 +293,10 @@ async function runInteractive() {
     "6": "unstyled",
     "7": "zero-js",
     "8": "reactbits",
+    "9": "analytics",
+    "10": "a11y",
+    "11": "universal",
+    "12": "virtualized",
   }
   const priority = prioMap[prioChoice] || "ownership"
 

@@ -19,6 +19,9 @@ import { TiltedCard } from "../../templates/react-bits-tilted-card"
 import { StarBorder } from "../../templates/react-bits-star-border"
 import { Magnet } from "../../templates/react-bits-magnet"
 import { Squares } from "../../templates/react-bits-squares-background"
+import { TremorAnalyticsDashboard } from "../../templates/tremor-analytics-dashboard"
+import { VirtualizedInfiniteList } from "../../templates/virtualized-infinite-list"
+import { UniversalCrossPlatformCard } from "../../templates/universal-cross-platform-card"
 
 // Import raw code strings using Vite's ?raw
 import rawMetricsCard from "../../templates/dashboard-metrics-card.tsx?raw"
@@ -39,6 +42,9 @@ import rawTiltedCard from "../../templates/react-bits-tilted-card.tsx?raw"
 import rawStarBorder from "../../templates/react-bits-star-border.tsx?raw"
 import rawMagnet from "../../templates/react-bits-magnet.tsx?raw"
 import rawSquares from "../../templates/react-bits-squares-background.tsx?raw"
+import rawTremorDashboard from "../../templates/tremor-analytics-dashboard.tsx?raw"
+import rawVirtualizedList from "../../templates/virtualized-infinite-list.tsx?raw"
+import rawUniversalCard from "../../templates/universal-cross-platform-card.tsx?raw"
 
 export interface ComponentItem {
   id: string
@@ -520,5 +526,44 @@ export const COMPONENTS_DATA: ComponentItem[] = [
     dependencies: ["react", "framer-motion", "tailwindcss"],
     code: rawMagnet,
     previewComponent: MagnetPreview,
+  },
+  {
+    id: "tremor-analytics-dashboard",
+    name: "Executive KPI & Analytics Dashboard",
+    category: "SaaS Dashboards",
+    system: "Tremor (tremorlabs/tremor-npm)",
+    description: "Executive SaaS analytics dashboard featuring KPI metric cards with delta indicators and a 30-day operational SLA uptime tracker.",
+    tags: ["tremor", "analytics", "kpi", "dashboard", "metrics", "uptime-tracker"],
+    fileName: "components/tremor-analytics-dashboard.tsx",
+    installCommand: "npm install @tremor/react lucide-react",
+    dependencies: ["react", "lucide-react", "tailwindcss"],
+    code: rawTremorDashboard,
+    previewComponent: () => <TremorAnalyticsDashboard />,
+  },
+  {
+    id: "virtualized-infinite-list",
+    name: "High-Performance Virtualized Stream",
+    category: "SaaS Dashboards",
+    system: "React Virtualized (bvaughn/react-virtualized)",
+    description: "Virtual list rendering 5,000+ real-time telemetry items at constant 60 FPS using DOM node recycling and windowing.",
+    tags: ["virtualized", "react-window", "react-virtualized", "infinite-scroll", "telemetry", "performance"],
+    fileName: "components/virtualized-infinite-list.tsx",
+    installCommand: "npm install react-window react-virtualized-auto-sizer lucide-react",
+    dependencies: ["react", "lucide-react", "tailwindcss"],
+    code: rawVirtualizedList,
+    previewComponent: () => <VirtualizedInfiniteList />,
+  },
+  {
+    id: "universal-cross-platform-card",
+    name: "Universal Cross-Platform Primitive",
+    category: "Marketing & Bento",
+    system: "React Native for Web & React Spectrum",
+    description: "Platform-agnostic interactive component demonstrating multi-platform responsiveness (iOS, Android, Web DOM) and accessible press feedback.",
+    tags: ["react-native-web", "react-spectrum", "cross-platform", "a11y", "cards"],
+    fileName: "components/universal-cross-platform-card.tsx",
+    installCommand: "npm install react-native-web lucide-react",
+    dependencies: ["react", "lucide-react", "tailwindcss"],
+    code: rawUniversalCard,
+    previewComponent: () => <UniversalCrossPlatformCard />,
   },
 ]

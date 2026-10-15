@@ -1,30 +1,38 @@
 ---
 name: skill-ui
-description: "Architect, select, design, and implement modern UI components across 13 elite UI systems: shadcn/ui, MUI, Untitled UI, HeroUI, Mantine, Ant Design, DaisyUI, Base UI, Reshaped, AlignUI, Tailark, 21st.dev, and React Bits. Use when designing components, choosing a UI library, building SaaS dashboards, creating design tokens, styling interfaces, or adding micro-interactions. Triggers on 'design component', 'choose UI library', 'implement table', 'build dashboard', 'style UI', 'shadcn', 'material-ui', 'mantine', 'heroui', 'daisyui', 'ant design', 'base ui', '21st.dev', 'react-bits'."
+description: "Architect, select, design, and implement modern UI components across 25+ elite UI systems and libraries: shadcn/ui, MUI, Untitled UI, HeroUI, Mantine, Ant Design, DaisyUI, Base UI, Reshaped, AlignUI, Tailark, 21st.dev, React Bits, Tremor, Uber Base Web, Adobe React Spectrum, Microsoft Fluent UI, Chakra UI, React Native for Web, React-Bootstrap, React Virtualized, and Awesome React Components. Use when designing components, choosing a UI library, building SaaS dashboards, creating design tokens, styling interfaces, or adding micro-interactions. Triggers on 'design component', 'choose UI library', 'implement table', 'build dashboard', 'style UI', 'shadcn', 'material-ui', 'mantine', 'heroui', 'daisyui', 'ant design', 'base ui', '21st.dev', 'react-bits', 'tremor', 'baseweb', 'fluent-ui', 'react-spectrum', 'react-aria', 'chakra-ui', 'react-native-web', 'virtualized'."
 category: frontend
 risk: safe
 author: Sreehari
 license: MIT
-tags: [ui, react, design-system, tailwind, shadcn, mui, mantine, antd, heroui, untitledui, daisyui, base-ui, reshaped, alignui, tailark, 21st-dev, react-bits]
+tags: [ui, react, design-system, tailwind, shadcn, mui, mantine, antd, heroui, untitledui, daisyui, base-ui, reshaped, alignui, tailark, 21st-dev, react-bits, tremor, baseweb, fluentui, react-spectrum, react-aria, chakra-ui, react-native-web, react-virtualized, awesome-react-components]
 ---
 
 # Skill UI: The Universal UI Component & Design System Skill
 
-A master-grade, multi-engine UI skill for AI coding assistants. Synthesizes architectural knowledge, component APIs, design tokens, accessibility guardrails, and production code patterns across 13 modern UI ecosystems:
+A master-grade, multi-engine UI skill for AI coding assistants. Synthesizes architectural knowledge, component APIs, design tokens, accessibility guardrails, and production code patterns across 25+ modern UI ecosystems:
 
 1. **shadcn/ui** — Copy-paste accessible components (Radix UI + Tailwind CSS)
 2. **Untitled UI React** — World-class enterprise SaaS design system & Figma parity
 3. **MUI (Material UI)** — Google Material Design 2/3 enterprise standard with MUI X
-4. **Reshaped** — Token-driven Figma-code synchronized design system with `--rs-` variables
-5. **AlignUI** — High-end SaaS component kit for React + Tailwind with OKLCH colors
-6. **Base UI** — MUI's next-gen unstyled headless primitives for total CSS control
-7. **Tailark** — Curated marketing blocks & SaaS page sections on shadcn/ui
-8. **HeroUI (formerly NextUI)** — Modern animated React library with Tailwind Variants & React Aria
-9. **Mantine UI** — 100+ modular React components & 50+ hooks with zero-dependency CSS
-10. **DaisyUI** — Semantic pure-CSS Tailwind plugin with 30+ themes and zero JS runtime
-11. **Ant Design (antd)** — Enterprise data-dense backoffice design language and algorithms
-12. **21st.dev** — "The npm for design engineers", cutting-edge animated & micro-interaction components
-13. **React Bits** — 200+ animated, interactive React + Tailwind components (David Haz / reactbits.dev)
+4. **Tremor** — Modern Tailwind-first analytics, KPI metrics & charts (`tremorlabs/tremor-npm`)
+5. **Adobe React Spectrum & React Aria** — World standard 3-layer accessibility engine (`adobe/react-spectrum`)
+6. **Uber Base Web** — High-density logistics design system with slot overrides (`uber/baseweb`)
+7. **Microsoft Fluent UI (v9)** — Microsoft 365, Teams, and Azure design language (`microsoft/fluentui`)
+8. **Chakra UI (v3) / Ark UI** — Zag.js state-machine composable component system (`chakra-ui/chakra-ui`)
+9. **React Native for Web** — Universal cross-platform primitives for Web & Mobile (`necolas/react-native-web`)
+10. **React Virtualized / react-window** — High-performance windowing for 100,000+ items (`bvaughn/react-virtualized`)
+11. **React Bits** — 200+ animated components & typography by David Haz (`reactbits.dev`)
+12. **Reshaped** — Token-driven Figma-code synchronized design system with `--rs-` variables
+13. **AlignUI** — High-end SaaS component kit for React + Tailwind with OKLCH colors
+14. **Base UI** — MUI's next-gen unstyled headless primitives for total CSS control
+15. **Tailark** — Curated marketing blocks & SaaS page sections on shadcn/ui
+16. **HeroUI (NextUI)** — Modern animated React library with Tailwind Variants & React Aria
+17. **Mantine UI** — 100+ modular React components & 50+ hooks with zero-dependency CSS
+18. **DaisyUI** — Semantic pure-CSS Tailwind plugin with 30+ themes and zero JS runtime
+19. **Ant Design (antd & mobile)** — Enterprise data-dense backoffice & touch fintech
+20. **21st.dev** — "The npm for design engineers", cutting-edge animated & micro-interaction components
+21. **Awesome React Components** — Curated directory of top-tier React components (`brillout/awesome-react-components`)
 
 ---
 
@@ -36,11 +44,13 @@ When deeper technical reference is required, inspect these dedicated documents i
 - [03-enterprise-powerhouses.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/03-enterprise-powerhouses.md) — MUI DataGrid, Ant Design tables, Mantine hooks & forms
 - [04-saas-design-systems.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/04-saas-design-systems.md) — Untitled UI, AlignUI, Reshaped, Tailark SaaS patterns
 - [05-creative-and-motion.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/05-creative-and-motion.md) — 21st.dev, HeroUI, DaisyUI micro-interactions & themes
-- [06-component-crosswalk.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/06-component-crosswalk.md) — 25+ component syntax mapping across all 13 libraries
+- [06-component-crosswalk.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/06-component-crosswalk.md) — 25+ component syntax mapping across all libraries
 - [07-theming-tokens-and-dark-mode.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/07-theming-tokens-and-dark-mode.md) — CSS variables, OKLCH, theme algorithms
 - [08-accessibility-and-rsc.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/08-accessibility-and-rsc.md) — WAI-ARIA, keyboard navigation, RSC boundaries
 - [09-licensing-and-free-tier-guide.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/09-licensing-and-free-tier-guide.md) — The "No-Problem" 100% free & open-source UI matrix & drop-in replacements
 - [10-react-bits-catalog.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/10-react-bits-catalog.md) — React Bits (David Haz) 200+ animated components, typography & canvas backgrounds
+- [11-enterprise-giants-and-ecosystem.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/11-enterprise-giants-and-ecosystem.md) — Deep-dive on Base Web, Fluent UI, React Spectrum/Aria, Tremor, React Native Web, Virtualization
+- [12-awesome-react-components-directory.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/12-awesome-react-components-directory.md) — Curated directory of top-tier React components across 13 engineering categories
 - [skills/README.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/skills/README.md) — The 31 specialized UI/UX agent skills monorepo (motion, mobile, tokens, QA)
 
 ---
