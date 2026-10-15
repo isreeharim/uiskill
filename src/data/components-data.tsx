@@ -305,6 +305,26 @@ function MagnetPreview() {
   )
 }
 
+function SquaresPreview() {
+  return (
+    <div className="relative flex flex-col items-center justify-center p-12 text-center min-h-[300px] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
+      <Squares
+        direction="diagonal"
+        speed={0.5}
+        squareSize={40}
+        borderColor="#27272a"
+        hoverFillColor="#3f3f46"
+      />
+      <div className="relative z-10 space-y-2 pointer-events-none">
+        <h3 className="text-xl font-bold text-white">Interactive Canvas Grid</h3>
+        <p className="text-xs text-zinc-400 max-w-sm">
+          Move your cursor over the grid. Squares highlight with physics-based proximity response.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 export const COMPONENTS_DATA: ComponentItem[] = [
   {
     id: "dashboard-metrics-card",
@@ -526,6 +546,19 @@ export const COMPONENTS_DATA: ComponentItem[] = [
     dependencies: ["react", "framer-motion", "tailwindcss"],
     code: rawMagnet,
     previewComponent: MagnetPreview,
+  },
+  {
+    id: "react-bits-squares-background",
+    name: "Interactive Squares Background",
+    category: "Creative & Motion",
+    system: "React Bits (David Haz)",
+    description: "Interactive canvas background with directional drifting squares and mouse-proximity highlight effects.",
+    tags: ["react-bits", "squares", "canvas", "backgrounds", "interactive"],
+    fileName: "components/react-bits-squares-background.tsx",
+    installCommand: "npm install clsx tailwind-merge",
+    dependencies: ["react", "tailwindcss"],
+    code: rawSquares,
+    previewComponent: SquaresPreview,
   },
   {
     id: "tremor-analytics-dashboard",
