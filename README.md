@@ -102,7 +102,7 @@ Avoid licensing traps, seat fees, and paywalls. This repository emphasizes **100
   - Instead of **MUI X DataGrid Pro ($15+/mo)** ➡️ Use `@tanstack/react-table` + `templates/advanced-data-table.tsx`.
   - Instead of **Paid Marketing Themes** ➡️ Use Tailark open blocks + `templates/interactive-bento-grid.tsx`.
   - Instead of **Commercial Motion FX** ➡️ Use React Bits (`templates/react-bits-*`) + 21st.dev.
-- See [`references/09-licensing-and-free-tier-guide.md`](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/09-licensing-and-free-tier-guide.md) and [`references/10-react-bits-catalog.md`](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/10-react-bits-catalog.md) for full details.
+- See [`references/09-licensing-and-free-tier-guide.md`](references/09-licensing-and-free-tier-guide.md) and [`references/10-react-bits-catalog.md`](references/10-react-bits-catalog.md) for full details.
 
 ## 💻 Live Component Studio & Web Preview App
 

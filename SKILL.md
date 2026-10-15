@@ -39,19 +39,19 @@ A master-grade, multi-engine UI skill for AI coding assistants. Synthesizes arch
 ## Quick Navigation & Progressive Disclosure
 
 When deeper technical reference is required, inspect these dedicated documents in `references/`:
-- [01-decision-framework.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/01-decision-framework.md) — Comprehensive comparison matrix & selection decision tree
-- [02-shadcn-and-base-ui.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/02-shadcn-and-base-ui.md) — Headless, copy-paste, Radix & Base UI primitives
-- [03-enterprise-powerhouses.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/03-enterprise-powerhouses.md) — MUI DataGrid, Ant Design tables, Mantine hooks & forms
-- [04-saas-design-systems.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/04-saas-design-systems.md) — Untitled UI, AlignUI, Reshaped, Tailark SaaS patterns
-- [05-creative-and-motion.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/05-creative-and-motion.md) — 21st.dev, HeroUI, DaisyUI micro-interactions & themes
-- [06-component-crosswalk.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/06-component-crosswalk.md) — 25+ component syntax mapping across all libraries
-- [07-theming-tokens-and-dark-mode.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/07-theming-tokens-and-dark-mode.md) — CSS variables, OKLCH, theme algorithms
-- [08-accessibility-and-rsc.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/08-accessibility-and-rsc.md) — WAI-ARIA, keyboard navigation, RSC boundaries
-- [09-licensing-and-free-tier-guide.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/09-licensing-and-free-tier-guide.md) — The "No-Problem" 100% free & open-source UI matrix & drop-in replacements
-- [10-react-bits-catalog.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/10-react-bits-catalog.md) — React Bits (David Haz) 200+ animated components, typography & canvas backgrounds
-- [11-enterprise-giants-and-ecosystem.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/11-enterprise-giants-and-ecosystem.md) — Deep-dive on Base Web, Fluent UI, React Spectrum/Aria, Tremor, React Native Web, Virtualization
-- [12-awesome-react-components-directory.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/12-awesome-react-components-directory.md) — Curated directory of top-tier React components across 13 engineering categories
-- [skills/README.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/skills/README.md) — The 31 specialized UI/UX agent skills monorepo (motion, mobile, tokens, QA)
+- [01-decision-framework.md](references/01-decision-framework.md) — Comprehensive comparison matrix & selection decision tree
+- [02-shadcn-and-base-ui.md](references/02-shadcn-and-base-ui.md) — Headless, copy-paste, Radix & Base UI primitives
+- [03-enterprise-powerhouses.md](references/03-enterprise-powerhouses.md) — MUI DataGrid, Ant Design tables, Mantine hooks & forms
+- [04-saas-design-systems.md](references/04-saas-design-systems.md) — Untitled UI, AlignUI, Reshaped, Tailark SaaS patterns
+- [05-creative-and-motion.md](references/05-creative-and-motion.md) — 21st.dev, HeroUI, DaisyUI micro-interactions & themes
+- [06-component-crosswalk.md](references/06-component-crosswalk.md) — 25+ component syntax mapping across all libraries
+- [07-theming-tokens-and-dark-mode.md](references/07-theming-tokens-and-dark-mode.md) — CSS variables, OKLCH, theme algorithms
+- [08-accessibility-and-rsc.md](references/08-accessibility-and-rsc.md) — WAI-ARIA, keyboard navigation, RSC boundaries
+- [09-licensing-and-free-tier-guide.md](references/09-licensing-and-free-tier-guide.md) — The "No-Problem" 100% free & open-source UI matrix & drop-in replacements
+- [10-react-bits-catalog.md](references/10-react-bits-catalog.md) — React Bits (David Haz) 200+ animated components, typography & canvas backgrounds
+- [11-enterprise-giants-and-ecosystem.md](references/11-enterprise-giants-and-ecosystem.md) — Deep-dive on Base Web, Fluent UI, React Spectrum/Aria, Tremor, React Native Web, Virtualization
+- [12-awesome-react-components-directory.md](references/12-awesome-react-components-directory.md) — Curated directory of top-tier React components across 13 engineering categories
+- [skills/README.md](skills/README.md) — The 31 specialized UI/UX agent skills monorepo (motion, mobile, tokens, QA)
 
 ---
 

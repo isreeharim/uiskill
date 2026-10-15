@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Home, BarChart2, Users, Settings, Bell, ChevronDown, ChevronRight, PanelLeftClose, PanelLeftOpen, Zap } from "lucide-react"
+import { Home, BarChart2, Users, Settings, ChevronDown, ChevronRight, PanelLeftClose, PanelLeftOpen, Zap } from "lucide-react"
 
 interface NavItem {
   label: string
@@ -117,7 +117,7 @@ export function CollapsibleSidebar() {
           <div className="mb-3 flex items-center gap-3 rounded-xl p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition cursor-pointer">
             <div className="h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 ring-2 ring-white dark:ring-zinc-900" />
             <div className="min-w-0">
-              <p className="truncate text-xs font-semibold text-zinc-900 dark:text-zinc-100">Sreehari</p>
+              <p className="truncate text-xs font-semibold text-zinc-900 dark:text-zinc-100">Alex Morgan</p>
               <p className="truncate text-xs text-zinc-400">admin@acme.com</p>
             </div>
           </div>
