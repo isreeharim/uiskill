@@ -1,13 +1,30 @@
 @import "tailwindcss";
 
+/* Tailwind CSS v4 uses prefers-color-scheme for dark: by default.
+   uiskill has an explicit theme toggle, so dark: must follow the .dark class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
     font-family: var(--font-sans);
+    background-color: #fafafa;
+    color: #18181b;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  html.dark body {
+    background-color: #09090b;
+    color: #f4f4f5;
   }
   
   code, pre, kbd {
