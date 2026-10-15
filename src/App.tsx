@@ -83,6 +83,7 @@ export function App() {
     "Auth & Flow",
     "Overlays & Actions",
     "Theming",
+    "Creative & Motion",
   ]
 
   // Filtered components list

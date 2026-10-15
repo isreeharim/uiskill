@@ -25,3 +25,11 @@ out/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Python & testing cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/

@@ -41,6 +41,7 @@ When deeper technical reference is required, inspect these dedicated documents i
 - [08-accessibility-and-rsc.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/08-accessibility-and-rsc.md) — WAI-ARIA, keyboard navigation, RSC boundaries
 - [09-licensing-and-free-tier-guide.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/09-licensing-and-free-tier-guide.md) — The "No-Problem" 100% free & open-source UI matrix & drop-in replacements
 - [10-react-bits-catalog.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/10-react-bits-catalog.md) — React Bits (David Haz) 200+ animated components, typography & canvas backgrounds
+- [skills/README.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/skills/README.md) — The 31 specialized UI/UX agent skills monorepo (motion, mobile, tokens, QA)
 
 ---
 

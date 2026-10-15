@@ -105,6 +105,21 @@ Visit `http://localhost:3000` to interact with:
 
 ---
 
+## 🗂️ The 31 Specialized UI/UX Skills Monorepo (`skills/`)
+
+In addition to the core `skill-ui` meta-skill, this repository bundles **31 specialized AI coding agent skills** in the [`skills/`](skills/README.md) directory. Each skill is standalone, fully documented with a specification-compliant `SKILL.md`, and ready for individual or monorepo installation:
+
+### 🌟 5 Core UI Domains Covered
+1. **Component Systems & Architecture**: [`react-bits`](skills/README.md#1-component-systems--web-architecture), [`ui-styling`](skills/README.md#1-component-systems--web-architecture), [`rayden-code`](skills/README.md#1-component-systems--web-architecture), [`ask-sonner`](skills/README.md#1-component-systems--web-architecture), [`pick-ui-library`](skills/README.md#1-component-systems--web-architecture).
+2. **Motion & Animation Engineering**: [`animate`](skills/README.md#2-motion--animation-engineering), [`animation-vocabulary`](skills/README.md#2-motion--animation-engineering), [`find-animation-opportunities`](skills/README.md#2-motion--animation-engineering), [`improve-animations`](skills/README.md#2-motion--animation-engineering), [`review-animations`](skills/README.md#2-motion--animation-engineering), [`emil-design-eng`](skills/README.md#2-motion--animation-engineering).
+3. **Mobile & Native Experience**: [`mobile-app-ui-design`](skills/README.md#3-mobile-app--native-experience), [`appllama-app-design-skill`](skills/README.md#3-mobile-app--native-experience), [`appllama-usage`](skills/README.md#3-mobile-app--native-experience), [`apple-design`](skills/README.md#3-mobile-app--native-experience).
+4. **Design Systems, Tokens & Identity**: [`design-system`](skills/README.md#4-design-systems-tokens--identity), [`design`](skills/README.md#4-design-systems-tokens--identity), [`design-html`](skills/README.md#4-design-systems-tokens--identity), [`brand`](skills/README.md#4-design-systems-tokens--identity), [`banner-design`](skills/README.md#4-design-systems-tokens--identity), [`slides`](skills/README.md#4-design-systems-tokens--identity), [`rayden-use`](skills/README.md#4-design-systems-tokens--identity).
+5. **Design QA, Review & UX Research**: [`ui-ux-pro-max`](skills/README.md#5-design-qa-evaluation--research), [`uxui-principles`](skills/README.md#5-design-qa-evaluation--research), [`frontend-design`](skills/README.md#5-design-qa-evaluation--research), [`uizze-ui-research`](skills/README.md#5-design-qa-evaluation--research), [`design-review`](skills/README.md#5-design-qa-evaluation--research), [`design-consultation`](skills/README.md#5-design-qa-evaluation--research), [`design-shotgun`](skills/README.md#5-design-qa-evaluation--research), [`plan-design-review`](skills/README.md#5-design-qa-evaluation--research), [`prototype`](skills/README.md#5-design-qa-evaluation--research).
+
+👉 **[Explore the full 31 skills catalog & install guide in `skills/README.md`](skills/README.md)**
+
+---
+
 ## 🚀 Installation & How to Use
 
 ### 1. In Anthropic Claude Code
