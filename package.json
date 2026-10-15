@@ -1,9 +1,10 @@
 {
-  "name": "skill-ui",
+  "name": "uiskill",
   "version": "1.0.0",
-  "description": "The Universal UI Architecture & Component Skill for AI Coding Agents covering 13 elite UI systems including React Bits.",
+  "description": "uiskill: The Universal UI Architecture & Component Skill for AI Coding Agents covering 17 elite UI systems with 53 components and 93 certified agent skills.",
   "main": "scripts/ui-picker.js",
   "bin": {
+    "uiskill": "./scripts/ui-picker.js",
     "skill-ui": "./scripts/ui-picker.js"
   },
   "scripts": {

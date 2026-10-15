@@ -445,7 +445,8 @@ export function App() {
       <footer className="border-t border-zinc-200/80 bg-white/70 py-4 text-xs text-zinc-500 dark:border-zinc-800/80 dark:bg-zinc-950/70 backdrop-blur-xs transition-colors">
         <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <p className="flex items-center gap-2">
-            <span className="font-semibold text-zinc-900 dark:text-zinc-200">Skill UI Studio</span>
+            <img src="/logo.png" alt="uiskill" className="h-4 w-4 rounded object-contain inline-block" />
+            <span className="font-semibold text-zinc-900 dark:text-zinc-200">uiskill Studio</span>
             <span className="text-zinc-400">·</span>
             <span>53 Live UI Templates</span>
             <span className="text-zinc-400">·</span>

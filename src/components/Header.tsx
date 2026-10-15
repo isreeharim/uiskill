@@ -1,6 +1,5 @@
 import { useState } from "react"
 import {
-  Layers,
   Search,
   Sparkles,
   Moon,
@@ -69,9 +68,9 @@ export function Header({
   const [copiedCli, setCopiedCli] = useState(false)
 
   const handleCopyCli = () => {
-    navigator.clipboard.writeText("npx skill-ui")
+    navigator.clipboard.writeText("npx uiskill")
     setCopiedCli(true)
-    onTriggerToast("Copied CLI command!", "Run `npx skill-ui` in your terminal to launch the interactive studio")
+    onTriggerToast("Copied CLI command!", "Run `npx uiskill` in your terminal to launch the interactive studio")
     setTimeout(() => setCopiedCli(false), 2000)
   }
 
@@ -108,15 +107,17 @@ export function Header({
           )}
 
           {/* Brand Mark */}
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 shadow-xs text-white">
-              <Layers className="h-4 w-4" />
-            </div>
+          <div className="flex items-center gap-2.5">
+            <img
+              src="/logo.png"
+              alt="uiskill"
+              className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg object-contain shadow-xs border border-zinc-200/80 dark:border-zinc-800/80 bg-white p-0.5"
+            />
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-sm tracking-tight text-zinc-950 dark:text-zinc-50">
-                Skill UI
+                uiskill
               </span>
-              <span className="hidden sm:inline-flex items-center rounded-md border border-zinc-200 bg-zinc-100 px-1.5 py-0.2 text-[10px] font-mono font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+              <span className="hidden sm:inline-flex items-center rounded-md border border-blue-500/20 bg-blue-50/60 dark:bg-blue-950/40 px-1.5 py-0.2 text-[10px] font-mono font-semibold text-blue-600 dark:text-blue-400">
                 v2.0
               </span>
             </div>
@@ -223,11 +224,11 @@ export function Header({
           {/* Quick CLI Copy Button */}
           <button
             onClick={handleCopyCli}
-            title="Copy CLI command: npx skill-ui"
+            title="Copy CLI command: npx uiskill"
             className="hidden xl:inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1.5 font-mono text-[11px] text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition"
           >
             <Terminal className="h-3 w-3 text-blue-500" />
-            <span>npx skill-ui</span>
+            <span>npx uiskill</span>
             {copiedCli && <Check className="h-3 w-3 text-emerald-500" />}
           </button>
 
