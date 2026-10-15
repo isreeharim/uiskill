@@ -1,0 +1,36 @@
+{
+  "name": "skill-ui",
+  "version": "1.0.0",
+  "description": "The Universal UI Architecture & Component Skill for AI Coding Agents covering 12 elite UI systems.",
+  "main": "scripts/ui-picker.js",
+  "bin": {
+    "skill-ui": "./scripts/ui-picker.js"
+  },
+  "scripts": {
+    "pick": "node scripts/ui-picker.js",
+    "test": "node scripts/validate-skill.js",
+    "validate": "node scripts/validate-skill.js"
+  },
+  "keywords": [
+    "agentskills",
+    "ai-skill",
+    "ui",
+    "design-systems",
+    "react",
+    "tailwind",
+    "shadcn",
+    "mui",
+    "mantine",
+    "heroui",
+    "ant-design",
+    "base-ui",
+    "untitledui",
+    "reshaped",
+    "alignui",
+    "tailark",
+    "21st-dev",
+    "daisyui"
+  ],
+  "author": "Sreehari",
+  "license": "MIT"
+}
