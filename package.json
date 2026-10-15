@@ -12,8 +12,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "pick": "node scripts/ui-picker.js",
-    "test": "node scripts/validate-skill.js",
-    "validate": "node scripts/validate-skill.js"
+    "typecheck": "tsc --noEmit",
+    "test:skills": "node scripts/validate-skill.js",
+    "test": "npm run typecheck && npm run test:skills"
   },
   "keywords": [
     "agentskills",
