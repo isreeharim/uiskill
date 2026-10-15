@@ -64,6 +64,7 @@ const references = [
   "references/06-component-crosswalk.md",
   "references/07-theming-tokens-and-dark-mode.md",
   "references/08-accessibility-and-rsc.md",
+  "references/09-licensing-and-free-tier-guide.md",
 ]
 
 references.forEach((ref) => {

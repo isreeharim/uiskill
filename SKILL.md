@@ -38,6 +38,7 @@ When deeper technical reference is required, inspect these dedicated documents i
 - [06-component-crosswalk.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/06-component-crosswalk.md) — 25+ component syntax mapping across all 12 libraries
 - [07-theming-tokens-and-dark-mode.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/07-theming-tokens-and-dark-mode.md) — CSS variables, OKLCH, theme algorithms
 - [08-accessibility-and-rsc.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/08-accessibility-and-rsc.md) — WAI-ARIA, keyboard navigation, RSC boundaries
+- [09-licensing-and-free-tier-guide.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/09-licensing-and-free-tier-guide.md) — The "No-Problem" 100% free & open-source UI matrix & drop-in replacements
 
 ---
 
@@ -282,7 +283,31 @@ export function DaisyButton({ variant = "primary" }: { variant?: "primary" | "se
 
 ---
 
-## 8. CLI Automation Tool
+## 8. The "No-Problem" (100% Free & Legal) UI Stack
+
+Avoid licensing traps and commercial subscription costs by adhering to the **Zero-Cost, Zero-Legal-Risk** rulebook:
+
+### 100% Free / MIT Unrestricted Libraries
+- **shadcn/ui** — Entire library is 100% free MIT code that you own.
+- **Base UI** — 100% free unstyled accessible primitives from the MUI team.
+- **Mantine UI** — 100+ components, 50+ hooks, forms, modals: 100% free MIT.
+- **HeroUI** — Complete animated system: 100% free MIT.
+- **DaisyUI** — All 55+ components and 30+ themes: 100% free MIT.
+- **Ant Design** — Enterprise suite: 100% free MIT.
+- **21st.dev** — Open community-contributed components: 100% free.
+
+### "No-Problem" Drop-In Replacements for Paid Features
+| Instead of Paying For... | Use This 100% Free MIT Solution |
+|---|---|
+| **Untitled UI Pro Dashboard ($149+)** | `templates/dashboard-metrics-card.tsx` + `lucide-react` + clean Tailwind CSS |
+| **MUI X DataGrid Pro ($15+/dev/mo)** | `@tanstack/react-table` + `templates/advanced-data-table.tsx` |
+| **AlignUI Pro Templates** | Free Base AlignUI components (`@alignui/cli`) + shadcn blocks |
+| **Tailark Pro Marketing Themes** | Free Tailark open blocks + `templates/interactive-bento-grid.tsx` |
+| **Commercial Motion Kits** | 21st.dev components + Framer Motion |
+
+---
+
+## 9. CLI Automation Tool
 
 This repository includes a standalone stack evaluator script:
 ```bash
@@ -292,6 +317,7 @@ node scripts/ui-picker.js
 
 ---
 
-## 9. References & Deep Guides
+## 10. References & Deep Guides
 
 Refer to the companion files in `references/` for exhaustive implementation guides, API tables, and copy-paste recipes.
+

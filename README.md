@@ -45,7 +45,8 @@ skill-ui/
 │   ├── 05-creative-and-motion.md     # 21st.dev, HeroUI, DaisyUI micro-interactions
 │   ├── 06-component-crosswalk.md     # 25+ component syntax mapping across all 12 libs
 │   ├── 07-theming-tokens-and-dark-mode.md # CSS variables, OKLCH, algorithms
-│   └── 08-accessibility-and-rsc.md  # WAI-ARIA focus traps, React Server Components
+│   ├── 08-accessibility-and-rsc.md  # WAI-ARIA focus traps, React Server Components
+│   └── 09-licensing-and-free-tier-guide.md # The "No-Problem" 100% Free UI Matrix & Replacements
 ├── scripts/
 │   ├── ui-picker.js                  # Interactive & CLI UI stack recommender tool
 │   └── validate-skill.js             # Automated AgentSkills validation runner
@@ -57,6 +58,19 @@ skill-ui/
     ├── animated-modal-dialog.tsx     # HeroUI spring-animated dialog
     └── daisy-theme-switcher.tsx      # Pure CSS multi-theme dropdown switcher
 ```
+
+---
+
+## 🛡️ The "No-Problem" (100% Free & Legal) UI Stack
+
+Avoid licensing traps, seat fees, and paywalls. This repository emphasizes **100% MIT-licensed, open-source, commercial-safe** development:
+
+- **100% Free Core Systems**: shadcn/ui, Base UI, Mantine UI, HeroUI, DaisyUI, Ant Design, 21st.dev, MUI Core.
+- **Zero-Cost Alternatives to Paid Kits**:
+  - Instead of **Untitled UI Pro ($149+)** ➡️ Use `templates/dashboard-metrics-card.tsx` + `lucide-react`.
+  - Instead of **MUI X DataGrid Pro ($15+/mo)** ➡️ Use `@tanstack/react-table` + `templates/advanced-data-table.tsx`.
+  - Instead of **Paid Marketing Themes** ➡️ Use Tailark open blocks + `templates/interactive-bento-grid.tsx`.
+- See [`references/09-licensing-and-free-tier-guide.md`](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/09-licensing-and-free-tier-guide.md) for the complete breakdown.
 
 ---
 
