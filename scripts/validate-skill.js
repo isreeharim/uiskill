@@ -65,6 +65,7 @@ const references = [
   "references/07-theming-tokens-and-dark-mode.md",
   "references/08-accessibility-and-rsc.md",
   "references/09-licensing-and-free-tier-guide.md",
+  "references/10-react-bits-catalog.md",
 ]
 
 references.forEach((ref) => {

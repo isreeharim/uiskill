@@ -24,18 +24,47 @@ export function AnimatedModalDialog({
 }: AnimatedModalProps) {
   const modalRef = React.useRef<HTMLDivElement>(null)
 
+  // Focus trap & Escape listener
   React.useEffect(() => {
+    if (!isOpen) return
+
+    document.body.style.overflow = "hidden"
+
+    // Focus the first button in modal
+    const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    if (focusableElements && focusableElements.length > 0) {
+      focusableElements[0].focus()
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === "Escape") {
+        e.preventDefault()
         onClose()
+        return
+      }
+
+      if (e.key === "Tab" && modalRef.current) {
+        const focusables = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+        if (!focusables || focusables.length === 0) return
+
+        const first = focusables[0]
+        const last = focusables[focusables.length - 1]
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
       }
     }
-    if (isOpen) {
-      document.body.style.overflow = "hidden"
-      window.addEventListener("keydown", handleKeyDown)
-    } else {
-      document.body.style.overflow = ""
-    }
+
+    window.addEventListener("keydown", handleKeyDown)
     return () => {
       document.body.style.overflow = ""
       window.removeEventListener("keydown", handleKeyDown)
@@ -46,13 +75,18 @@ export function AnimatedModalDialog({
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose()
+      }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-200"
     >
       <div
         ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-md overflow-hidden rounded-3xl border border-zinc-200 bg-white p-6 shadow-2xl duration-200 animate-in zoom-in-95 dark:border-zinc-800 dark:bg-zinc-950"
       >
         <button
@@ -72,7 +106,7 @@ export function AnimatedModalDialog({
             <h3 id="modal-title" className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
               {title}
             </h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+            <p id="modal-description" className="mt-1.5 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
               {description}
             </p>
           </div>

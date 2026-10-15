@@ -1,6 +1,6 @@
-# Universal Component Crosswalk: 25 UI Elements Across 12 Libraries
+# Universal Component Crosswalk: 25 UI Elements Across 13 Libraries
 
-This reference maps common user interface elements across all 12 libraries, including exact component names, import paths, and implementation strategies.
+This reference maps common user interface elements across all 13 libraries, including exact component names, import paths, and implementation strategies.
 
 ---
 
@@ -36,17 +36,19 @@ This reference maps common user interface elements across all 12 libraries, incl
 
 ---
 
-## SaaS & Creative Kits Mapping (Untitled UI, AlignUI, Tailark, 21st.dev)
+## SaaS & Creative Kits Mapping (Untitled UI, AlignUI, Tailark, 21st.dev, React Bits)
 
-| Feature / Widget | Untitled UI (React) | AlignUI | Tailark | 21st.dev |
-|---|---|---|---|---|
-| **Metrics / Stat Card** | `MetricCard` with Sparklines | `StatCard` compound | `MetricBlock` | Animated Spotlight / CountUp |
-| **Faceted Filter Bar** | `FilterBar` + Pills | `TagFilter` + Dropdowns | Filter Blocks | Interactive Morphing Filters |
-| **Bento Grid** | Feature Matrix Grid | Grid Blocks | Bento Showcase | Aceternity / Magic Bento Grid |
-| **Landing Hero** | Marketing Headers | Page Headers | Dusk / Veil Hero Blocks | Hero with Shader / Particles |
-| **Pricing Matrix** | B2B Tier Table | Pricing Card | Dusk Pricing Comparison | 3D Interactive Pricing Card |
-| **Auth / Login** | Enterprise SSO Screen | Compound Auth Card | Split Screen Auth Block | Floating Glow Auth Modal |
-| **Figma Sync** | World-class Tokens | Remix Icon + Tokens | Built on shadcn Tokens | Vibe-coded / Copy-paste TSX |
+| Feature / Widget | Untitled UI (React) | AlignUI | Tailark | 21st.dev | React Bits (David Haz) |
+|---|---|---|---|---|---|
+| **Metrics / Stat Card** | `MetricCard` with Sparklines | `StatCard` compound | `MetricBlock` | Animated Spotlight / CountUp | `SpotlightCard` / `TiltedCard` |
+| **Animated Typography** | Standard Headings | Stylized Headings | Marketing Headings | Morphing Text | `ShinyText`, `TrueFocus`, `SplitText` |
+| **Faceted Filter Bar** | `FilterBar` + Pills | `TagFilter` + Dropdowns | Filter Blocks | Interactive Morphing Filters | `ElasticSlider` / `FlowingMenu` |
+| **Bento Grid** | Feature Matrix Grid | Grid Blocks | Bento Showcase | Aceternity / Magic Bento Grid | Custom Animated Bento Cards |
+| **Landing Hero** | Marketing Headers | Page Headers | Dusk / Veil Hero Blocks | Hero with Shader / Particles | `Aurora`, `Hyperspeed`, `Squares` Backgrounds |
+| **CTA / Action Button** | Standard Button | Primary Compound Button | Gradient Action Button | Magnetic Border-Beam Button | `StarBorder`, `Magnet` |
+| **Interactive Cards** | Metric Cards | Clean SaaS Cards | Marketing Card Blocks | 3D Perspective Cards | `TiltedCard`, `PixelCard`, `GlareCard` |
+| **Cursor & FX** | Standard Hover | Subdued Focus | Standard Focus | Canvas Cursor Effects | `SplashCursor`, `BlobCursor`, `ClickSpark` |
+| **Figma Sync** | World-class Tokens | Remix Icon + Tokens | Built on shadcn Tokens | Vibe-coded / Copy-paste TSX | Community / Code-first |
 
 ---
 

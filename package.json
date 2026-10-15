@@ -1,12 +1,15 @@
 {
   "name": "skill-ui",
   "version": "1.0.0",
-  "description": "The Universal UI Architecture & Component Skill for AI Coding Agents covering 12 elite UI systems.",
+  "description": "The Universal UI Architecture & Component Skill for AI Coding Agents covering 13 elite UI systems including React Bits.",
   "main": "scripts/ui-picker.js",
   "bin": {
     "skill-ui": "./scripts/ui-picker.js"
   },
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "pick": "node scripts/ui-picker.js",
     "test": "node scripts/validate-skill.js",
     "validate": "node scripts/validate-skill.js"
@@ -29,6 +32,7 @@
     "alignui",
     "tailark",
     "21st-dev",
+    "react-bits",
     "daisyui"
   ],
   "author": "Sreehari",
@@ -37,5 +41,24 @@
     "type": "git",
     "url": "https://github.com/isreeharim/uiskill.git"
   },
-  "homepage": "https://github.com/isreeharim/uiskill#readme"
+  "homepage": "https://github.com/isreeharim/uiskill#readme",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.57.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.30",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
 }

@@ -92,6 +92,13 @@ const LIBRARIES = {
     setup: "npx 21st add <component-name>",
     bestFor: "Spotlight cards, animated borders, bento grids, interactive eye-candy",
   },
+  reactbits: {
+    name: "React Bits",
+    url: "https://reactbits.dev",
+    paradigm: "200+ animated, interactive components & text effects (David Haz)",
+    setup: "npm install framer-motion clsx tailwind-merge",
+    bestFor: "Animated typography (ShinyText, TrueFocus), 3D cards (TiltedCard), and canvas backgrounds (Squares)",
+  },
 }
 
 function parseArgs() {
@@ -114,8 +121,8 @@ function evaluateRecommendation(answers) {
     if (priority === "zero-js") {
       return { primary: LIBRARIES.daisyui, secondary: LIBRARIES.tailark }
     }
-    if (priority === "creative") {
-      return { primary: LIBRARIES.twntyfirst, secondary: LIBRARIES.tailark }
+    if (priority === "creative" || priority === "motion" || priority === "fx") {
+      return { primary: LIBRARIES.reactbits, secondary: LIBRARIES.twntyfirst }
     }
     return { primary: LIBRARIES.tailark, secondary: LIBRARIES.shadcn }
   }
@@ -137,8 +144,11 @@ function evaluateRecommendation(answers) {
   }
 
   // Default: SaaS / Web App
+  if (priority === "reactbits" || priority === "fx" || priority === "typography") {
+    return { primary: LIBRARIES.reactbits, secondary: LIBRARIES.shadcn }
+  }
   if (priority === "creative" || priority === "motion") {
-    return { primary: LIBRARIES.heroui, secondary: LIBRARIES.twntyfirst }
+    return { primary: LIBRARIES.heroui, secondary: LIBRARIES.reactbits }
   }
   if (priority === "tokens" || priority === "figma-sync") {
     return { primary: LIBRARIES.reshaped, secondary: LIBRARIES.untitledui }
@@ -190,7 +200,8 @@ async function runInteractive() {
   console.log("   [5] Multi-brand tokens & strict Figma sync (Reshaped)")
   console.log("   [6] Unstyled headless primitives for bespoke CSS (Base UI)")
   console.log("   [7] Ultra-lean pure CSS & zero JS bundle impact (DaisyUI)")
-  const prioChoice = (await ask("Select (1-7) [default: 1]: ")).trim() || "1"
+  console.log("   [8] Creative animated typography, 3D cards & canvas backgrounds (React Bits)")
+  const prioChoice = (await ask("Select (1-8) [default: 1]: ")).trim() || "1"
 
   const prioMap = {
     "1": "ownership",
@@ -200,6 +211,7 @@ async function runInteractive() {
     "5": "tokens",
     "6": "unstyled",
     "7": "zero-js",
+    "8": "reactbits",
   }
   const priority = prioMap[prioChoice] || "ownership"
 

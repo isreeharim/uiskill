@@ -59,18 +59,28 @@ export function DashboardMetricsCard({
 
         {/* Minimal inline SVG Sparkline */}
         <div className="h-10 w-24">
-          <svg className="h-full w-full overflow-visible" viewBox="0 0 100 40">
-            <polyline
-              fill="none"
-              stroke={isUp ? "#10b981" : "#f43f5e"}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              points={sparklineData
-                .map((d, i) => `${(i / (sparklineData.length - 1)) * 100},${40 - (d / 50) * 35}`)
-                .join(" ")}
-            />
-          </svg>
+          {(() => {
+            const maxVal = Math.max(1, ...sparklineData)
+            const count = sparklineData.length
+            const points = count > 1
+              ? sparklineData
+                  .map((d, i) => `${(i / (count - 1)) * 100},${38 - (d / maxVal) * 32}`)
+                  .join(" ")
+              : "0,20 100,20"
+
+            return (
+              <svg className="h-full w-full overflow-visible" viewBox="0 0 100 40">
+                <polyline
+                  fill="none"
+                  stroke={isUp ? "#10b981" : "#f43f5e"}
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  points={points}
+                />
+              </svg>
+            )
+          })()}
         </div>
       </div>
     </div>

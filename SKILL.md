@@ -1,16 +1,16 @@
 ---
 name: skill-ui
-description: "Architect, select, design, and implement modern UI components across 12 elite UI systems: shadcn/ui, MUI, Untitled UI, HeroUI, Mantine, Ant Design, DaisyUI, Base UI, Reshaped, AlignUI, Tailark, and 21st.dev. Use when designing components, choosing a UI library, building SaaS dashboards, creating design tokens, styling interfaces, or adding micro-interactions. Triggers on 'design component', 'choose UI library', 'implement table', 'build dashboard', 'style UI', 'shadcn', 'material-ui', 'mantine', 'heroui', 'daisyui', 'ant design', 'base ui', '21st.dev'."
+description: "Architect, select, design, and implement modern UI components across 13 elite UI systems: shadcn/ui, MUI, Untitled UI, HeroUI, Mantine, Ant Design, DaisyUI, Base UI, Reshaped, AlignUI, Tailark, 21st.dev, and React Bits. Use when designing components, choosing a UI library, building SaaS dashboards, creating design tokens, styling interfaces, or adding micro-interactions. Triggers on 'design component', 'choose UI library', 'implement table', 'build dashboard', 'style UI', 'shadcn', 'material-ui', 'mantine', 'heroui', 'daisyui', 'ant design', 'base ui', '21st.dev', 'react-bits'."
 category: frontend
 risk: safe
 author: Sreehari
 license: MIT
-tags: [ui, react, design-system, tailwind, shadcn, mui, mantine, antd, heroui, untitledui, daisyui, base-ui, reshaped, alignui, tailark, 21st-dev]
+tags: [ui, react, design-system, tailwind, shadcn, mui, mantine, antd, heroui, untitledui, daisyui, base-ui, reshaped, alignui, tailark, 21st-dev, react-bits]
 ---
 
 # Skill UI: The Universal UI Component & Design System Skill
 
-A master-grade, multi-engine UI skill for AI coding assistants. Synthesizes architectural knowledge, component APIs, design tokens, accessibility guardrails, and production code patterns across 12 modern UI ecosystems:
+A master-grade, multi-engine UI skill for AI coding assistants. Synthesizes architectural knowledge, component APIs, design tokens, accessibility guardrails, and production code patterns across 13 modern UI ecosystems:
 
 1. **shadcn/ui** — Copy-paste accessible components (Radix UI + Tailwind CSS)
 2. **Untitled UI React** — World-class enterprise SaaS design system & Figma parity
@@ -24,6 +24,7 @@ A master-grade, multi-engine UI skill for AI coding assistants. Synthesizes arch
 10. **DaisyUI** — Semantic pure-CSS Tailwind plugin with 30+ themes and zero JS runtime
 11. **Ant Design (antd)** — Enterprise data-dense backoffice design language and algorithms
 12. **21st.dev** — "The npm for design engineers", cutting-edge animated & micro-interaction components
+13. **React Bits** — 200+ animated, interactive React + Tailwind components (David Haz / reactbits.dev)
 
 ---
 
@@ -35,10 +36,11 @@ When deeper technical reference is required, inspect these dedicated documents i
 - [03-enterprise-powerhouses.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/03-enterprise-powerhouses.md) — MUI DataGrid, Ant Design tables, Mantine hooks & forms
 - [04-saas-design-systems.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/04-saas-design-systems.md) — Untitled UI, AlignUI, Reshaped, Tailark SaaS patterns
 - [05-creative-and-motion.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/05-creative-and-motion.md) — 21st.dev, HeroUI, DaisyUI micro-interactions & themes
-- [06-component-crosswalk.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/06-component-crosswalk.md) — 25+ component syntax mapping across all 12 libraries
+- [06-component-crosswalk.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/06-component-crosswalk.md) — 25+ component syntax mapping across all 13 libraries
 - [07-theming-tokens-and-dark-mode.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/07-theming-tokens-and-dark-mode.md) — CSS variables, OKLCH, theme algorithms
 - [08-accessibility-and-rsc.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/08-accessibility-and-rsc.md) — WAI-ARIA, keyboard navigation, RSC boundaries
 - [09-licensing-and-free-tier-guide.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/09-licensing-and-free-tier-guide.md) — The "No-Problem" 100% free & open-source UI matrix & drop-in replacements
+- [10-react-bits-catalog.md](file:///c:/Users/Sreehari/OneDrive/Desktop/projects/skill%20ui/references/10-react-bits-catalog.md) — React Bits (David Haz) 200+ animated components, typography & canvas backgrounds
 
 ---
 
@@ -55,7 +57,7 @@ Activate this skill when:
 
 ---
 
-## 2. The 12-Library Taxonomy & Decision Matrix
+## 2. The 13-Library Taxonomy & Decision Matrix
 
 | Library | Primary Paradigm | Best For | Styling Engine | Bundle Impact | Code Ownership |
 |---|---|---|---|---|---|
@@ -71,6 +73,7 @@ Activate this skill when:
 | **DaisyUI** | Pure CSS Semantic | Rapid Prototypes & MVPs | Tailwind CSS Classes | Near Zero JS | CSS Plugin |
 | **Ant Design** | Data-Dense Backoffice | Global ERP & Admin Panes | CSS-in-JS Tokens | Heavy | Managed NPM |
 | **21st.dev** | Creative Micro-UI | Interactive Highlights | Tailwind + Framer | Low | Copy-Paste / CLI |
+| **React Bits** | Animated Typography & Canvas | Statement Pieces & Micro-Motion | Tailwind + Framer Motion | Low | 100% Owned (MIT) |
 
 ---
 
@@ -161,6 +164,11 @@ START: What are you building?
 ### 12. 21st.dev (`https://21st.dev`)
 - **Key Concept**: "The npm for design engineers." Community registry of modern micro-interactions, canvas effects, bento grids, and animated buttons.
 - **Tech Stack**: Tailwind CSS + Framer Motion + Lucide. Integrates with Cursor/Claude Code via MCP and CLI (`npx 21st`).
+
+### 13. React Bits (`https://reactbits.dev` & `https://github.com/DavidHDev/react-bits`)
+- **Key Concept**: Curated open-source collection of 200+ animated React components by David Haz.
+- **Specialties**: Statement typography (`ShinyText`, `TrueFocus`, `SplitText`), 3D cards (`TiltedCard`, `StarBorder`), cursor physics (`Magnet`), and interactive canvas backgrounds (`Aurora`, `Squares`, `Particles`).
+- **Tech Stack**: React + Tailwind CSS + Framer Motion. 100% MIT, copy-paste ownership.
 
 ---
 
@@ -295,6 +303,7 @@ Avoid licensing traps and commercial subscription costs by adhering to the **Zer
 - **DaisyUI** — All 55+ components and 30+ themes: 100% free MIT.
 - **Ant Design** — Enterprise suite: 100% free MIT.
 - **21st.dev** — Open community-contributed components: 100% free.
+- **React Bits** — 200+ creative animated components & text effects by David Haz: 100% free MIT.
 
 ### "No-Problem" Drop-In Replacements for Paid Features
 | Instead of Paying For... | Use This 100% Free MIT Solution |
@@ -303,7 +312,7 @@ Avoid licensing traps and commercial subscription costs by adhering to the **Zer
 | **MUI X DataGrid Pro ($15+/dev/mo)** | `@tanstack/react-table` + `templates/advanced-data-table.tsx` |
 | **AlignUI Pro Templates** | Free Base AlignUI components (`@alignui/cli`) + shadcn blocks |
 | **Tailark Pro Marketing Themes** | Free Tailark open blocks + `templates/interactive-bento-grid.tsx` |
-| **Commercial Motion Kits** | 21st.dev components + Framer Motion |
+| **Commercial Motion / FX Kits** | React Bits (`templates/react-bits-*`) + 21st.dev + Framer Motion |
 
 ---
 

@@ -1,4 +1,4 @@
-# UI Architecture Decision Framework: The 12-System Benchmark
+# UI Architecture Decision Framework: The 13-System Benchmark
 
 This document provides an exhaustive architectural evaluation and decision framework to choose the ideal UI library or design system for any project.
 
@@ -6,18 +6,18 @@ This document provides an exhaustive architectural evaluation and decision frame
 
 ## 1. Deep Comparison Matrix
 
-| Evaluation Dimension | shadcn/ui | Untitled UI | MUI Material UI | Reshaped | AlignUI | Base UI | Tailark | HeroUI | Mantine | DaisyUI | Ant Design | 21st.dev |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Ecosystem & Host** | React / Next.js | React / Figma | React | React / Figma | React / Next.js | React (Any) | React / Next.js | React / Next.js | React | Web (Any) | React | React / Next.js |
-| **Styling Foundation** | Tailwind CSS | Tailwind CSS | Pigment/Emotion | Native CSS Vars | Tailwind CSS | None (Unstyled) | Tailwind CSS | Tailwind Variants | CSS Modules | Pure Tailwind | CSS-in-JS | Tailwind + Motion |
-| **Accessibility Engine** | Radix UI | Radix / Custom | Custom ARIA | Custom ARIA | Radix UI | Custom ARIA / Radix | Radix UI | React Aria | Custom ARIA | Semantic HTML | Custom ARIA | Radix / Custom |
-| **Bundle Overhead (JS)** | 0 kB (Self-hosted) | Minimal | 45-80 kB (Gzipped)| ~8 kB | Minimal | ~5-12 kB | 0 kB (Self-hosted)| ~18-35 kB | ~25-45 kB | 0 kB JS | 70-120 kB | Minimal |
-| **SSR / RSC Ready** | Native | Native | High (Pigment) | Full | Native | Full | Native | Client wrapper | Client wrapper | Instant | Client wrapper | Client wrapper |
-| **Customization Depth** | Unlimited | High (Tailwind) | Medium-High | High (Tokens) | High | Unlimited | High | High (Slots) | High (Theme) | High (Themes) | Medium (Tokens) | Unlimited |
-| **Component Count** | 50+ | 100+ | 80+ | 40+ | 60+ | 30+ (Growing) | 40+ Blocks | 50+ | 100+ | 55+ | 70+ | Thousands |
-| **Complex Data Table** | TanStack Table | Pre-styled Grid | MUI X DataGrid | Custom Grid | Pre-styled Grid | Unstyled Table | Blocks | Basic Table | Mantine Table | HTML Table | Enterprise Table| Curated blocks |
-| **Figma Sync Parity** | Community kits | World Class | Official Kit | Built-in Sync | Official Kit | In progress | Based on shadcn | Community kits | Community kits | Third-party | Official Kit | Varied |
-| **License** | MIT | Commercial/Pro | MIT / Core | MIT / Pro | Free / Pro | MIT | MIT / Commercial | MIT | MIT | MIT | MIT | MIT / Free |
+| Evaluation Dimension | shadcn/ui | Untitled UI | MUI Material UI | Reshaped | AlignUI | Base UI | Tailark | HeroUI | Mantine | DaisyUI | Ant Design | 21st.dev | React Bits |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Ecosystem & Host** | React / Next.js | React / Figma | React | React / Figma | React / Next.js | React (Any) | React / Next.js | React / Next.js | React | Web (Any) | React | React / Next.js | React / Next.js |
+| **Styling Foundation** | Tailwind CSS | Tailwind CSS | Pigment/Emotion | Native CSS Vars | Tailwind CSS | None (Unstyled) | Tailwind CSS | Tailwind Variants | CSS Modules | Pure Tailwind | CSS-in-JS | Tailwind + Motion | Tailwind + Motion |
+| **Accessibility Engine** | Radix UI | Radix / Custom | Custom ARIA | Custom ARIA | Radix UI | Custom ARIA / Radix | Radix UI | React Aria | Custom ARIA | Semantic HTML | Custom ARIA | Radix / Custom | Semantic HTML / ARIA |
+| **Bundle Overhead (JS)** | 0 kB (Self-hosted) | Minimal | 45-80 kB (Gzipped)| ~8 kB | Minimal | ~5-12 kB | 0 kB (Self-hosted)| ~18-35 kB | ~25-45 kB | 0 kB JS | 70-120 kB | Minimal | Minimal (Per-component) |
+| **SSR / RSC Ready** | Native | Native | High (Pigment) | Full | Native | Full | Native | Client wrapper | Client wrapper | Instant | Client wrapper | Client wrapper | Client wrapper ("use client") |
+| **Customization Depth** | Unlimited | High (Tailwind) | Medium-High | High (Tokens) | High | Unlimited | High | High (Slots) | High (Theme) | High (Themes) | Medium (Tokens) | Unlimited | Unlimited |
+| **Component Count** | 50+ | 100+ | 80+ | 40+ | 60+ | 30+ (Growing) | 40+ Blocks | 50+ | 100+ | 55+ | 70+ | Thousands | 200+ |
+| **Complex Data Table** | TanStack Table | Pre-styled Grid | MUI X DataGrid | Custom Grid | Pre-styled Grid | Unstyled Table | Blocks | Basic Table | Mantine Table | HTML Table | Enterprise Table| Curated blocks | Custom / Focused on FX |
+| **Figma Sync Parity** | Community kits | World Class | Official Kit | Built-in Sync | Official Kit | In progress | Based on shadcn | Community kits | Community kits | Third-party | Official Kit | Varied | Community kits |
+| **License** | MIT | Commercial/Pro | MIT / Core | MIT / Pro | Free / Pro | MIT | MIT / Commercial | MIT | MIT | MIT | MIT | MIT / Free | **MIT (100% Free)** |
 
 ---
 
@@ -105,3 +105,8 @@ What is your styling and architecture philosophy?
 ### L. 21st.dev
 - **When to choose**: Adding that "10% design engineer magic" — interactive canvas backgrounds, magnetic buttons, spotlight cards, bento grids, and border-beam glows.
 - **Tradeoffs**: High concentration of Framer Motion and canvas animations can impact performance if overused on mobile devices.
+
+### M. React Bits (David Haz)
+- **When to choose**: Statement landing pages, dynamic text effects (`ShinyText`, `TrueFocus`), 3D cards (`TiltedCard`, `StarBorder`), cursor physics (`Magnet`), and interactive canvas grids (`Squares`, `Aurora`).
+- **Tradeoffs**: Focuses primarily on animation & presentation components; pair with shadcn/ui or Base UI for core data forms and tables.
+

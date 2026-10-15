@@ -17,6 +17,7 @@ These libraries have **zero paywalls, zero commercial restrictions, and zero lic
 | **DaisyUI** | MIT | 100% of all 55+ components & 30+ themes | ✅ 100% Free & Legal |
 | **Ant Design** | MIT | 100% of all enterprise tables & forms | ✅ 100% Free & Legal |
 | **21st.dev** | MIT / Community | 100% of community-submitted micro-UI | ✅ 100% Free & Legal |
+| **React Bits** | MIT | 100% of 200+ animated components, typography & canvas | ✅ 100% Free & Legal |
 | **MUI Core (`@mui/material`)**| MIT | 100% of core components | ✅ 100% Free & Legal |
 
 ---
