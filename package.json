@@ -1,7 +1,7 @@
 {
   "name": "uiskill",
   "version": "1.0.0",
-  "description": "Universal UI architecture, component engineering, and Agent Skills toolkit for AI coding agents.",
+  "description": "Universal UI architecture and Agent Skills toolkit for AI coding agents covering 25+ UI ecosystems, 53 components, and 31 specialized skills.",
   "main": "scripts/ui-picker.js",
   "bin": {
     "uiskill": "./scripts/ui-picker.js",
@@ -12,6 +12,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "pick": "node scripts/ui-picker.js",
+    "generate:skills": "node scripts/generate-skills-data.js",
     "typecheck": "tsc --noEmit",
     "test:skills": "node scripts/validate-skill.js",
     "test:app": "npm exec --yes --package=vitest@5.0.4 -- vitest run --globals tests/app-smoke.test.js",
