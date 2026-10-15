@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import {
   X,
   Smartphone,
@@ -13,8 +13,7 @@ import {
   FileText,
   Sun,
   Moon,
-  Sparkles,
-  ExternalLink
+  Sparkles
 } from "lucide-react"
 import { ComponentItem } from "../data/components-data"
 import { CodeViewer } from "./CodeViewer"

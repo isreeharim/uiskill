@@ -1,47 +1,60 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Header } from "./components/Header"
 import { Sidebar } from "./components/Sidebar"
+import { StudioCommandBar, FRAMEWORK_CHIPS } from "./components/StudioCommandBar"
 import { ComponentCard } from "./components/ComponentCard"
+import { SkillCard } from "./components/SkillCard"
 import { InspectorModal } from "./components/InspectorModal"
-import { StackRecommenderModal } from "./components/StackRecommenderModal"
-import { LibraryCrosswalkModal } from "./components/LibraryCrosswalkModal"
+import { SkillInspectorModal } from "./components/SkillInspectorModal"
 import { Toast } from "./components/Toast"
 import { COMPONENTS_DATA, ComponentItem } from "./data/components-data"
+import { AGENT_SKILLS_DATA, AgentSkillItem } from "./data/skills-data"
 import {
-  Sparkles,
   Layers,
   Search,
-  CheckCircle2,
-  Terminal,
-  ArrowRight,
-  Code2,
-  Zap,
-  LayoutGrid,
-  Filter,
-  X
+  X,
+  RotateCcw
 } from "lucide-react"
 
 export function App() {
+  const [studioTab, setStudioTab] = useState<"components" | "skills">("components")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string>("All")
-  const [selectedComponentId, setSelectedComponentId] = useState<string>("dashboard-metrics-card")
+  const [selectedFramework, setSelectedFramework] = useState<string>("All")
+  const [skillSourceFilter, setSkillSourceFilter] = useState<string>("All")
+  const [selectedItemId, setSelectedItemId] = useState<string>("dashboard-metrics-card")
   const [inspectedComponent, setInspectedComponent] = useState<ComponentItem | null>(null)
-  const [viewMode, setViewMode] = useState<"grid" | "inspector">("grid")
+  const [inspectedSkill, setInspectedSkill] = useState<AgentSkillItem | null>(null)
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false)
   const [isDark, setIsDark] = useState<boolean>(true)
-  const [isRecommenderOpen, setIsRecommenderOpen] = useState(false)
-  const [isCrosswalkOpen, setIsCrosswalkOpen] = useState(false)
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; sub?: string } | null>(null)
 
-  // Initialize theme from system or localStorage
+  // Initialize theme, view preferences, and guarantee initial scroll at top
   useEffect(() => {
-    const saved = localStorage.getItem("skill-ui-theme")
-    if (saved === "light") {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual"
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" })
+
+    const savedTheme = localStorage.getItem("skill-ui-theme")
+    if (savedTheme === "light") {
       setIsDark(false)
       document.documentElement.classList.remove("dark")
     } else {
       setIsDark(true)
       document.documentElement.classList.add("dark")
+    }
+
+    const savedViewMode = localStorage.getItem("skill-ui-viewmode") as "grid" | "list" | null
+    if (savedViewMode === "grid" || savedViewMode === "list") {
+      setViewMode(savedViewMode)
+    }
+
+    const savedSidebarCollapsed = localStorage.getItem("skill-ui-sidebar-collapsed")
+    if (savedSidebarCollapsed === "true") {
+      setIsSidebarCollapsed(true)
     }
   }, [])
 
@@ -59,24 +72,60 @@ export function App() {
     })
   }
 
+  const handleSetViewMode = (mode: "grid" | "list") => {
+    setViewMode(mode)
+    localStorage.setItem("skill-ui-viewmode", mode)
+  }
+
+  const handleToggleSidebarCollapse = () => {
+    setIsSidebarCollapsed((prev) => {
+      const next = !prev
+      localStorage.setItem("skill-ui-sidebar-collapsed", String(next))
+      return next
+    })
+  }
+
   const triggerToast = (message: string, sub?: string) => {
     setToast({ message, sub })
   }
 
-  // Keyboard shortcut listener for global search
+  const handleTabChange = (tab: "components" | "skills") => {
+    setStudioTab(tab)
+    setSelectedCategory("All")
+    setSelectedFramework("All")
+    setSkillSourceFilter("All")
+    if (tab === "components") {
+      setSelectedItemId("dashboard-metrics-card")
+    } else {
+      setSelectedItemId(AGENT_SKILLS_DATA[0]?.id || "")
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" })
+  }
+
+  const handleResetFilters = () => {
+    setSearchQuery("")
+    setSelectedCategory("All")
+    setSelectedFramework("All")
+    setSkillSourceFilter("All")
+  }
+
+  // Keyboard shortcuts (Cmd+K for palette, Cmd+B for sidebar toggle)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault()
         const palette = COMPONENTS_DATA.find((c) => c.id === "command-palette")
         if (palette) setInspectedComponent(palette)
+      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "b") {
+        e.preventDefault()
+        handleToggleSidebarCollapse()
       }
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
-  const categories = [
+  const UI_CATEGORIES = [
     "All",
     "SaaS Dashboards",
     "Marketing & Bento",
@@ -84,120 +133,158 @@ export function App() {
     "Overlays & Actions",
     "Theming",
     "Creative & Motion",
+    "Forms & Inputs",
+    "Data & Tables",
+    "Feedback & Status",
   ]
 
-  // Filtered components list
-  const filteredComponents = COMPONENTS_DATA.filter((item) => {
-    const matchesCategory =
-      selectedCategory === "All" || item.category === selectedCategory
+  const SKILL_CATEGORIES = [
+    "All",
+    "UI, Design & Motion",
+    "Architecture & Code Review",
+    "Debugging & Performance",
+    "Testing & QA Automation",
+    "Product & Planning",
+    "Workflows & Agent Ops",
+  ]
 
-    const query = searchQuery.toLowerCase().trim()
-    if (!query) return matchesCategory
+  const activeCategories = studioTab === "components" ? UI_CATEGORIES : SKILL_CATEGORIES
 
-    const matchesQuery =
-      item.name.toLowerCase().includes(query) ||
-      item.description.toLowerCase().includes(query) ||
-      item.system.toLowerCase().includes(query) ||
-      item.tags.some((t) => t.toLowerCase().includes(query)) ||
-      item.fileName.toLowerCase().includes(query)
+  // Precomputed Framework counts for chips
+  const frameworkCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const chip of FRAMEWORK_CHIPS) {
+      if (chip.id === "All") {
+        counts[chip.id] = COMPONENTS_DATA.length
+      } else {
+        counts[chip.id] = COMPONENTS_DATA.filter((c) =>
+          c.system.toLowerCase().includes(chip.id.toLowerCase())
+        ).length
+      }
+    }
+    return counts
+  }, [])
 
-    return matchesCategory && matchesQuery
-  })
+  // Precomputed Source counts for skills
+  const sourceCounts = useMemo(() => {
+    return {
+      All: AGENT_SKILLS_DATA.length,
+      User: AGENT_SKILLS_DATA.filter((s) => s.sourceType === "User").length,
+      Builtin: AGENT_SKILLS_DATA.filter((s) => s.sourceType === "Builtin").length,
+      Plugin: AGENT_SKILLS_DATA.filter((s) => s.sourceType === "Plugin").length,
+    }
+  }, [])
+
+
+  // Filtered components list (Category + Framework Chip + Search query)
+  const filteredComponents = useMemo(() => {
+    return COMPONENTS_DATA.filter((item) => {
+      const matchesCategory =
+        selectedCategory === "All" || item.category === selectedCategory
+
+      const matchesFramework =
+        selectedFramework === "All" ||
+        item.system.toLowerCase().includes(selectedFramework.toLowerCase())
+
+      const query = searchQuery.toLowerCase().trim()
+      const matchesQuery =
+        !query ||
+        item.name.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.system.toLowerCase().includes(query) ||
+        item.tags.some((t) => t.toLowerCase().includes(query)) ||
+        item.fileName.toLowerCase().includes(query)
+
+      return matchesCategory && matchesFramework && matchesQuery
+    })
+  }, [selectedCategory, selectedFramework, searchQuery])
+
+  // Filtered skills list (Category + Source Chip + Search query)
+  const filteredSkills = useMemo(() => {
+    return AGENT_SKILLS_DATA.filter((item) => {
+      const matchesCategory =
+        selectedCategory === "All" || item.category === selectedCategory
+
+      const matchesSource =
+        skillSourceFilter === "All" || item.sourceType === skillSourceFilter
+
+      const query = searchQuery.toLowerCase().trim()
+      const matchesQuery =
+        !query ||
+        item.name.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.activationPrompt.toLowerCase().includes(query) ||
+        item.tags.some((t) => t.toLowerCase().includes(query)) ||
+        item.path.toLowerCase().includes(query)
+
+      return matchesCategory && matchesSource && matchesQuery
+    })
+  }, [selectedCategory, skillSourceFilter, searchQuery])
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors">
-      {/* Top Header Bar */}
+      {/* Precision 56px Sticky Top Bar */}
       <Header
+        activeTab={studioTab}
+        onTabChange={handleTabChange}
+        componentsCount={COMPONENTS_DATA.length}
+        skillsCount={AGENT_SKILLS_DATA.length}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         isDark={isDark}
         toggleTheme={toggleTheme}
-        onOpenRecommender={() => setIsRecommenderOpen(true)}
-        onOpenCrosswalk={() => setIsCrosswalkOpen(true)}
         viewMode={viewMode}
-        setViewMode={setViewMode}
+        setViewMode={handleSetViewMode}
         onTriggerToast={triggerToast}
         onToggleMobileSidebar={() => setIsMobileSidebarOpen(true)}
+        isSidebarCollapsed={isSidebarCollapsed}
+        onToggleSidebarCollapse={handleToggleSidebarCollapse}
       />
 
-      {/* Hero Announcement Banner */}
-      <section className="relative overflow-hidden border-b border-zinc-200/80 bg-white dark:border-zinc-800/80 dark:bg-zinc-900/40">
-        <div className="absolute inset-0 bg-grid-pattern opacity-50 pointer-events-none" />
-        <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-10">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 mb-3">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>The Universal UI Architecture & Component Engine</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-zinc-950 dark:text-zinc-50">
-                Live Interactive UI Preview & One-Click Code
-              </h1>
-              <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Preview live responsive components modeled after 12 industry-standard UI design systems.
-                Pick whatever element you need, test it live, inspect the source, and copy production-ready TSX directly into your project.
-              </p>
-            </div>
-
-            {/* Quick Actions Pills */}
-            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0 w-full md:w-auto">
-              <button
-                onClick={() => setIsRecommenderOpen(true)}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-xs font-bold text-white shadow-lg shadow-blue-500/25 hover:from-blue-500 hover:to-indigo-500 transition active:scale-95"
-              >
-                <Sparkles className="h-4 w-4" />
-                <span>Find Your Stack (3 Steps)</span>
-              </button>
-
-              <button
-                onClick={() => setIsCrosswalkOpen(true)}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs font-bold text-zinc-800 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 transition"
-              >
-                <Layers className="h-4 w-4 text-purple-500" />
-                <span>12-System Cheatsheet</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Quick Metrics Bar */}
-          <div className="mt-6 pt-6 border-t border-zinc-200/60 dark:border-zinc-800/60 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-xs">
-            <div className="p-2 sm:p-0 rounded-xl bg-zinc-50 sm:bg-transparent dark:bg-zinc-900/40 sm:dark:bg-transparent">
-              <span className="font-extrabold text-sm text-zinc-950 dark:text-zinc-100">12 UI Ecosystems</span>
-              <p className="text-zinc-500 text-[11px]">shadcn, Untitled UI, MUI, Mantine, HeroUI, DaisyUI...</p>
-            </div>
-            <div className="p-2 sm:p-0 rounded-xl bg-zinc-50 sm:bg-transparent dark:bg-zinc-900/40 sm:dark:bg-transparent">
-              <span className="font-extrabold text-sm text-zinc-950 dark:text-zinc-100">12 Ready TSX Templates</span>
-              <p className="text-zinc-500 text-[11px]">Tables, sidebars, bento grids, modals, auth</p>
-            </div>
-            <div className="p-2 sm:p-0 rounded-xl bg-zinc-50 sm:bg-transparent dark:bg-zinc-900/40 sm:dark:bg-transparent">
-              <span className="font-extrabold text-sm text-zinc-950 dark:text-zinc-100">100% Owned Source</span>
-              <p className="text-zinc-500 text-[11px]">Copy-paste directly with zero black-box lock-in</p>
-            </div>
-            <div className="p-2 sm:p-0 rounded-xl bg-zinc-50 sm:bg-transparent dark:bg-zinc-900/40 sm:dark:bg-transparent">
-              <span className="font-extrabold text-sm text-zinc-950 dark:text-zinc-100">AgentSkills Ready</span>
-              <p className="text-zinc-500 text-[11px]">Claude Code, Antigravity, Cursor, and Codex certified</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Sleek Horizontal Studio Command Bar with 1-Click Framework Filter Chips */}
+      <StudioCommandBar
+        studioTab={studioTab}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        selectedFramework={selectedFramework}
+        setSelectedFramework={setSelectedFramework}
+        skillSourceFilter={skillSourceFilter}
+        setSkillSourceFilter={setSkillSourceFilter}
+        viewMode={viewMode}
+        setViewMode={handleSetViewMode}
+        totalCount={studioTab === "components" ? COMPONENTS_DATA.length : AGENT_SKILLS_DATA.length}
+        filteredCount={studioTab === "components" ? filteredComponents.length : filteredSkills.length}
+        frameworkCounts={frameworkCounts}
+        sourceCounts={sourceCounts}
+        onResetFilters={handleResetFilters}
+      />
 
       {/* Main Studio Workspace */}
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col lg:flex-row">
-        {/* Desktop Left Category Sidebar */}
-        <div className="hidden lg:block">
+        {/* Desktop Left Category Sidebar (Collapsible rail or full width) */}
+        <div className="hidden lg:block shrink-0 sticky top-14 self-start max-h-[calc(100vh-3.5rem)] transition-all duration-200">
           <Sidebar
-            categories={categories}
+            activeTab={studioTab}
+            categories={activeCategories}
             selectedCategory={selectedCategory}
             onSelectCategory={(cat) => setSelectedCategory(cat)}
-            selectedComponentId={selectedComponentId}
-            onSelectComponent={(id) => {
-              setSelectedComponentId(id)
-              const match = COMPONENTS_DATA.find((c) => c.id === id)
-              if (match) setInspectedComponent(match)
+            selectedItemId={selectedItemId}
+            onSelectItem={(id) => {
+              setSelectedItemId(id)
+              if (studioTab === "components") {
+                const match = COMPONENTS_DATA.find((c) => c.id === id)
+                if (match) setInspectedComponent(match)
+              } else {
+                const match = AGENT_SKILLS_DATA.find((s) => s.id === id)
+                if (match) setInspectedSkill(match)
+              }
             }}
             components={COMPONENTS_DATA}
-            onOpenRecommender={() => setIsRecommenderOpen(true)}
-            onOpenCrosswalk={() => setIsCrosswalkOpen(true)}
+            skills={AGENT_SKILLS_DATA}
+            isCollapsed={isSidebarCollapsed}
+            onToggleCollapse={handleToggleSidebarCollapse}
           />
         </div>
 
@@ -212,10 +299,12 @@ export function App() {
               onClick={(e) => e.stopPropagation()}
             >
               <div>
-                <div className="flex items-center justify-between pb-4 border-b border-zinc-200 dark:border-zinc-800 mb-4">
+                <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-3">
                   <div className="flex items-center gap-2">
-                    <Layers className="h-5 w-5 text-blue-600" />
-                    <span className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Navigation & Categories</span>
+                    <Layers className="h-4 w-4 text-blue-600" />
+                    <span className="font-bold text-xs text-zinc-900 dark:text-zinc-100">
+                      Categories & Domains
+                    </span>
                   </div>
                   <button
                     onClick={() => setIsMobileSidebarOpen(false)}
@@ -226,122 +315,162 @@ export function App() {
                   </button>
                 </div>
                 <Sidebar
-                  categories={categories}
+                  activeTab={studioTab}
+                  categories={activeCategories}
                   selectedCategory={selectedCategory}
                   onSelectCategory={(cat) => {
                     setSelectedCategory(cat)
                     setIsMobileSidebarOpen(false)
                   }}
-                  selectedComponentId={selectedComponentId}
-                  onSelectComponent={(id) => {
-                    setSelectedComponentId(id)
-                    const match = COMPONENTS_DATA.find((c) => c.id === id)
-                    if (match) setInspectedComponent(match)
+                  selectedItemId={selectedItemId}
+                  onSelectItem={(id) => {
+                    setSelectedItemId(id)
+                    if (studioTab === "components") {
+                      const match = COMPONENTS_DATA.find((c) => c.id === id)
+                      if (match) setInspectedComponent(match)
+                    } else {
+                      const match = AGENT_SKILLS_DATA.find((s) => s.id === id)
+                      if (match) setInspectedSkill(match)
+                    }
                     setIsMobileSidebarOpen(false)
                   }}
                   components={COMPONENTS_DATA}
-                  onOpenRecommender={() => {
-                    setIsRecommenderOpen(true)
-                    setIsMobileSidebarOpen(false)
-                  }}
-                  onOpenCrosswalk={() => {
-                    setIsCrosswalkOpen(true)
-                    setIsMobileSidebarOpen(false)
-                  }}
+                  skills={AGENT_SKILLS_DATA}
                 />
               </div>
             </div>
           </div>
         )}
 
-        {/* Right Main Preview Canvas */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-          {/* Filter Status & Count */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-lg text-zinc-950 dark:text-zinc-50">
-                {selectedCategory === "All" ? "All Components" : selectedCategory}
-              </span>
-              <span className="rounded-full bg-zinc-200 px-2.5 py-0.5 text-xs font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-                {filteredComponents.length} {filteredComponents.length === 1 ? "component" : "components"}
-              </span>
-            </div>
-
-            {searchQuery && (
-              <div className="flex items-center gap-2 text-xs text-zinc-500">
-                <span>Filtering by: <strong className="text-blue-600 dark:text-blue-400">"{searchQuery}"</strong></span>
+        {/* Right Main Studio Canvas */}
+        <main className="flex-1 p-3 sm:p-5 lg:p-6 min-w-0">
+          {/* Render Active Studio Mode */}
+          {studioTab === "components" ? (
+            /* UI Components Studio */
+            filteredComponents.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white p-10 text-center dark:border-zinc-800 dark:bg-zinc-900/40">
+                <Search className="mx-auto h-7 w-7 text-zinc-400" />
+                <h3 className="mt-3 text-sm font-bold text-zinc-950 dark:text-zinc-50">
+                  No matching components found
+                </h3>
+                <p className="mt-1 text-xs text-zinc-500 max-w-md mx-auto">
+                  No components match the active filter criteria. Try resetting framework or category filters.
+                </p>
                 <button
-                  onClick={() => setSearchQuery("")}
-                  className="rounded-lg bg-zinc-200 px-2 py-0.5 text-[11px] text-zinc-700 hover:bg-zinc-300 dark:bg-zinc-800 dark:text-zinc-300"
+                  onClick={handleResetFilters}
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition"
                 >
-                  Clear search
+                  <RotateCcw className="h-3 w-3" />
+                  <span>Reset All Filters</span>
                 </button>
               </div>
-            )}
-          </div>
-
-          {/* Zero Results State */}
-          {filteredComponents.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-zinc-300 bg-white p-12 text-center dark:border-zinc-800 dark:bg-zinc-900/50">
-              <Search className="mx-auto h-8 w-8 text-zinc-400" />
-              <h3 className="mt-4 text-base font-bold text-zinc-950 dark:text-zinc-50">
-                No matching components found
-              </h3>
-              <p className="mt-1 text-xs text-zinc-500">
-                Try searching for "table", "bento", "auth", "modal", "sidebar", or "daisy".
-              </p>
-              <button
-                onClick={() => {
-                  setSearchQuery("")
-                  setSelectedCategory("All")
-                }}
-                className="mt-5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition"
-              >
-                Reset All Filters
-              </button>
-            </div>
+            ) : viewMode === "grid" ? (
+              /* Grid Density View */
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+                {filteredComponents.map((item) => (
+                  <ComponentCard
+                    key={item.id}
+                    item={item}
+                    onInspect={(c) => setInspectedComponent(c)}
+                    onTriggerToast={triggerToast}
+                    viewMode="grid"
+                  />
+                ))}
+              </div>
+            ) : (
+              /* List / Table Density View */
+              <div className="space-y-2">
+                {filteredComponents.map((item) => (
+                  <ComponentCard
+                    key={item.id}
+                    item={item}
+                    onInspect={(c) => setInspectedComponent(c)}
+                    onTriggerToast={triggerToast}
+                    viewMode="list"
+                  />
+                ))}
+              </div>
+            )
           ) : (
-            /* Component Cards Grid */
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              {filteredComponents.map((item) => (
-                <ComponentCard
-                  key={item.id}
-                  item={item}
-                  onInspect={(c) => setInspectedComponent(c)}
-                  onTriggerToast={triggerToast}
-                />
-              ))}
-            </div>
+            /* Agent Skills Studio */
+            filteredSkills.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white p-10 text-center dark:border-zinc-800 dark:bg-zinc-900/40">
+                <Search className="mx-auto h-7 w-7 text-zinc-400" />
+                <h3 className="mt-3 text-sm font-bold text-zinc-950 dark:text-zinc-50">
+                  No matching agent skills found
+                </h3>
+                <p className="mt-1 text-xs text-zinc-500 max-w-md mx-auto">
+                  Try searching for keywords like "animate", "audit", "lint", "qa", "design", or "bug".
+                </p>
+                <button
+                  onClick={handleResetFilters}
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-purple-500 transition"
+                >
+                  <RotateCcw className="h-3 w-3" />
+                  <span>Reset All Filters</span>
+                </button>
+              </div>
+            ) : viewMode === "grid" ? (
+              /* Grid Density View for Skills */
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {filteredSkills.map((skill) => (
+                  <SkillCard
+                    key={skill.id}
+                    skill={skill}
+                    onInspect={(s) => setInspectedSkill(s)}
+                    onTriggerToast={triggerToast}
+                    viewMode="grid"
+                  />
+                ))}
+              </div>
+            ) : (
+              /* List / Table Density View for Skills */
+              <div className="space-y-2">
+                {filteredSkills.map((skill) => (
+                  <SkillCard
+                    key={skill.id}
+                    skill={skill}
+                    onInspect={(s) => setInspectedSkill(s)}
+                    onTriggerToast={triggerToast}
+                    viewMode="list"
+                  />
+                ))}
+              </div>
+            )
           )}
         </main>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-200 bg-white py-6 text-center text-xs text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950">
-        <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>
-            <strong>Skill UI</strong> — Universal UI Architecture & Component Skill for AI Coding Assistants.
+      {/* Sleek Minimalist Footer */}
+      <footer className="border-t border-zinc-200/80 bg-white/70 py-4 text-xs text-zinc-500 dark:border-zinc-800/80 dark:bg-zinc-950/70 backdrop-blur-xs transition-colors">
+        <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+          <p className="flex items-center gap-2">
+            <span className="font-semibold text-zinc-900 dark:text-zinc-200">Skill UI Studio</span>
+            <span className="text-zinc-400">·</span>
+            <span>53 Live UI Templates</span>
+            <span className="text-zinc-400">·</span>
+            <span>93 Certified Agent Skills</span>
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 text-xs">
             <button
-              onClick={() => setIsRecommenderOpen(true)}
+              onClick={() => handleTabChange("components")}
               className="hover:text-blue-600 dark:hover:text-blue-400 transition"
             >
-              Stack Recommender
+              Templates
             </button>
             <button
-              onClick={() => setIsCrosswalkOpen(true)}
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+              onClick={() => handleTabChange("skills")}
+              className="hover:text-purple-600 dark:hover:text-purple-400 transition"
             >
-              12 Systems Cheatsheet
+              Skills
             </button>
             <a
               href="https://github.com/isreeharim/uiskill"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+              className="hover:text-zinc-900 dark:hover:text-zinc-100 transition"
             >
-              GitHub Repository
+              GitHub
             </a>
           </div>
         </div>
@@ -354,20 +483,9 @@ export function App() {
         onTriggerToast={triggerToast}
       />
 
-      <StackRecommenderModal
-        isOpen={isRecommenderOpen}
-        onClose={() => setIsRecommenderOpen(false)}
-        onSelectComponentById={(id) => {
-          setSelectedComponentId(id)
-          const comp = COMPONENTS_DATA.find((c) => c.id === id)
-          if (comp) setInspectedComponent(comp)
-        }}
-        onTriggerToast={triggerToast}
-      />
-
-      <LibraryCrosswalkModal
-        isOpen={isCrosswalkOpen}
-        onClose={() => setIsCrosswalkOpen(false)}
+      <SkillInspectorModal
+        skill={inspectedSkill}
+        onClose={() => setInspectedSkill(null)}
         onTriggerToast={triggerToast}
       />
 
@@ -380,4 +498,5 @@ export function App() {
     </div>
   )
 }
+
 export default App

@@ -1,4 +1,3 @@
-import * as React from "react"
 import { ArrowUpRight, ArrowDownRight, MoreHorizontal } from "lucide-react"
 
 export interface MetricCardProps {

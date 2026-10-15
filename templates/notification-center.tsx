@@ -152,7 +152,7 @@ export function NotificationCenter() {
             {/* Footer */}
             <div className="border-t border-zinc-200 px-5 py-3 dark:border-zinc-800">
               <button
-                onClick={() => alert("All notifications history page")}
+                onClick={() => setOpen(false)}
                 className="w-full text-center text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
               >
                 View all notifications →

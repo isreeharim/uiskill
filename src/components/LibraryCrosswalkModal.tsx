@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { X, Compass, Copy, Check, Terminal } from "lucide-react"
+import { useState, useEffect } from "react"
+import { X, Compass, Copy, Check } from "lucide-react"
 
 interface LibraryCrosswalkModalProps {
   isOpen: boolean

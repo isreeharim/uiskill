@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Search, ChevronDown, ChevronUp, ChevronsUpDown, Filter, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, ChevronDown, ChevronUp, ChevronsUpDown, ChevronLeft, ChevronRight } from "lucide-react"
 
 export interface TableItem {
   id: string

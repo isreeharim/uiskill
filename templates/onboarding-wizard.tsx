@@ -90,7 +90,6 @@ export function OnboardingWizard() {
               value={workspace}
               onChange={(event) => setWorkspace(event.target.value)}
               placeholder="Acme Inc."
-              autoFocus
               required
               className="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-900"
             />
@@ -104,7 +103,6 @@ export function OnboardingWizard() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="teammate@acme.com"
-              autoFocus
               className="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-900"
             />
           </label>

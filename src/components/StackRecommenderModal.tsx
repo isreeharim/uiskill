@@ -7,7 +7,6 @@ import {
   Check,
   Terminal,
   ExternalLink,
-  Layers,
   RotateCcw
 } from "lucide-react"
 import { UI_LIBRARIES, UILibrary } from "../data/stack-recommender"
