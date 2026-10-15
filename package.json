@@ -32,5 +32,10 @@
     "daisyui"
   ],
   "author": "Sreehari",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isreeharim/uiskill.git"
+  },
+  "homepage": "https://github.com/isreeharim/uiskill#readme"
 }

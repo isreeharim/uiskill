@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Standard: AgentSkills](https://img.shields.io/badge/Standard-AgentSkills-purple.svg)](https://agentskills.io)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/isreeharim/uiskill)
 
 > **The definitive design system and component engineering skill for AI coding agents.** Built by synthesizing architectural standards, design tokens, accessibility guardrails, and production recipes across **12 elite UI ecosystems**.
 
@@ -65,17 +65,17 @@ skill-ui/
 ### 1. In Anthropic Claude Code
 Clone or copy this folder into your project's `.claude/skills/` directory:
 ```bash
-git clone https://github.com/<your-username>/skill-ui.git .claude/skills/skill-ui
+git clone https://github.com/isreeharim/uiskill.git .claude/skills/skill-ui
 ```
 
 ### 2. In Google Antigravity / Gemini CLI
 Copy into your global or project skills directory:
 ```bash
 # Project level:
-git clone https://github.com/<your-username>/skill-ui.git .gemini/skills/skill-ui
+git clone https://github.com/isreeharim/uiskill.git .gemini/skills/skill-ui
 
 # Global level:
-git clone https://github.com/<your-username>/skill-ui.git ~/.gemini/config/skills/skill-ui
+git clone https://github.com/isreeharim/uiskill.git ~/.gemini/config/skills/skill-ui
 ```
 
 ### 3. In Cursor / Windsurf
