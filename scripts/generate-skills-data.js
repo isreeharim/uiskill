@@ -2,179 +2,125 @@ const fs = require("fs")
 const path = require("path")
 const os = require("os")
 
-const home = os.homedir()
-const dirs = [
-  path.join(home, ".gemini/config/skills"),
-  path.join(home, ".gemini/antigravity/builtin/skills"),
-  path.join(home, ".gemini/config/plugins/android-cli-plugin/skills"),
-]
+const repoRoot = path.resolve(__dirname, "..")
+const bundledSkillsRoot = path.join(repoRoot, "skills")
+const outputPath = path.join(repoRoot, "src/data/skills-data.ts")
+const includeLocal = process.argv.includes("--include-local") || process.env.UISKILL_INCLUDE_LOCAL_SKILLS === "1"
+const checkOnly = process.argv.includes("--check")
 
 function categorize(name, desc) {
-  const d = (name + " " + desc).toLowerCase()
-  if (
-    d.includes("animate") ||
-    d.includes("motion") ||
-    d.includes("apple-design") ||
-    d.includes("emil") ||
-    d.includes("react-bits") ||
-    d.includes("banner") ||
-    d.includes("design") ||
-    d.includes("css") ||
-    d.includes("styling") ||
-    d.includes("ux") ||
-    d.includes("ui") ||
-    d.includes("rayden") ||
-    d.includes("canvas") ||
-    d.includes("html")
-  ) {
+  const d = `${name} ${desc}`.toLowerCase()
+  if (["animate", "motion", "apple-design", "emil", "react-bits", "banner", "design", "css", "styling", "ux", "ui", "rayden", "canvas", "html"].some((term) => d.includes(term))) {
     return "UI, Design & Motion"
   }
-  if (
-    d.includes("bug") ||
-    d.includes("diagnos") ||
-    d.includes("investigat") ||
-    d.includes("perform") ||
-    d.includes("benchmark") ||
-    d.includes("memory") ||
-    d.includes("triage")
-  ) {
+  if (["bug", "diagnos", "investigat", "perform", "benchmark", "memory", "triage"].some((term) => d.includes(term))) {
     return "Debugging & Performance"
   }
-  if (
-    d.includes("test") ||
-    d.includes("qa") ||
-    d.includes("k6") ||
-    d.includes("lambdatest") ||
-    d.includes("tdd")
-  ) {
+  if (["test", "qa", "k6", "lambdatest", "tdd"].some((term) => d.includes(term))) {
     return "Testing & QA Automation"
   }
-  if (
-    d.includes("review") ||
-    d.includes("lint") ||
-    d.includes("audit") ||
-    d.includes("brooks") ||
-    d.includes("logic-lens") ||
-    d.includes("architect") ||
-    d.includes("harness") ||
-    d.includes("codebase")
-  ) {
+  if (["review", "lint", "audit", "brooks", "logic-lens", "architect", "harness", "codebase"].some((term) => d.includes(term))) {
     return "Architecture & Code Review"
   }
-  if (
-    d.includes("plan") ||
-    d.includes("product") ||
-    d.includes("spec") ||
-    d.includes("office-hours") ||
-    d.includes("retro") ||
-    d.includes("before-you-build") ||
-    d.includes("decision")
-  ) {
+  if (["plan", "product", "spec", "office-hours", "retro", "before-you-build", "decision"].some((term) => d.includes(term))) {
     return "Product & Planning"
   }
   return "Workflows & Agent Ops"
 }
 
-const skills = []
-const seen = new Set()
+function parseSkill(content) {
+  const frontmatterMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/)
+  const frontmatter = frontmatterMatch ? frontmatterMatch[1] : ""
+  const body = frontmatterMatch ? frontmatterMatch[2].trim() : content.trim()
 
-dirs.forEach((baseDir) => {
-  if (!fs.existsSync(baseDir)) return
+  const nameMatch = frontmatter.match(/^name:\s*(?:"([^"]+)"|'([^']+)'|([^\r\n]+))$/m)
+  const name = (nameMatch?.[1] || nameMatch?.[2] || nameMatch?.[3] || "").trim()
 
-  // Check if baseDir itself has SKILL.md
-  const directSkill = path.join(baseDir, "SKILL.md")
-  if (fs.existsSync(directSkill)) {
-    const skillName = path.basename(baseDir)
-    addSkill(skillName, directSkill)
-  }
-
-  // Check subdirectories
-  const entries = fs.readdirSync(baseDir, { withFileTypes: true })
-  entries.forEach((entry) => {
-    if (entry.isDirectory()) {
-      const p = path.join(baseDir, entry.name, "SKILL.md")
-      if (fs.existsSync(p)) {
-        addSkill(entry.name, p)
-      }
-    }
-  })
-})
-
-function addSkill(name, skillFile) {
-  if (seen.has(name)) return
-  seen.add(name)
-
-  const content = fs.readFileSync(skillFile, "utf-8")
   let desc = ""
-
-  // First try multiline YAML block scalar
-  const multilineMatch = content.match(/description:\s*(?:>[-+]?|\|[-+]?)\r?\n((?:[ \t]+[^\r\n]+\r?\n?)+)/)
+  const multilineMatch = frontmatter.match(/description:\s*(?:>[-+]?|\|[-+]?)\r?\n((?:[ \t]+[^\r\n]+\r?\n?)+)/)
   if (multilineMatch) {
     desc = multilineMatch[1]
       .split(/\r?\n/)
-      .map((l) => l.trim())
+      .map((line) => line.trim())
       .filter(Boolean)
       .join(" ")
   } else {
-    const descMatch = content.match(/description:\s*(?:"([^"]+)"|'([^']+)'|([^\r\n]+))/)
-    if (descMatch) {
-      desc = (descMatch[1] || descMatch[2] || descMatch[3] || "").trim()
-    }
+    const descMatch = frontmatter.match(/^description:\s*(?:"([^"]+)"|'([^']+)'|([^\r\n]+))$/m)
+    desc = (descMatch?.[1] || descMatch?.[2] || descMatch?.[3] || "").trim()
   }
 
-  if (!desc || desc === ">-" || desc === "|") {
-    const lines = content.split("\n")
-    for (const line of lines) {
-      const l = line.trim()
-      if (l && !l.startsWith("#") && !l.startsWith("---") && !l.startsWith("name:") && !l.startsWith("description:")) {
-        desc = l
-        break
-      }
-    }
-  }
+  return { name, desc, body }
+}
 
+function discoverSkillFiles(rootDir) {
+  if (!fs.existsSync(rootDir)) return []
+
+  return fs
+    .readdirSync(rootDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(rootDir, entry.name, "SKILL.md"))
+    .filter((skillFile) => fs.existsSync(skillFile))
+}
+
+function addSkill(skills, seen, skillFile, sourceType) {
+  const content = fs.readFileSync(skillFile, "utf8")
+  const { name, desc, body } = parseSkill(content)
+  if (!name || seen.has(name)) return
+
+  seen.add(name)
+
+  const relativePath = path.relative(repoRoot, skillFile).split(path.sep).join("/")
   const category = categorize(name, desc)
-  const normalizedPath = skillFile.replace(/\\/g, "/")
-  let sourceType = "User"
-  if (normalizedPath.includes("builtin/skills")) {
-    sourceType = "Builtin"
-  } else if (normalizedPath.includes("plugins")) {
-    sourceType = "Plugin"
-  }
-
   const tagList = [
     category.toLowerCase().split(" ")[0].replace(/,/g, ""),
     name.replace(/-/g, " "),
     sourceType.toLowerCase(),
   ]
 
-  // Extract body after frontmatter for previewing
-  let bodyExcerpt = ""
-  const frontmatterEnd = content.indexOf("---", 3)
-  if (frontmatterEnd !== -1) {
-    bodyExcerpt = content.slice(frontmatterEnd + 3).trim()
-  } else {
-    bodyExcerpt = content.trim()
-  }
-  // Keep up to 3500 chars for clean fast previewing
-  if (bodyExcerpt.length > 3500) {
-    bodyExcerpt = bodyExcerpt.slice(0, 3500) + "\n\n... (Content truncated for preview. View full SKILL.md in file path)"
-  }
+  const bodyExcerpt = body.length > 3500
+    ? `${body.slice(0, 3500)}\n\n... (Content truncated for preview. View full SKILL.md in file path)`
+    : body
 
   skills.push({
     id: name,
-    name: name,
-    category: category,
+    name,
+    category,
     description: desc || "Agent skill instructions, workflows, and guidelines.",
-    path: normalizedPath,
+    path: relativePath,
     activationPrompt: `Use the ${name} skill: ${desc}`,
-    sourceType: sourceType,
+    sourceType,
     contentPreview: bodyExcerpt,
     tags: tagList,
   })
 }
 
-// Sort alphabetically by name
+const skills = []
+const seen = new Set()
+
+// The repository's bundled skills are the canonical, reproducible source.
+for (const skillFile of discoverSkillFiles(bundledSkillsRoot)) {
+  addSkill(skills, seen, skillFile, "User")
+}
+
+// Machine-local skill discovery is intentionally opt-in. This keeps generation
+// deterministic for CI and other contributors while preserving the old local
+// discovery workflow when explicitly requested.
+if (includeLocal) {
+  const home = os.homedir()
+  const localRoots = [
+    path.join(home, ".gemini/config/skills"),
+    path.join(home, ".gemini/antigravity/builtin/skills"),
+    path.join(home, ".gemini/config/plugins/android-cli-plugin/skills"),
+  ]
+
+  for (const root of localRoots) {
+    const sourceType = root.includes("builtin/skills") ? "Builtin" : root.includes("plugins") ? "Plugin" : "User"
+    for (const skillFile of discoverSkillFiles(root)) {
+      addSkill(skills, seen, skillFile, sourceType)
+    }
+  }
+}
+
 skills.sort((a, b) => a.name.localeCompare(b.name))
 
 const fileContent = `export interface AgentSkillItem {
@@ -192,5 +138,18 @@ const fileContent = `export interface AgentSkillItem {
 export const AGENT_SKILLS_DATA: AgentSkillItem[] = ${JSON.stringify(skills, null, 2)}
 `
 
-fs.writeFileSync(path.resolve(__dirname, "../src/data/skills-data.ts"), fileContent, "utf-8")
-console.log(`Successfully generated src/data/skills-data.ts with ${skills.length} skills!`)
+if (checkOnly) {
+  if (!fs.existsSync(outputPath)) {
+    console.error(`Missing generated file: ${path.relative(repoRoot, outputPath)}`)
+    process.exit(1)
+  }
+  const current = fs.readFileSync(outputPath, "utf8")
+  if (current !== fileContent) {
+    console.error("Generated skills data is stale. Run: npm run generate:skills")
+    process.exit(1)
+  }
+  console.log(`Skills data is up to date (${skills.length} bundled skills).`)
+} else {
+  fs.writeFileSync(outputPath, fileContent, "utf8")
+  console.log(`Successfully generated ${path.relative(repoRoot, outputPath)} with ${skills.length} skills.`)
+}

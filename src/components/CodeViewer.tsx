@@ -7,11 +7,22 @@ interface CodeViewerProps {
   onCopy?: () => void
 }
 
+async function copyText(text: string): Promise<boolean> {
+  if (!navigator.clipboard?.writeText) return false
+  try {
+    await navigator.clipboard.writeText(text)
+    return true
+  } catch {
+    return false
+  }
+}
+
 export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
   const [copied, setCopied] = useState(false)
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code)
+  const handleCopy = async () => {
+    const didCopy = await copyText(code)
+    if (!didCopy) return
     setCopied(true)
     onCopy?.()
     setTimeout(() => setCopied(false), 2000)
@@ -33,7 +44,6 @@ export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
 
   return (
     <div className="relative flex flex-col rounded-2xl border border-zinc-200 bg-zinc-950 text-zinc-100 overflow-hidden shadow-xl dark:border-zinc-800">
-      {/* Code Header Bar */}
       <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/90 px-4 py-3">
         <div className="flex items-center gap-2">
           <FileCode className="h-4 w-4 text-blue-400" />
@@ -55,9 +65,7 @@ export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
             onClick={handleCopy}
             title="Copy component code"
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-              copied
-                ? "bg-emerald-600 text-white"
-                : "bg-blue-600 text-white hover:bg-blue-500 shadow-sm"
+              copied ? "bg-emerald-600 text-white" : "bg-blue-600 text-white hover:bg-blue-500 shadow-sm"
             }`}
           >
             {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
@@ -66,17 +74,12 @@ export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
         </div>
       </div>
 
-      {/* Code Area */}
       <div className="overflow-x-auto p-4 max-h-[600px] font-mono text-xs leading-relaxed selection:bg-blue-500/40">
         <pre className="table w-full">
           {lines.map((line, i) => (
             <div key={i} className="table-row hover:bg-zinc-900/60">
-              <span className="table-cell select-none pr-4 text-right text-zinc-600 text-[11px] w-10">
-                {i + 1}
-              </span>
-              <span className="table-cell whitespace-pre text-zinc-200">
-                {line || " "}
-              </span>
+              <span className="table-cell select-none pr-4 text-right text-zinc-600 text-[11px] w-10">{i + 1}</span>
+              <span className="table-cell whitespace-pre text-zinc-200">{line || " "}</span>
             </div>
           ))}
         </pre>

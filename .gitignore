@@ -19,6 +19,9 @@ build/
 out/
 .vercel/
 
+# Test artifacts
+.vitest/
+
 # IDE & Editor files
 .vscode/
 .idea/
