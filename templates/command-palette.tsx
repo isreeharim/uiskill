@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, type ComponentType } from "react"
 import { Search, FileText, Settings, User, CreditCard, Sparkles } from "lucide-react"
 
 interface CommandAction {
   id: string
   label: string
   group: string
-  icon: React.ComponentType<{ className?: string }>
+  icon: ComponentType<{ className?: string }>
   shortcut?: string
   perform?: () => void
 }
