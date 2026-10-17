@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, memo } from "react"
 import {
   Sparkles,
   ShieldCheck,
@@ -77,7 +77,7 @@ function getCategoryTheme(category: string) {
 /**
  * Compact high-density row view for scanning 93 skills rapidly in List View mode
  */
-export function SkillRow({
+export const SkillRow = memo(function SkillRow({
   skill,
   onInspect,
   onTriggerToast,
@@ -174,12 +174,12 @@ export function SkillRow({
       </div>
     </div>
   )
-}
+})
 
 /**
  * Precision Skill Card modeled after Apple HIG guidelines
  */
-export function SkillCard({
+export const SkillCard = memo(function SkillCard({
   skill,
   onInspect,
   onTriggerToast,
@@ -325,4 +325,4 @@ export function SkillCard({
       </div>
     </div>
   )
-}
+})

@@ -1,3 +1,4 @@
+import { memo } from "react"
 import {
   Search,
   Sparkles,
@@ -35,7 +36,7 @@ export interface HeaderProps {
   onToggleSidebarCollapse?: () => void
 }
 
-export function Header({
+export const Header = memo(function Header({
   activeTab,
   onTabChange,
   componentsCount,
@@ -283,4 +284,4 @@ export function Header({
       </div>
     </header>
   )
-}
+})

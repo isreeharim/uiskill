@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useMemo, memo } from "react"
 import {
   Layout,
   BarChart3,
@@ -60,7 +60,7 @@ const SKILL_CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: str
   "Workflows & Agent Ops": Cpu,
 }
 
-export function Sidebar({
+export const Sidebar = memo(function Sidebar({
   activeTab,
   categories,
   selectedCategory,
@@ -77,26 +77,43 @@ export function Sidebar({
   const [jumpSearch, setJumpSearch] = useState("")
   const [isJumpListExpanded, setIsJumpListExpanded] = useState(true)
 
+  // Precomputed category counts for fast O(1) lookup
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {
+      All: isSkillsMode ? skills.length : components.length,
+    }
+    const items = isSkillsMode ? skills : components
+    for (let i = 0; i < items.length; i++) {
+      const cat = items[i].category
+      counts[cat] = (counts[cat] || 0) + 1
+    }
+    return counts
+  }, [isSkillsMode, skills, components])
+
   // Filter items in jump list
-  const filteredJumpItems = isSkillsMode
-    ? skills.filter((s) => {
+  const filteredJumpItems = useMemo(() => {
+    const query = jumpSearch.toLowerCase().trim()
+    if (isSkillsMode) {
+      return skills.filter((s) => {
         const matchesCategory =
           selectedCategory === "All" || s.category === selectedCategory
         const matchesSearch =
-          !jumpSearch ||
-          s.name.toLowerCase().includes(jumpSearch.toLowerCase()) ||
-          s.category.toLowerCase().includes(jumpSearch.toLowerCase())
+          !query ||
+          s.name.toLowerCase().includes(query) ||
+          s.category.toLowerCase().includes(query)
         return matchesCategory && matchesSearch
       })
-    : components.filter((c) => {
-        const matchesCategory =
-          selectedCategory === "All" || c.category === selectedCategory
-        const matchesSearch =
-          !jumpSearch ||
-          c.name.toLowerCase().includes(jumpSearch.toLowerCase()) ||
-          c.system.toLowerCase().includes(jumpSearch.toLowerCase())
-        return matchesCategory && matchesSearch
-      })
+    }
+    return components.filter((c) => {
+      const matchesCategory =
+        selectedCategory === "All" || c.category === selectedCategory
+      const matchesSearch =
+        !query ||
+        c.name.toLowerCase().includes(query) ||
+        c.system.toLowerCase().includes(query)
+      return matchesCategory && matchesSearch
+    })
+  }, [isSkillsMode, skills, components, selectedCategory, jumpSearch])
 
   // Collapsed desktop rail view (w-14)
   if (isCollapsed) {
@@ -117,18 +134,7 @@ export function Sidebar({
           {categories.map((cat) => {
             const Icon = iconsMap[cat] || Layout
             const isSelected = selectedCategory === cat
-            let count = 0
-            if (isSkillsMode) {
-              count =
-                cat === "All"
-                  ? skills.length
-                  : skills.filter((s) => s.category === cat).length
-            } else {
-              count =
-                cat === "All"
-                  ? components.length
-                  : components.filter((c) => c.category === cat).length
-            }
+            const count = categoryCounts[cat] || 0
 
             return (
               <button
@@ -177,18 +183,7 @@ export function Sidebar({
             {categories.map((cat) => {
               const Icon = iconsMap[cat] || Layout
               const isSelected = selectedCategory === cat
-              let count = 0
-              if (isSkillsMode) {
-                count =
-                  cat === "All"
-                    ? skills.length
-                    : skills.filter((s) => s.category === cat).length
-              } else {
-                count =
-                  cat === "All"
-                    ? components.length
-                    : components.filter((c) => c.category === cat).length
-              }
+              const count = categoryCounts[cat] || 0
 
               return (
                 <button
@@ -292,4 +287,4 @@ export function Sidebar({
 
     </aside>
   )
-}
+})

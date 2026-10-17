@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, memo } from "react"
 import {
   Copy,
   Check,
@@ -21,7 +21,7 @@ export interface ComponentCardProps {
 /**
  * Compact high-density row view for fast scanning in List View mode
  */
-export function ComponentRow({
+export const ComponentRow = memo(function ComponentRow({
   item,
   onInspect,
   onTriggerToast,
@@ -100,12 +100,12 @@ export function ComponentRow({
       </div>
     </div>
   )
-}
+})
 
 /**
  * Precision Component Card with Scroll-Safe Preview, Emil Kowalski craft, and Apple HIG polish
  */
-export function ComponentCard({
+export const ComponentCard = memo(function ComponentCard({
   item,
   onInspect,
   onTriggerToast,
@@ -276,4 +276,4 @@ export function ComponentCard({
       </div>
     </div>
   )
-}
+})

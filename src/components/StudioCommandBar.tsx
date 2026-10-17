@@ -1,3 +1,4 @@
+import { memo } from "react"
 import {
   Filter,
   X,
@@ -51,7 +52,7 @@ export interface StudioCommandBarProps {
   onResetFilters: () => void
 }
 
-export function StudioCommandBar({
+export const StudioCommandBar = memo(function StudioCommandBar({
   studioTab,
   searchQuery,
   setSearchQuery,
@@ -242,4 +243,4 @@ export function StudioCommandBar({
       </div>
     </div>
   )
-}
+})

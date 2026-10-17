@@ -1,11 +1,9 @@
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useCallback, useDeferredValue, lazy, Suspense } from "react"
 import { Header } from "./components/Header"
 import { Sidebar } from "./components/Sidebar"
 import { StudioCommandBar, FRAMEWORK_CHIPS } from "./components/StudioCommandBar"
 import { ComponentCard } from "./components/ComponentCard"
 import { SkillCard } from "./components/SkillCard"
-import { InspectorModal } from "./components/InspectorModal"
-import { SkillInspectorModal } from "./components/SkillInspectorModal"
 import { Toast } from "./components/Toast"
 import { COMPONENTS_DATA, ComponentItem } from "./data/components-data"
 import { AGENT_SKILLS_DATA, AgentSkillItem } from "./data/skills-data"
@@ -16,9 +14,18 @@ import {
   RotateCcw
 } from "lucide-react"
 
+// Lazy-loaded inspector modals to drastically reduce initial bundle size and parse time
+const InspectorModal = lazy(() =>
+  import("./components/InspectorModal").then((mod) => ({ default: mod.InspectorModal }))
+)
+const SkillInspectorModal = lazy(() =>
+  import("./components/SkillInspectorModal").then((mod) => ({ default: mod.SkillInspectorModal }))
+)
+
 export function App() {
   const [studioTab, setStudioTab] = useState<"components" | "skills">("components")
   const [searchQuery, setSearchQuery] = useState("")
+  const deferredSearchQuery = useDeferredValue(searchQuery)
   const [selectedCategory, setSelectedCategory] = useState<string>("All")
   const [selectedFramework, setSelectedFramework] = useState<string>("All")
   const [skillSourceFilter, setSkillSourceFilter] = useState<string>("All")
@@ -58,7 +65,7 @@ export function App() {
     }
   }, [])
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setIsDark((prev) => {
       const next = !prev
       if (next) {
@@ -70,26 +77,46 @@ export function App() {
       }
       return next
     })
-  }
+  }, [])
 
-  const handleSetViewMode = (mode: "grid" | "list") => {
+  const handleSetViewMode = useCallback((mode: "grid" | "list") => {
     setViewMode(mode)
     localStorage.setItem("skill-ui-viewmode", mode)
-  }
+  }, [])
 
-  const handleToggleSidebarCollapse = () => {
+  const handleToggleSidebarCollapse = useCallback(() => {
     setIsSidebarCollapsed((prev) => {
       const next = !prev
       localStorage.setItem("skill-ui-sidebar-collapsed", String(next))
       return next
     })
-  }
+  }, [])
 
-  const triggerToast = (message: string, sub?: string) => {
+  const triggerToast = useCallback((message: string, sub?: string) => {
     setToast({ message, sub })
-  }
+  }, [])
 
-  const handleTabChange = (tab: "components" | "skills") => {
+  const handleInspectComponent = useCallback((item: ComponentItem) => {
+    setInspectedComponent(item)
+  }, [])
+
+  const handleInspectSkill = useCallback((skill: AgentSkillItem) => {
+    setInspectedSkill(skill)
+  }, [])
+
+  const handleCloseToast = useCallback(() => {
+    setToast(null)
+  }, [])
+
+  const handleCloseComponentInspector = useCallback(() => {
+    setInspectedComponent(null)
+  }, [])
+
+  const handleCloseSkillInspector = useCallback(() => {
+    setInspectedSkill(null)
+  }, [])
+
+  const handleTabChange = useCallback((tab: "components" | "skills") => {
     setStudioTab(tab)
     setSelectedCategory("All")
     setSelectedFramework("All")
@@ -100,14 +127,14 @@ export function App() {
       setSelectedItemId(AGENT_SKILLS_DATA[0]?.id || "")
     }
     window.scrollTo({ top: 0, left: 0, behavior: "instant" })
-  }
+  }, [])
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     setSearchQuery("")
     setSelectedCategory("All")
     setSelectedFramework("All")
     setSkillSourceFilter("All")
-  }
+  }, [])
 
   // Keyboard shortcuts (Cmd+K for palette, Cmd+B for sidebar toggle)
   useEffect(() => {
@@ -178,6 +205,7 @@ export function App() {
 
   // Filtered components list (Category + Framework Chip + Search query)
   const filteredComponents = useMemo(() => {
+    const query = deferredSearchQuery.toLowerCase().trim()
     return COMPONENTS_DATA.filter((item) => {
       const matchesCategory =
         selectedCategory === "All" || item.category === selectedCategory
@@ -186,7 +214,6 @@ export function App() {
         selectedFramework === "All" ||
         item.system.toLowerCase().includes(selectedFramework.toLowerCase())
 
-      const query = searchQuery.toLowerCase().trim()
       const matchesQuery =
         !query ||
         item.name.toLowerCase().includes(query) ||
@@ -197,10 +224,11 @@ export function App() {
 
       return matchesCategory && matchesFramework && matchesQuery
     })
-  }, [selectedCategory, selectedFramework, searchQuery])
+  }, [selectedCategory, selectedFramework, deferredSearchQuery])
 
   // Filtered skills list (Category + Source Chip + Search query)
   const filteredSkills = useMemo(() => {
+    const query = deferredSearchQuery.toLowerCase().trim()
     return AGENT_SKILLS_DATA.filter((item) => {
       const matchesCategory =
         selectedCategory === "All" || item.category === selectedCategory
@@ -208,7 +236,6 @@ export function App() {
       const matchesSource =
         skillSourceFilter === "All" || item.sourceType === skillSourceFilter
 
-      const query = searchQuery.toLowerCase().trim()
       const matchesQuery =
         !query ||
         item.name.toLowerCase().includes(query) ||
@@ -219,7 +246,7 @@ export function App() {
 
       return matchesCategory && matchesSource && matchesQuery
     })
-  }, [selectedCategory, skillSourceFilter, searchQuery])
+  }, [selectedCategory, skillSourceFilter, deferredSearchQuery])
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F5F5F7] text-[#1D1D1F] dark:bg-[#000000] dark:text-[#F5F5F7] transition-colors">
@@ -371,7 +398,7 @@ export function App() {
                     <ComponentCard
                       key={item.id}
                       item={item}
-                      onInspect={(c) => setInspectedComponent(c)}
+                      onInspect={handleInspectComponent}
                       onTriggerToast={triggerToast}
                       viewMode="grid"
                     />
@@ -384,7 +411,7 @@ export function App() {
                     <ComponentCard
                       key={item.id}
                       item={item}
-                      onInspect={(c) => setInspectedComponent(c)}
+                      onInspect={handleInspectComponent}
                       onTriggerToast={triggerToast}
                       viewMode="list"
                     />
@@ -417,7 +444,7 @@ export function App() {
                     <SkillCard
                       key={skill.id}
                       skill={skill}
-                      onInspect={(s) => setInspectedSkill(s)}
+                      onInspect={handleInspectSkill}
                       onTriggerToast={triggerToast}
                       viewMode="grid"
                     />
@@ -430,7 +457,7 @@ export function App() {
                     <SkillCard
                       key={skill.id}
                       skill={skill}
-                      onInspect={(s) => setInspectedSkill(s)}
+                      onInspect={handleInspectSkill}
                       onTriggerToast={triggerToast}
                       viewMode="list"
                     />
@@ -478,24 +505,30 @@ export function App() {
         </div>
       </div>
 
-      {/* Modals & Overlays */}
-      <InspectorModal
-        item={inspectedComponent}
-        onClose={() => setInspectedComponent(null)}
-        onTriggerToast={triggerToast}
-      />
+      {/* Modals & Overlays (Dynamically loaded on demand) */}
+      <Suspense fallback={null}>
+        {inspectedComponent && (
+          <InspectorModal
+            item={inspectedComponent}
+            onClose={handleCloseComponentInspector}
+            onTriggerToast={triggerToast}
+          />
+        )}
 
-      <SkillInspectorModal
-        skill={inspectedSkill}
-        onClose={() => setInspectedSkill(null)}
-        onTriggerToast={triggerToast}
-      />
+        {inspectedSkill && (
+          <SkillInspectorModal
+            skill={inspectedSkill}
+            onClose={handleCloseSkillInspector}
+            onTriggerToast={triggerToast}
+          />
+        )}
+      </Suspense>
 
       {/* Interactive Toast Notification */}
       <Toast
         message={toast?.message || null}
         submessage={toast?.sub}
-        onClose={() => setToast(null)}
+        onClose={handleCloseToast}
       />
     </div>
   )
