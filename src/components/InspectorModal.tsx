@@ -16,6 +16,7 @@ import {
 } from "lucide-react"
 import { ComponentItem } from "../data/components-data"
 import { CodeViewer } from "./CodeViewer"
+import { copyToClipboard } from "../utils/clipboard"
 
 interface InspectorModalProps {
   item: ComponentItem | null
@@ -26,24 +27,20 @@ interface InspectorModalProps {
 type ViewportSize = "desktop" | "tablet" | "mobile"
 type ActiveTab = "preview" | "code" | "docs"
 
-async function copyText(text: string): Promise<boolean> {
-  if (!navigator.clipboard?.writeText) return false
-  try {
-    await navigator.clipboard.writeText(text)
-    return true
-  } catch {
-    return false
-  }
-}
-
 export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModalProps) {
   const [activeTab, setActiveTab] = useState<ActiveTab>("preview")
   const [viewport, setViewport] = useState<ViewportSize>("desktop")
   const [previewDark, setPreviewDark] = useState(false)
   const [copiedCode, setCopiedCode] = useState(false)
 
+  // Reset modal state when item opens or changes
   useEffect(() => {
     if (!item) return
+
+    setActiveTab("preview")
+    setViewport("desktop")
+    setPreviewDark(document.documentElement.classList.contains("dark"))
+    setCopiedCode(false)
 
     document.body.style.overflow = "hidden"
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -54,14 +51,14 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
       document.body.style.overflow = ""
       window.removeEventListener("keydown", handleKeyDown)
     }
-  }, [item, onClose])
+  }, [item?.id, onClose])
 
   if (!item) return null
 
   const Component = item.previewComponent
 
   const handleCopyCode = async () => {
-    const copied = await copyText(item.code)
+    const copied = await copyToClipboard(item.code)
     if (!copied) {
       onTriggerToast("Could not copy code", "Clipboard access was unavailable. Copy the code manually instead.")
       return
@@ -104,6 +101,9 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
       className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/40 dark:bg-black/60 backdrop-blur-xl animate-in fade-in duration-200"
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="inspector-modal-title"
         onClick={(e) => e.stopPropagation()}
         className="relative flex flex-col h-full max-h-[92vh] w-full max-w-6xl rounded-2xl border border-black/[0.1] dark:border-white/[0.12] bg-white dark:bg-[#161617] shadow-2xl overflow-hidden"
       >
@@ -118,7 +118,7 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
                   {item.system}
                 </span>
               </div>
-              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7] truncate mt-1">
+              <h2 id="inspector-modal-title" className="text-base sm:text-lg font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7] truncate mt-1">
                 {item.name}
               </h2>
             </div>
@@ -126,7 +126,7 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
             <button
               onClick={onClose}
               aria-label="Close inspector"
-              className="shrink-0 w-7 h-7 rounded-full bg-black/[0.05] dark:bg-white/[0.08] hover:bg-black/[0.1] dark:hover:bg-white/[0.14] text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] flex items-center justify-center transition-all active:scale-[0.95]"
+              className="shrink-0 min-h-[32px] min-w-[32px] w-8 h-8 rounded-full bg-black/[0.05] dark:bg-white/[0.08] hover:bg-black/[0.1] dark:hover:bg-white/[0.14] text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] flex items-center justify-center transition-all active:scale-[0.95]"
             >
               <X className="h-4 w-4" />
             </button>
@@ -134,8 +134,10 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
 
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-black/[0.04] dark:border-white/[0.04]">
             {/* macOS Segmented Tab Switcher */}
-            <div className="flex items-center rounded-lg bg-black/[0.05] dark:bg-white/[0.08] p-0.5 border border-black/[0.04] dark:border-white/[0.06]">
+            <div role="tablist" aria-label="Inspector views" className="flex items-center rounded-lg bg-black/[0.05] dark:bg-white/[0.08] p-0.5 border border-black/[0.04] dark:border-white/[0.06]">
               <button
+                role="tab"
+                aria-selected={activeTab === "preview"}
                 onClick={() => setActiveTab("preview")}
                 className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
                   activeTab === "preview"
@@ -147,6 +149,8 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
                 <span>Preview</span>
               </button>
               <button
+                role="tab"
+                aria-selected={activeTab === "code"}
                 onClick={() => setActiveTab("code")}
                 className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
                   activeTab === "code"
@@ -158,6 +162,8 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
                 <span>Source Code</span>
               </button>
               <button
+                role="tab"
+                aria-selected={activeTab === "docs"}
                 onClick={() => setActiveTab("docs")}
                 className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
                   activeTab === "docs"
@@ -253,7 +259,7 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#F5F5F7]/50 dark:bg-[#000000]/60">
           {activeTab === "preview" && (
             <div className="flex min-h-full items-center justify-center">
-              <div className={`transition-all duration-300 mx-auto ${getViewportWidthClass()} ${previewDark ? "dark bg-[#161617] text-[#F5F5F7]" : "bg-white text-[#1D1D1F]"} rounded-2xl p-4 sm:p-8 shadow-sm border border-black/[0.08] dark:border-white/[0.08] overflow-x-auto`}>
+              <div className={`transition-all duration-300 mx-auto ${getViewportWidthClass()} ${previewDark ? "dark bg-[#161617] text-[#F5F5F7]" : "light bg-white text-[#1D1D1F]"} rounded-2xl p-4 sm:p-8 shadow-sm border border-black/[0.08] dark:border-white/[0.08] overflow-x-auto`}>
                 <Component />
               </div>
             </div>
@@ -261,7 +267,14 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
 
           {activeTab === "code" && (
             <div className="max-w-5xl mx-auto">
-              <CodeViewer code={item.code} fileName={item.fileName} onCopy={() => onTriggerToast(`Copied ${item.fileName}!`, "Full TSX code copied")} />
+              <CodeViewer
+                code={item.code}
+                fileName={item.fileName}
+                onCopy={(success) => {
+                  if (success) onTriggerToast(`Copied ${item.fileName}!`, "Full TSX code copied")
+                  else onTriggerToast("Could not copy code", "Clipboard access was unavailable.")
+                }}
+              />
             </div>
           )}
 
@@ -280,7 +293,7 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
                     <span>{item.fileName}</span>
                     <button
                       onClick={async () => {
-                        const copied = await copyText(item.fileName)
+                        const copied = await copyToClipboard(item.fileName)
                         if (copied) onTriggerToast("Copied file path!")
                         else onTriggerToast("Could not copy file path", "Clipboard access was unavailable.")
                       }}
@@ -298,8 +311,9 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
                   <span>{item.installCommand}</span>
                   <button
                     onClick={async () => {
-                      const copied = await copyText(item.installCommand)
+                      const copied = await copyToClipboard(item.installCommand)
                       if (copied) onTriggerToast("Copied dependency command!", item.installCommand)
+                      else onTriggerToast("Could not copy command", "Clipboard access was unavailable.")
                     }}
                     className="rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161617] px-2.5 py-1 text-xs text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
                   >

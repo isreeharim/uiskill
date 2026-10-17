@@ -99,8 +99,14 @@ export const Header = memo(function Header({
           </div>
 
           {/* macOS Inset Segmented Control */}
-          <div className="hidden sm:flex items-center rounded-lg bg-black/[0.05] p-0.5 dark:bg-white/[0.08] border border-black/[0.04] dark:border-white/[0.04] text-xs">
+          <div
+            role="tablist"
+            aria-label="Studio sections"
+            className="hidden sm:flex items-center rounded-lg bg-black/[0.05] p-0.5 dark:bg-white/[0.08] border border-black/[0.04] dark:border-white/[0.04] text-xs"
+          >
             <button
+              role="tab"
+              aria-selected={activeTab === "components"}
               onClick={() => onTabChange("components")}
               className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-all duration-150 active:scale-[0.98] ${
                 activeTab === "components"
@@ -119,6 +125,8 @@ export const Header = memo(function Header({
               </span>
             </button>
             <button
+              role="tab"
+              aria-selected={activeTab === "skills"}
               onClick={() => onTabChange("skills")}
               className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-all duration-150 active:scale-[0.98] ${
                 activeTab === "skills"
@@ -260,8 +268,14 @@ export const Header = memo(function Header({
           >
             <GithubIcon className="h-4 w-4" />
           </a>
-          <div className="flex shrink-0 items-center rounded-lg border border-black/[0.08] bg-black/[0.04] p-0.5 dark:border-white/[0.08] dark:bg-white/[0.06]">
+          <div
+            role="tablist"
+            aria-label="Mobile studio sections"
+            className="flex shrink-0 items-center rounded-lg border border-black/[0.08] bg-black/[0.04] p-0.5 dark:border-white/[0.08] dark:bg-white/[0.06]"
+          >
             <button
+              role="tab"
+              aria-selected={activeTab === "components"}
               onClick={() => onTabChange("components")}
               aria-label="UI Templates"
               className={`flex h-8 w-8 items-center justify-center rounded-md transition-all ${
@@ -271,6 +285,8 @@ export const Header = memo(function Header({
               <LayoutGrid className="h-4 w-4" />
             </button>
             <button
+              role="tab"
+              aria-selected={activeTab === "skills"}
               onClick={() => onTabChange("skills")}
               aria-label="Agent Skills"
               className={`flex h-8 w-8 items-center justify-center rounded-md transition-all ${

@@ -9,6 +9,7 @@ import {
   FileCode2
 } from "lucide-react"
 import { ComponentItem } from "../data/components-data"
+import { copyToClipboard } from "../utils/clipboard"
 
 export interface ComponentCardProps {
   item: ComponentItem
@@ -32,9 +33,13 @@ export const ComponentRow = memo(function ComponentRow({
 }) {
   const [copiedCode, setCopiedCode] = useState(false)
 
-  const handleCopyCode = (e: React.MouseEvent) => {
+  const handleCopyCode = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    navigator.clipboard.writeText(item.code)
+    const success = await copyToClipboard(item.code)
+    if (!success) {
+      onTriggerToast("Could not copy code", "Clipboard access was unavailable.")
+      return
+    }
     setCopiedCode(true)
     onTriggerToast(`Copied ${item.name} TSX code!`, "Ready to paste into your React project")
     setTimeout(() => setCopiedCode(false), 2000)
@@ -42,7 +47,17 @@ export const ComponentRow = memo(function ComponentRow({
 
   return (
     <div
+      id={`component-${item.id}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${item.name} sandbox`}
       onClick={() => onInspect(item)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          onInspect(item)
+        }
+      }}
       className="group relative flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-black/[0.08] bg-white hover:border-black/[0.16] hover:bg-black/[0.01] dark:border-white/[0.08] dark:bg-[#161617] dark:hover:border-white/[0.16] dark:hover:bg-white/[0.02] transition-all duration-150 cursor-pointer"
     >
       {/* Left: Name, Framework, Category, & Description */}
@@ -112,27 +127,21 @@ export const ComponentCard = memo(function ComponentCard({
   viewMode = "grid",
   density,
 }: ComponentCardProps) {
-  const activeMode = density || viewMode
-
-  // If in list mode, render the dense row view
-  if (activeMode === "list") {
-    return (
-      <ComponentRow
-        item={item}
-        onInspect={onInspect}
-        onTriggerToast={onTriggerToast}
-      />
-    )
-  }
-
+  // Call all hooks at the top unconditionally to strictly satisfy the Rules of Hooks
   const [copiedCode, setCopiedCode] = useState(false)
   const [isInteractive, setIsInteractive] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
   const Component = item.previewComponent
 
-  const handleCopyCode = (e: React.MouseEvent) => {
+  const activeMode = density || viewMode
+
+  const handleCopyCode = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    navigator.clipboard.writeText(item.code)
+    const success = await copyToClipboard(item.code)
+    if (!success) {
+      onTriggerToast("Could not copy code", "Clipboard access was unavailable.")
+      return
+    }
     setCopiedCode(true)
     onTriggerToast(`Copied ${item.name} TSX code!`, "Ready to paste into your React project")
     setTimeout(() => setCopiedCode(false), 2000)
@@ -145,11 +154,32 @@ export const ComponentCard = memo(function ComponentCard({
     }
   }
 
+  // If in list mode, render the dense row view
+  if (activeMode === "list") {
+    return (
+      <ComponentRow
+        item={item}
+        onInspect={onInspect}
+        onTriggerToast={onTriggerToast}
+      />
+    )
+  }
+
   return (
     <div
       ref={cardRef}
+      id={`component-${item.id}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${item.name} sandbox`}
       onMouseLeave={handleMouseLeave}
       onClick={() => !isInteractive && onInspect(item)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          if (!isInteractive) onInspect(item)
+        }
+      }}
       className="apple-card group relative flex flex-col rounded-2xl border border-black/[0.08] bg-white dark:border-white/[0.08] dark:bg-[#161617] overflow-hidden cursor-pointer"
     >
       {/* Card Header */}

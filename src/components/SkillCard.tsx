@@ -15,6 +15,7 @@ import {
   Workflow
 } from "lucide-react"
 import { AgentSkillItem } from "../data/skills-data"
+import { copyToClipboard } from "../utils/clipboard"
 
 export interface SkillCardProps {
   skill: AgentSkillItem
@@ -90,17 +91,25 @@ export const SkillRow = memo(function SkillRow({
   const [copiedPath, setCopiedPath] = useState(false)
   const { icon: CategoryIcon, badgeBg, iconColor } = getCategoryTheme(skill.category)
 
-  const handleCopyPrompt = (e: React.MouseEvent) => {
+  const handleCopyPrompt = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    navigator.clipboard.writeText(skill.activationPrompt)
+    const success = await copyToClipboard(skill.activationPrompt)
+    if (!success) {
+      onTriggerToast("Could not copy prompt", "Clipboard access was unavailable.")
+      return
+    }
     setCopiedPrompt(true)
     onTriggerToast(`Copied activation prompt!`, skill.name)
     setTimeout(() => setCopiedPrompt(false), 2000)
   }
 
-  const handleCopyPath = (e: React.MouseEvent) => {
+  const handleCopyPath = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    navigator.clipboard.writeText(skill.path)
+    const success = await copyToClipboard(skill.path)
+    if (!success) {
+      onTriggerToast("Could not copy path", "Clipboard access was unavailable.")
+      return
+    }
     setCopiedPath(true)
     onTriggerToast(`Copied skill path!`, skill.path)
     setTimeout(() => setCopiedPath(false), 2000)
@@ -108,7 +117,17 @@ export const SkillRow = memo(function SkillRow({
 
   return (
     <div
+      id={`skill-${skill.id}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Inspect ${skill.name} skill instructions`}
       onClick={() => onInspect(skill)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          onInspect(skill)
+        }
+      }}
       className="group relative flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-black/[0.08] bg-white hover:border-black/[0.16] hover:bg-black/[0.01] dark:border-white/[0.08] dark:bg-[#161617] dark:hover:border-white/[0.16] dark:hover:bg-white/[0.02] transition-all duration-150 cursor-pointer"
     >
       {/* Left: Domain Icon, Identifier & Badges */}
@@ -186,7 +205,36 @@ export const SkillCard = memo(function SkillCard({
   viewMode = "grid",
   density,
 }: SkillCardProps) {
+  // Call all hooks at the top unconditionally to strictly satisfy the Rules of Hooks
+  const [copiedPrompt, setCopiedPrompt] = useState(false)
+  const [copiedPath, setCopiedPath] = useState(false)
+  const { icon: CategoryIcon, badgeBg, iconColor } = getCategoryTheme(skill.category)
+
   const activeMode = density || viewMode
+
+  const handleCopyPrompt = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const success = await copyToClipboard(skill.activationPrompt)
+    if (!success) {
+      onTriggerToast("Could not copy prompt", "Clipboard access was unavailable.")
+      return
+    }
+    setCopiedPrompt(true)
+    onTriggerToast(`Copied activation prompt!`, skill.name)
+    setTimeout(() => setCopiedPrompt(false), 2000)
+  }
+
+  const handleCopyPath = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const success = await copyToClipboard(skill.path)
+    if (!success) {
+      onTriggerToast("Could not copy path", "Clipboard access was unavailable.")
+      return
+    }
+    setCopiedPath(true)
+    onTriggerToast(`Copied skill path!`, skill.path)
+    setTimeout(() => setCopiedPath(false), 2000)
+  }
 
   // If in list mode, render high-density row
   if (activeMode === "list") {
@@ -199,29 +247,19 @@ export const SkillCard = memo(function SkillCard({
     )
   }
 
-  const [copiedPrompt, setCopiedPrompt] = useState(false)
-  const [copiedPath, setCopiedPath] = useState(false)
-  const { icon: CategoryIcon, badgeBg, iconColor } = getCategoryTheme(skill.category)
-
-  const handleCopyPrompt = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    navigator.clipboard.writeText(skill.activationPrompt)
-    setCopiedPrompt(true)
-    onTriggerToast(`Copied activation prompt!`, skill.name)
-    setTimeout(() => setCopiedPrompt(false), 2000)
-  }
-
-  const handleCopyPath = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    navigator.clipboard.writeText(skill.path)
-    setCopiedPath(true)
-    onTriggerToast(`Copied skill path!`, skill.path)
-    setTimeout(() => setCopiedPath(false), 2000)
-  }
-
   return (
     <div
+      id={`skill-${skill.id}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Inspect ${skill.name} skill instructions`}
       onClick={() => onInspect(skill)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          onInspect(skill)
+        }
+      }}
       className="apple-card group relative flex flex-col justify-between rounded-2xl border border-black/[0.08] bg-white dark:border-white/[0.08] dark:bg-[#161617] overflow-hidden cursor-pointer h-[320px]"
     >
       {/* Top Header */}

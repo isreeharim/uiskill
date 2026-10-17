@@ -7,6 +7,7 @@ import { SkillCard } from "./components/SkillCard"
 import { Toast } from "./components/Toast"
 import { COMPONENTS_DATA, ComponentItem } from "./data/components-data"
 import { AGENT_SKILLS_DATA, AgentSkillItem } from "./data/skills-data"
+import { safeGetItem, safeSetItem } from "./utils/storage"
 import {
   Layers,
   Search,
@@ -38,14 +39,9 @@ export function App() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; sub?: string } | null>(null)
 
-  // Initialize theme, view preferences, and guarantee initial scroll at top
+  // Initialize theme and view preferences with safe storage guards
   useEffect(() => {
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual"
-    }
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" })
-
-    const savedTheme = localStorage.getItem("skill-ui-theme")
+    const savedTheme = safeGetItem("skill-ui-theme")
     if (savedTheme === "light") {
       setIsDark(false)
       document.documentElement.classList.remove("dark")
@@ -54,12 +50,12 @@ export function App() {
       document.documentElement.classList.add("dark")
     }
 
-    const savedViewMode = localStorage.getItem("skill-ui-viewmode") as "grid" | "list" | null
+    const savedViewMode = safeGetItem("skill-ui-viewmode") as "grid" | "list" | null
     if (savedViewMode === "grid" || savedViewMode === "list") {
       setViewMode(savedViewMode)
     }
 
-    const savedSidebarCollapsed = localStorage.getItem("skill-ui-sidebar-collapsed")
+    const savedSidebarCollapsed = safeGetItem("skill-ui-sidebar-collapsed")
     if (savedSidebarCollapsed === "true") {
       setIsSidebarCollapsed(true)
     }
@@ -70,10 +66,10 @@ export function App() {
       const next = !prev
       if (next) {
         document.documentElement.classList.add("dark")
-        localStorage.setItem("skill-ui-theme", "dark")
+        safeSetItem("skill-ui-theme", "dark")
       } else {
         document.documentElement.classList.remove("dark")
-        localStorage.setItem("skill-ui-theme", "light")
+        safeSetItem("skill-ui-theme", "light")
       }
       return next
     })
@@ -81,13 +77,13 @@ export function App() {
 
   const handleSetViewMode = useCallback((mode: "grid" | "list") => {
     setViewMode(mode)
-    localStorage.setItem("skill-ui-viewmode", mode)
+    safeSetItem("skill-ui-viewmode", mode)
   }, [])
 
   const handleToggleSidebarCollapse = useCallback(() => {
     setIsSidebarCollapsed((prev) => {
       const next = !prev
-      localStorage.setItem("skill-ui-sidebar-collapsed", String(next))
+      safeSetItem("skill-ui-sidebar-collapsed", String(next))
       return next
     })
   }, [])
@@ -118,6 +114,7 @@ export function App() {
 
   const handleTabChange = useCallback((tab: "components" | "skills") => {
     setStudioTab(tab)
+    setSearchQuery("")
     setSelectedCategory("All")
     setSelectedFramework("All")
     setSkillSourceFilter("All")
@@ -126,7 +123,6 @@ export function App() {
     } else {
       setSelectedItemId(AGENT_SKILLS_DATA[0]?.id || "")
     }
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" })
   }, [])
 
   const handleResetFilters = useCallback(() => {
@@ -136,13 +132,63 @@ export function App() {
     setSkillSourceFilter("All")
   }, [])
 
-  // Keyboard shortcuts (Cmd+K for palette, Cmd+B for sidebar toggle)
+  // Smooth jump to target card in grid/list with focus highlight
+  const handleJumpToItem = useCallback(
+    (id: string) => {
+      setSelectedItemId(id)
+      const compMatch = COMPONENTS_DATA.find((c) => c.id === id)
+      const skillMatch = AGENT_SKILLS_DATA.find((s) => s.id === id)
+      if (studioTab === "components" && compMatch) {
+        if (selectedCategory !== "All" && selectedCategory !== compMatch.category) {
+          setSelectedCategory("All")
+        }
+      } else if (studioTab === "skills" && skillMatch) {
+        if (selectedCategory !== "All" && selectedCategory !== skillMatch.category) {
+          setSelectedCategory("All")
+        }
+      }
+
+      setTimeout(() => {
+        const prefix = studioTab === "components" ? "component" : "skill"
+        const el = document.getElementById(`${prefix}-${id}`)
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" })
+          el.classList.add("ring-2", "ring-[#0071E3]", "dark:ring-[#2997FF]")
+          setTimeout(() => {
+            el.classList.remove("ring-2", "ring-[#0071E3]", "dark:ring-[#2997FF]")
+          }, 2000)
+        }
+      }, 60)
+    },
+    [studioTab, selectedCategory]
+  )
+
+  // Listen for Escape key and lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (!isMobileSidebarOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileSidebarOpen(false)
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    document.body.style.overflow = "hidden"
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      document.body.style.overflow = ""
+    }
+  }, [isMobileSidebarOpen])
+
+  // Keyboard shortcuts (Cmd+K / Ctrl+K to focus search, Cmd+B to toggle sidebar)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault()
-        const palette = COMPONENTS_DATA.find((c) => c.id === "command-palette")
-        if (palette) setInspectedComponent(palette)
+        const searchInput = document.querySelector<HTMLInputElement>(
+          'input[aria-label="Search"], input[type="search"]'
+        )
+        if (searchInput) {
+          searchInput.focus()
+          searchInput.select?.()
+        }
       } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "b") {
         e.preventDefault()
         handleToggleSidebarCollapse()
@@ -150,7 +196,7 @@ export function App() {
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+  }, [handleToggleSidebarCollapse])
 
   const UI_CATEGORIES = [
     "All",
@@ -277,16 +323,7 @@ export function App() {
             selectedCategory={selectedCategory}
             onSelectCategory={(cat) => setSelectedCategory(cat)}
             selectedItemId={selectedItemId}
-            onSelectItem={(id) => {
-              setSelectedItemId(id)
-              if (studioTab === "components") {
-                const match = COMPONENTS_DATA.find((c) => c.id === id)
-                if (match) setInspectedComponent(match)
-              } else {
-                const match = AGENT_SKILLS_DATA.find((s) => s.id === id)
-                if (match) setInspectedSkill(match)
-              }
-            }}
+            onSelectItem={handleJumpToItem}
             components={COMPONENTS_DATA}
             skills={AGENT_SKILLS_DATA}
             isCollapsed={isSidebarCollapsed}
@@ -301,6 +338,9 @@ export function App() {
             onClick={() => setIsMobileSidebarOpen(false)}
           >
             <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="mobile-nav-title"
               className="absolute inset-y-0 left-0 w-80 max-w-[85vw] bg-white dark:bg-[#161617] shadow-2xl overflow-y-auto p-4 flex flex-col justify-between"
               onClick={(e) => e.stopPropagation()}
             >
@@ -308,14 +348,14 @@ export function App() {
                 <div className="flex items-center justify-between pb-3 border-b border-black/[0.08] dark:border-white/[0.08] mb-3">
                   <div className="flex items-center gap-2">
                     <Layers className="h-4 w-4 text-[#0071E3] dark:text-[#2997FF]" />
-                    <span className="font-semibold text-xs text-[#1D1D1F] dark:text-[#F5F5F7]">
+                    <span id="mobile-nav-title" className="font-semibold text-xs text-[#1D1D1F] dark:text-[#F5F5F7]">
                       Categories & Domains
                     </span>
                   </div>
                   <button
                     onClick={() => setIsMobileSidebarOpen(false)}
                     aria-label="Close navigation drawer"
-                    className="w-7 h-7 rounded-full bg-black/[0.05] dark:bg-white/[0.08] flex items-center justify-center text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition active:scale-[0.95]"
+                    className="min-h-[32px] min-w-[32px] w-8 h-8 rounded-full bg-black/[0.05] dark:bg-white/[0.08] flex items-center justify-center text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition active:scale-[0.95]"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -330,14 +370,7 @@ export function App() {
                   }}
                   selectedItemId={selectedItemId}
                   onSelectItem={(id) => {
-                    setSelectedItemId(id)
-                    if (studioTab === "components") {
-                      const match = COMPONENTS_DATA.find((c) => c.id === id)
-                      if (match) setInspectedComponent(match)
-                    } else {
-                      const match = AGENT_SKILLS_DATA.find((s) => s.id === id)
-                      if (match) setInspectedSkill(match)
-                    }
+                    handleJumpToItem(id)
                     setIsMobileSidebarOpen(false)
                   }}
                   components={COMPONENTS_DATA}
@@ -476,7 +509,7 @@ export function App() {
                 <span className="text-[#86868B]/40">·</span>
                 <span>{COMPONENTS_DATA.length} Live UI Templates</span>
                 <span className="text-[#86868B]/40">·</span>
-                <span>93 Agent Skills</span>
+                <span>{AGENT_SKILLS_DATA.length} Agent Skills</span>
               </p>
               <div className="flex items-center gap-4 text-xs">
                 <button

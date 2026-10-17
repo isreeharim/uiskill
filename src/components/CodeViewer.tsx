@@ -1,30 +1,24 @@
 import { useState } from "react"
 import { Copy, Check, Download, FileCode } from "lucide-react"
+import { copyToClipboard } from "../utils/clipboard"
 
 interface CodeViewerProps {
   code: string
   fileName: string
-  onCopy?: () => void
-}
-
-async function copyText(text: string): Promise<boolean> {
-  if (!navigator.clipboard?.writeText) return false
-  try {
-    await navigator.clipboard.writeText(text)
-    return true
-  } catch {
-    return false
-  }
+  onCopy?: (success?: boolean) => void
 }
 
 export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
-    const didCopy = await copyText(code)
-    if (!didCopy) return
+    const didCopy = await copyToClipboard(code)
+    if (!didCopy) {
+      onCopy?.(false)
+      return
+    }
     setCopied(true)
-    onCopy?.()
+    onCopy?.(true)
     setTimeout(() => setCopied(false), 2000)
   }
 

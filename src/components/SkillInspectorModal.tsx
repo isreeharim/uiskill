@@ -8,6 +8,7 @@ import {
   Terminal
 } from "lucide-react"
 import { AgentSkillItem } from "../data/skills-data"
+import { copyToClipboard } from "../utils/clipboard"
 
 interface SkillInspectorModalProps {
   skill: AgentSkillItem | null
@@ -25,39 +26,57 @@ export function SkillInspectorModal({
   const [copiedPath, setCopiedPath] = useState(false)
   const [copiedContent, setCopiedContent] = useState(false)
 
-  // Listen for Escape key
+  // Reset state and listen for Escape key
   useEffect(() => {
+    if (!skill) return
+
+    setActiveTab("guidelines")
+    setCopiedPrompt(false)
+    setCopiedPath(false)
+    setCopiedContent(false)
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
     }
-    if (skill) {
-      window.addEventListener("keydown", handleKeyDown)
-      document.body.style.overflow = "hidden"
-    }
+    window.addEventListener("keydown", handleKeyDown)
+    document.body.style.overflow = "hidden"
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
       document.body.style.overflow = ""
     }
-  }, [skill, onClose])
+  }, [skill?.id, onClose])
 
   if (!skill) return null
 
-  const handleCopyPrompt = () => {
-    navigator.clipboard.writeText(skill.activationPrompt)
+  const handleCopyPrompt = async () => {
+    const copied = await copyToClipboard(skill.activationPrompt)
+    if (!copied) {
+      onTriggerToast("Could not copy prompt", "Clipboard access was unavailable.")
+      return
+    }
     setCopiedPrompt(true)
     onTriggerToast("Copied activation prompt!", skill.name)
     setTimeout(() => setCopiedPrompt(false), 2000)
   }
 
-  const handleCopyPath = () => {
-    navigator.clipboard.writeText(skill.path)
+  const handleCopyPath = async () => {
+    const copied = await copyToClipboard(skill.path)
+    if (!copied) {
+      onTriggerToast("Could not copy path", "Clipboard access was unavailable.")
+      return
+    }
     setCopiedPath(true)
     onTriggerToast("Copied skill path!", skill.path)
     setTimeout(() => setCopiedPath(false), 2000)
   }
 
-  const handleCopyContent = () => {
-    navigator.clipboard.writeText(skill.contentPreview)
+  const handleCopyContent = async () => {
+    const copied = await copyToClipboard(skill.contentPreview)
+    if (!copied) {
+      onTriggerToast("Could not copy guidelines", "Clipboard access was unavailable.")
+      return
+    }
     setCopiedContent(true)
     onTriggerToast("Copied skill guidelines!", `${skill.name} instructions`)
     setTimeout(() => setCopiedContent(false), 2000)
@@ -69,6 +88,9 @@ export function SkillInspectorModal({
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="skill-modal-title"
         onClick={(e) => e.stopPropagation()}
         className="relative flex flex-col w-full max-w-4xl max-h-[90vh] rounded-2xl border border-black/[0.1] dark:border-white/[0.12] bg-white dark:bg-[#161617] shadow-2xl overflow-hidden"
       >
@@ -83,7 +105,7 @@ export function SkillInspectorModal({
                 {skill.sourceType} Skill
               </span>
             </div>
-            <h2 className="text-base sm:text-lg font-mono font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
+            <h2 id="skill-modal-title" className="text-base sm:text-lg font-mono font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
               {skill.name}
             </h2>
           </div>
@@ -104,7 +126,7 @@ export function SkillInspectorModal({
             <button
               onClick={onClose}
               aria-label="Close skill inspector"
-              className="shrink-0 w-7 h-7 rounded-full bg-black/[0.05] dark:bg-white/[0.08] hover:bg-black/[0.1] dark:hover:bg-white/[0.14] text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] flex items-center justify-center transition-all active:scale-[0.95]"
+              className="shrink-0 min-h-[32px] min-w-[32px] w-8 h-8 rounded-full bg-black/[0.05] dark:bg-white/[0.08] hover:bg-black/[0.1] dark:hover:bg-white/[0.14] text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] flex items-center justify-center transition-all active:scale-[0.95]"
             >
               <X className="h-4 w-4" />
             </button>
@@ -126,8 +148,14 @@ export function SkillInspectorModal({
           </div>
 
           {/* Segmented Control Navigation */}
-          <div className="flex items-center rounded-lg bg-black/[0.05] dark:bg-white/[0.08] p-0.5 border border-black/[0.04] dark:border-white/[0.06] shrink-0">
+          <div
+            role="tablist"
+            aria-label="Skill details tabs"
+            className="flex items-center rounded-lg bg-black/[0.05] dark:bg-white/[0.08] p-0.5 border border-black/[0.04] dark:border-white/[0.06] shrink-0"
+          >
             <button
+              role="tab"
+              aria-selected={activeTab === "guidelines"}
               onClick={() => setActiveTab("guidelines")}
               className={`rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
                 activeTab === "guidelines"
@@ -138,6 +166,8 @@ export function SkillInspectorModal({
               Instructions
             </button>
             <button
+              role="tab"
+              aria-selected={activeTab === "overview"}
               onClick={() => setActiveTab("overview")}
               className={`rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
                 activeTab === "overview"
@@ -148,6 +178,8 @@ export function SkillInspectorModal({
               Activation
             </button>
             <button
+              role="tab"
+              aria-selected={activeTab === "setup"}
               onClick={() => setActiveTab("setup")}
               className={`rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
                 activeTab === "setup"

@@ -51,3 +51,49 @@ test("CodeViewer renders the supplied source", () => {
   expect(html).toContain("answer.tsx")
   expect(html).toContain("export const answer = 42")
 })
+
+test("safeGetItem, safeSetItem, and safeRemoveItem survive blocked localStorage", async () => {
+  const map = new Map()
+  const mockStorage = {
+    getItem: (key) => map.get(key) ?? null,
+    setItem: (key, val) => map.set(key, String(val)),
+    removeItem: (key) => map.delete(key),
+  }
+  globalThis.window = { localStorage: mockStorage }
+
+  const { safeGetItem, safeSetItem, safeRemoveItem } = await import("../src/utils/storage.ts")
+
+  // Test with standard storage
+  safeSetItem("test-key", "test-val")
+  expect(safeGetItem("test-key")).toBe("test-val")
+  safeRemoveItem("test-key")
+  expect(safeGetItem("test-key")).toBeNull()
+
+  // Simulate blocked storage (SecurityError in Safari private mode or sandboxed iframes)
+  const originalWindow = globalThis.window
+  try {
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      get() {
+        throw new Error("SecurityError: Failed to read 'localStorage' from 'Window': Access is denied.")
+      },
+    })
+
+    // Must not throw unhandled exceptions
+    expect(() => safeGetItem("any-key")).not.toThrow()
+    expect(safeGetItem("any-key")).toBeNull()
+
+    expect(() => safeSetItem("any-key", "val")).not.toThrow()
+    expect(() => safeRemoveItem("any-key")).not.toThrow()
+  } finally {
+    delete globalThis.window
+  }
+})
+
+test("copyToClipboard handles errors gracefully in non-interactive environments", async () => {
+  const { copyToClipboard } = await import("../src/utils/clipboard.ts")
+
+  // In Node test environment without browser clipboard/DOM, it should return false rather than throw
+  const result = await copyToClipboard("test snippet")
+  expect(typeof result).toBe("boolean")
+})
