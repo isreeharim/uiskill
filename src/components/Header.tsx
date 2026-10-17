@@ -1,11 +1,8 @@
-import { useState } from "react"
 import {
   Search,
   Sparkles,
   Moon,
   Sun,
-  Terminal,
-  Check,
   LayoutGrid,
   Rows3,
   Menu,
@@ -33,7 +30,6 @@ export interface HeaderProps {
   toggleTheme: () => void
   viewMode: "grid" | "list"
   setViewMode: (m: "grid" | "list") => void
-  onTriggerToast: (msg: string, sub?: string) => void
   onToggleMobileSidebar?: () => void
   isSidebarCollapsed?: boolean
   onToggleSidebarCollapse?: () => void
@@ -50,24 +46,10 @@ export function Header({
   toggleTheme,
   viewMode,
   setViewMode,
-  onTriggerToast,
   onToggleMobileSidebar,
   isSidebarCollapsed = false,
   onToggleSidebarCollapse,
 }: HeaderProps) {
-  const [copiedCli, setCopiedCli] = useState(false)
-
-  const handleCopyCli = async () => {
-    try {
-      await navigator.clipboard.writeText("npx uiskill")
-      setCopiedCli(true)
-      onTriggerToast("Copied CLI command!", "Run `npx uiskill` in your terminal to launch the interactive studio")
-      setTimeout(() => setCopiedCli(false), 2000)
-    } catch {
-      onTriggerToast("Could not copy command", "Copy `npx uiskill` manually")
-    }
-  }
-
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 bg-white/95 backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/95 transition-colors">
       <div className="mx-auto flex min-h-14 max-w-7xl items-center justify-between gap-2 px-3 sm:px-6">
@@ -132,10 +114,6 @@ export function Header({
               <Rows3 className="h-3.5 w-3.5" /><span className="hidden xl:inline text-[11px]">List</span>
             </button>
           </div>
-
-          <button onClick={handleCopyCli} title="Copy CLI command: npx uiskill" className="hidden xl:inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1.5 font-mono text-[11px] text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition">
-            <Terminal className="h-3 w-3 text-blue-500" /><span>npx uiskill</span>{copiedCli && <Check className="h-3 w-3 text-emerald-500" />}
-          </button>
 
           <button onClick={toggleTheme} aria-label="Toggle dark/light theme" title={isDark ? "Switch to light mode" : "Switch to dark mode"} className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition">
             {isDark ? <Sun className="h-3.5 w-3.5 text-amber-400" /> : <Moon className="h-3.5 w-3.5" />}

@@ -235,7 +235,6 @@ export function App() {
         toggleTheme={toggleTheme}
         viewMode={viewMode}
         setViewMode={handleSetViewMode}
-        onTriggerToast={triggerToast}
         onToggleMobileSidebar={() => setIsMobileSidebarOpen(true)}
         isSidebarCollapsed={isSidebarCollapsed}
         onToggleSidebarCollapse={handleToggleSidebarCollapse}
