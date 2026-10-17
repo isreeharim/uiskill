@@ -59,14 +59,14 @@ Use when:
 
 **Install shadcn/ui with Tailwind:**
 ```bash
-npx shadcn@latest init
+npm install shadcn
 ```
 
-CLI prompts for framework, TypeScript, paths, and theme preferences. This configures both shadcn/ui and Tailwind CSS.
+This configures both shadcn/ui and Tailwind CSS.
 
 **Add components:**
 ```bash
-npx shadcn@latest add button card dialog form
+npm install @radix-ui/react-slot @radix-ui/react-dialog clsx tailwind-merge
 ```
 
 **Use components with utility styling:**

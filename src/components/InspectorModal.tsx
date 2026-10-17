@@ -7,7 +7,6 @@ import {
   Copy,
   Check,
   Download,
-  Terminal,
   Eye,
   Code2,
   FileText,
@@ -42,7 +41,6 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
   const [viewport, setViewport] = useState<ViewportSize>("desktop")
   const [previewDark, setPreviewDark] = useState(false)
   const [copiedCode, setCopiedCode] = useState(false)
-  const [copiedCli, setCopiedCli] = useState(false)
 
   useEffect(() => {
     if (!item) return
@@ -71,17 +69,6 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
     setCopiedCode(true)
     onTriggerToast(`Copied ${item.name} TSX code!`, "Ready to paste into your components folder")
     setTimeout(() => setCopiedCode(false), 2000)
-  }
-
-  const handleCopyCli = async () => {
-    const copied = await copyText(item.installCommand)
-    if (!copied) {
-      onTriggerToast("Could not copy install command", "Clipboard access was unavailable.")
-      return
-    }
-    setCopiedCli(true)
-    onTriggerToast(`Copied install command!`, item.installCommand)
-    setTimeout(() => setCopiedCli(false), 2000)
   }
 
   const handleDownload = () => {
@@ -184,16 +171,6 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
             </div>
 
             <div className="flex items-center gap-2 ml-auto">
-              <button
-                onClick={handleCopyCli}
-                title={`Copy install: ${item.installCommand}`}
-                className="hidden md:flex items-center gap-1.5 rounded-lg border border-black/[0.08] bg-black/[0.02] dark:border-white/[0.08] dark:bg-white/[0.03] px-2.5 py-1.5 text-xs font-medium text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
-              >
-                <Terminal className="h-3.5 w-3.5 text-[#0071E3] dark:text-[#2997FF]" />
-                <span className="font-mono text-[11px]">{item.installCommand}</span>
-                {copiedCli ? <Check className="h-3 w-3 text-emerald-500" /> : null}
-              </button>
-
               <button
                 onClick={handleDownload}
                 title="Download component .tsx"
@@ -316,10 +293,18 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
               </div>
 
               <div className="rounded-2xl border border-black/[0.08] bg-white p-6 dark:border-white/[0.08] dark:bg-[#161617]">
-                <h3 className="text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7] mb-3">1. Install Required Dependencies</h3>
+                <h3 className="text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7] mb-3">1. Required Dependencies</h3>
                 <div className="flex items-center justify-between rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.06] p-4 font-mono text-xs text-[#1D1D1F] dark:text-[#F5F5F7]">
                   <span>{item.installCommand}</span>
-                  <button onClick={handleCopyCli} className="rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161617] px-2.5 py-1 text-xs text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]">Copy</button>
+                  <button
+                    onClick={async () => {
+                      const copied = await copyText(item.installCommand)
+                      if (copied) onTriggerToast("Copied dependency command!", item.installCommand)
+                    }}
+                    className="rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161617] px-2.5 py-1 text-xs text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
+                  >
+                    Copy
+                  </button>
                 </div>
               </div>
 

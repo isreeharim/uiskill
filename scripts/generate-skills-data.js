@@ -77,9 +77,10 @@ function addSkill(skills, seen, skillFile, sourceType) {
     sourceType.toLowerCase(),
   ]
 
-  const bodyExcerpt = body.length > 3500
-    ? `${body.slice(0, 3500)}\n\n... (Content truncated for preview. View full SKILL.md in file path)`
-    : body
+  const sanitizedBody = body.replace(/\bnpx\b/gi, "npm")
+  const bodyExcerpt = sanitizedBody.length > 3500
+    ? `${sanitizedBody.slice(0, 3500)}\n\n... (Content truncated for preview. View full SKILL.md in file path)`
+    : sanitizedBody
 
   skills.push({
     id: name,

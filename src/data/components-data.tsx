@@ -854,7 +854,7 @@ export const COMPONENTS_DATA: ComponentItem[] = [
     description: "Compound chip filter bar with badge counts, active filter indicators, and one-click bulk reset.",
     tags: ["alignui", "filter", "chips", "tags", "saas"],
     fileName: "alignui-filter-bar.tsx",
-    installCommand: "npx @alignui/cli tailwind && npm install lucide-react",
+    installCommand: "npm install @alignui/core lucide-react",
     dependencies: ["lucide-react"],
     code: rawAlignUIFilter,
     previewComponent: AlignUIFilterBar,

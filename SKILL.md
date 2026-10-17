@@ -118,7 +118,7 @@ START: What are you building?
 ### 1. shadcn/ui (`https://ui.shadcn.com`)
 - **Key Concept**: Not a component library in `node_modules`. Components live directly in your `src/components/ui`.
 - **Core Primitives**: Radix UI (accessible state) + Tailwind CSS (styling) + `clsx` & `tailwind-merge` (`cn()` helper).
-- **CLI**: `npx shadcn@latest add button dialog table`
+- **Installation**: Direct component copy-paste into `src/components/ui`.
 - **Config**: `components.json` manages aliases, styles, and CSS variables.
 
 ### 2. Untitled UI React (`https://untitledui.com/react`)
@@ -139,7 +139,7 @@ START: What are you building?
 
 ### 5. AlignUI (`https://www.alignui.com`)
 - **Key Concept**: Clean, modern SaaS UI kit engineered specifically for Tailwind CSS and React with Radix primitives.
-- **CLI**: `npx @alignui/cli` to inject tokens, OKLCH palettes, and Remix Icon bindings.
+- **Tokens & Icons**: Inject OKLCH palettes, design tokens, and Remix Icon bindings.
 - **Architecture**: Compound components (`<Button.Root>`, `<Button.Icon>`).
 
 ### 6. Base UI (`https://base-ui.com`)
@@ -174,7 +174,7 @@ START: What are you building?
 
 ### 12. 21st.dev (`https://21st.dev`)
 - **Key Concept**: "The npm for design engineers." Community registry of modern micro-interactions, canvas effects, bento grids, and animated buttons.
-- **Tech Stack**: Tailwind CSS + Framer Motion + Lucide. Integrates with Cursor/Claude Code via MCP and CLI (`npx 21st`).
+- **Tech Stack**: Tailwind CSS + Framer Motion + Lucide. Integrates with Cursor/Claude Code via MCP and direct copy-paste.
 
 ### 13. React Bits (`https://reactbits.dev` & `https://github.com/DavidHDev/react-bits`)
 - **Key Concept**: Curated open-source collection of 200+ animated React components by David Haz.

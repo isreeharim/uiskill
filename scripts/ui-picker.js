@@ -12,7 +12,7 @@ const LIBRARIES = {
     name: "shadcn/ui",
     url: "https://ui.shadcn.com",
     paradigm: "Copy-paste unstyled primitives + Tailwind CSS",
-    setup: "npx shadcn@latest init",
+    setup: "npm install shadcn",
     bestFor: "Full ownership, Next.js / Vite apps, standard SaaS backends",
   },
   untitledui: {
@@ -40,7 +40,7 @@ const LIBRARIES = {
     name: "AlignUI",
     url: "https://alignui.com",
     paradigm: "Modern luxury SaaS kit for React + Tailwind",
-    setup: "npx @alignui/cli tailwind && npm install @remixicon/react",
+    setup: "npm install @alignui/core @alignui/react @remixicon/react",
     bestFor: "Modern SaaS web apps, OKLCH color spaces, compound components",
   },
   baseui: {
@@ -89,7 +89,7 @@ const LIBRARIES = {
     name: "21st.dev",
     url: "https://21st.dev",
     paradigm: "The npm for design engineers (animated micro-interactions)",
-    setup: "npx 21st add <component-name>",
+    setup: "npm install 21st",
     bestFor: "Spotlight cards, animated borders, bento grids, interactive eye-candy",
   },
   reactbits: {

@@ -3,7 +3,6 @@ import {
   Copy,
   Check,
   Maximize2,
-  Terminal,
   MousePointer2,
   Lock,
   Layers,
@@ -32,7 +31,6 @@ export function ComponentRow({
   onTriggerToast: (msg: string, sub?: string) => void
 }) {
   const [copiedCode, setCopiedCode] = useState(false)
-  const [copiedCli, setCopiedCli] = useState(false)
 
   const handleCopyCode = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -40,14 +38,6 @@ export function ComponentRow({
     setCopiedCode(true)
     onTriggerToast(`Copied ${item.name} TSX code!`, "Ready to paste into your React project")
     setTimeout(() => setCopiedCode(false), 2000)
-  }
-
-  const handleCopyCli = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    navigator.clipboard.writeText(item.installCommand)
-    setCopiedCli(true)
-    onTriggerToast("Copied CLI command!", item.installCommand)
-    setTimeout(() => setCopiedCli(false), 2000)
   }
 
   return (
@@ -87,14 +77,6 @@ export function ComponentRow({
 
       {/* Right: Quick Action Buttons */}
       <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
-        <button
-          onClick={handleCopyCli}
-          title={`Copy install command: ${item.installCommand}`}
-          className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-1.5 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
-        >
-          {copiedCli ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Terminal className="h-3.5 w-3.5" />}
-        </button>
-
         <button
           onClick={handleCopyCode}
           title="Copy component TSX source"
@@ -144,7 +126,6 @@ export function ComponentCard({
   }
 
   const [copiedCode, setCopiedCode] = useState(false)
-  const [copiedCli, setCopiedCli] = useState(false)
   const [isInteractive, setIsInteractive] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
   const Component = item.previewComponent
@@ -155,14 +136,6 @@ export function ComponentCard({
     setCopiedCode(true)
     onTriggerToast(`Copied ${item.name} TSX code!`, "Ready to paste into your React project")
     setTimeout(() => setCopiedCode(false), 2000)
-  }
-
-  const handleCopyCli = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    navigator.clipboard.writeText(item.installCommand)
-    setCopiedCli(true)
-    onTriggerToast("Copied install command!", item.installCommand)
-    setTimeout(() => setCopiedCli(false), 2000)
   }
 
   // Deactivate interaction when mouse leaves the card to prevent stuck pointer states
@@ -202,15 +175,6 @@ export function ComponentCard({
 
         {/* Quick actions */}
         <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
-          <button
-            onClick={handleCopyCli}
-            title={`Copy install command: ${item.installCommand}`}
-            aria-label="Copy install CLI"
-            className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-2 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
-          >
-            {copiedCli ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Terminal className="h-3.5 w-3.5" />}
-          </button>
-
           <button
             onClick={handleCopyCode}
             title="Copy component TSX source"

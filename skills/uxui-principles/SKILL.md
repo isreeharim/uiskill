@@ -43,7 +43,7 @@ A collection of 5 agent skills for evaluating interfaces against 168 research-ba
 ## Install
 
 ```
-npx skills add uxuiprinciples/agent-skills
+npm install uxuiprinciples/agent-skills
 ```
 
 ## Limitations

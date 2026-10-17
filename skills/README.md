@@ -1,12 +1,12 @@
-# 🎨 The Ultimate UI & UX Skills Monorepo (31 Skills)
+# 🎨 The Ultimate UI & UX Skills Monorepo (32 Skills)
 
-Welcome to the **UI & UX Agent Skills Monorepo**. This directory bundles **31 production-grade, specialized AI coding skills** conforming to the open **[AgentSkills specification](https://agentskills.io)**. 
+Welcome to the **UI & UX Agent Skills Monorepo**. This directory bundles **32 production-grade, specialized AI coding skills** conforming to the open **[AgentSkills specification](https://agentskills.io)**. 
 
 Compatible with **Anthropic Claude Code**, **Google Antigravity / Gemini CLI**, **Cursor**, **Windsurf**, **GitHub Copilot**, and **OpenAI Codex**.
 
 ---
 
-## 📂 Complete Catalog of All 31 UI Skills
+## 📂 Complete Catalog of All 32 UI Skills
 
 ### 1. Component Systems & Web Architecture
 | Skill Folder | Description & Capabilities |
@@ -38,6 +38,8 @@ Compatible with **Anthropic Claude Code**, **Google Antigravity / Gemini CLI**, 
 | [`appllama-app-design-skill/`](./appllama-app-design-skill/SKILL.md) | Builds native-feeling mobile app screens inspired by top-grossing App Store benchmarks. |
 | [`appllama-usage/`](./appllama-usage/SKILL.md) | Researches real mobile apps, paywalls, and feature flows using the Appllama MCP. |
 | [`apple-design/`](./apple-design/SKILL.md) | Apple's Human Interface Guidelines (HIG) translated for web: spring physics, sheet interactions, translucency, and SF typography. |
+| [`apple-premium-ui/`](./apple-premium-ui/SKILL.md) | Build premium, Apple-inspired web interfaces grounded in HIG principles without AI-slop styling. macOS & iOS component specifications. |
+
 
 ---
 
