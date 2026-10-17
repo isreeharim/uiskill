@@ -97,12 +97,27 @@ export function Header({
           </div>
         </div>
 
-        <div className="hidden md:block relative flex-1 max-w-xs sm:max-w-sm">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
-          <input type="text" placeholder={activeTab === "components" ? `Filter ${componentsCount} templates... (⌘K)` : `Filter ${skillsCount} skills... (⌘K)`} aria-label="Search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full rounded-lg border border-zinc-200 bg-zinc-50/80 pl-8 pr-14 py-1.5 text-xs text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500/20 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-100 dark:focus:bg-zinc-900" />
-          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-            {searchQuery ? <button onClick={() => setSearchQuery("")} aria-label="Clear search query" className="p-0.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"><X className="h-3 w-3" /></button> : <kbd className="hidden lg:inline-flex items-center rounded border border-zinc-200 bg-zinc-100 px-1 text-[10px] font-mono text-zinc-500 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-400">⌘K</kbd>}
+        {/* Search bar + GitHub button */}
+        <div className="hidden md:flex items-center gap-2 flex-1 max-w-xs sm:max-w-sm lg:max-w-md">
+          <div className="relative flex-1">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
+            <input type="text" placeholder={activeTab === "components" ? `Filter ${componentsCount} templates... (⌘K)` : `Filter ${skillsCount} skills... (⌘K)`} aria-label="Search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full rounded-lg border border-zinc-200 bg-zinc-50/80 pl-8 pr-14 py-1.5 text-xs text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500/20 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-100 dark:focus:bg-zinc-900" />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              {searchQuery ? <button onClick={() => setSearchQuery("")} aria-label="Clear search query" className="p-0.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"><X className="h-3 w-3" /></button> : <kbd className="hidden lg:inline-flex items-center rounded border border-zinc-200 bg-zinc-100 px-1 text-[10px] font-mono text-zinc-500 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-400">⌘K</kbd>}
+            </div>
           </div>
+
+          <a
+            href="https://github.com/isreeharim/uiskill"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub Repository"
+            title="View on GitHub"
+            className="flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50/80 px-2.5 text-xs font-medium text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition shrink-0"
+          >
+            <GithubIcon className="h-3.5 w-3.5" />
+            <span className="hidden xl:inline text-[11px] font-semibold">GitHub</span>
+          </a>
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
@@ -118,9 +133,6 @@ export function Header({
           <button onClick={toggleTheme} aria-label="Toggle dark/light theme" title={isDark ? "Switch to light mode" : "Switch to dark mode"} className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition">
             {isDark ? <Sun className="h-3.5 w-3.5 text-amber-400" /> : <Moon className="h-3.5 w-3.5" />}
           </button>
-          <a href="https://github.com/isreeharim/uiskill" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" title="View on GitHub" className="hidden xs:flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition">
-            <GithubIcon className="h-3.5 w-3.5" />
-          </a>
         </div>
       </div>
 
@@ -132,6 +144,16 @@ export function Header({
             <input type="search" inputMode="search" enterKeyHint="search" placeholder={activeTab === "components" ? `Search ${componentsCount} templates` : `Search ${skillsCount} skills`} aria-label="Search templates and skills" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="h-10 w-full rounded-xl border border-zinc-200 bg-zinc-50 pl-9 pr-9 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100" />
             {searchQuery && <button onClick={() => setSearchQuery("")} aria-label="Clear search query" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-800"><X className="h-4 w-4" /></button>}
           </div>
+          <a
+            href="https://github.com/isreeharim/uiskill"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub Repository"
+            title="View on GitHub"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition"
+          >
+            <GithubIcon className="h-4 w-4" />
+          </a>
           <div className="flex shrink-0 items-center rounded-xl border border-zinc-200 bg-zinc-100 p-0.5 dark:border-zinc-800 dark:bg-zinc-900">
             <button onClick={() => onTabChange("components")} aria-label="UI Templates" className={`flex h-9 w-9 items-center justify-center rounded-lg ${activeTab === "components" ? "bg-white text-blue-600 shadow-xs dark:bg-zinc-800 dark:text-blue-400" : "text-zinc-500 dark:text-zinc-400"}`}><LayoutGrid className="h-4 w-4" /></button>
             <button onClick={() => onTabChange("skills")} aria-label="Agent Skills" className={`flex h-9 w-9 items-center justify-center rounded-lg ${activeTab === "skills" ? "bg-white text-purple-600 shadow-xs dark:bg-zinc-800 dark:text-purple-400" : "text-zinc-500 dark:text-zinc-400"}`}><Sparkles className="h-4 w-4" /></button>
