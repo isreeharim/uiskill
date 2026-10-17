@@ -1,7 +1,7 @@
 {
   "name": "uiskill",
   "version": "1.0.0",
-  "description": "Universal UI architecture and Agent Skills toolkit for AI coding agents covering 25+ UI ecosystems, 53 components, and 31 specialized skills.",
+  "description": "Universal UI architecture and Agent Skills toolkit for AI coding agents covering 25+ UI ecosystems, 54 components, and 32 specialized skills.",
   "main": "scripts/ui-picker.js",
   "scripts": {
     "dev": "vite",

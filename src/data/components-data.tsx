@@ -56,6 +56,7 @@ import { AwesomeFileDropzone } from "../../templates/awesome-file-dropzone"
 import { AwesomeRatingStars } from "../../templates/awesome-rating-stars"
 import { AwesomeTagInput } from "../../templates/awesome-tag-input"
 import { ReshapedTokenSlider } from "../../templates/reshaped-token-slider"
+import { IOSLiquidGlass } from "../../templates/ios-liquid-glass"
 
 // Raw code strings
 import rawMetricsCard from "../../templates/dashboard-metrics-card.tsx?raw"
@@ -112,6 +113,7 @@ import rawAwesomeDropzone from "../../templates/awesome-file-dropzone.tsx?raw"
 import rawAwesomeRating from "../../templates/awesome-rating-stars.tsx?raw"
 import rawAwesomeTag from "../../templates/awesome-tag-input.tsx?raw"
 import rawReshapedSlider from "../../templates/reshaped-token-slider.tsx?raw"
+import rawIOSLiquidGlass from "../../templates/ios-liquid-glass.tsx?raw"
 
 export type ComponentCategory =
   | "SaaS Dashboards"
@@ -993,5 +995,20 @@ export const COMPONENTS_DATA: ComponentItem[] = [
     dependencies: ["lucide-react"],
     code: rawHeroUIAccordion,
     previewComponent: HeroUIGlowAccordion,
+  },
+
+  // 54. Apple iOS 18 & visionOS Liquid Glass
+  {
+    id: "ios-liquid-glass",
+    name: "Apple iOS Liquid Glass Media Card",
+    category: "Creative & Motion",
+    system: "Apple HIG",
+    description: "Multi-layered frosted liquid glass with real-time cursor light refraction, fluid volume scrubber, and spatial audio controls.",
+    tags: ["apple", "ios", "visionos", "liquid-glass", "glassmorphism", "motion", "creative"],
+    fileName: "ios-liquid-glass.tsx",
+    installCommand: "npm install lucide-react",
+    dependencies: ["lucide-react"],
+    code: rawIOSLiquidGlass,
+    previewComponent: IOSLiquidGlass,
   },
 ]

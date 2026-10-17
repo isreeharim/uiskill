@@ -447,7 +447,7 @@ export function App() {
                 <img src="/logo.png" alt="uiskill" className="h-4 w-4 rounded object-contain inline-block" />
                 <span className="font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">uiskill Studio</span>
                 <span className="text-[#86868B]/40">·</span>
-                <span>53 Live UI Templates</span>
+                <span>{COMPONENTS_DATA.length} Live UI Templates</span>
                 <span className="text-[#86868B]/40">·</span>
                 <span>93 Agent Skills</span>
               </p>

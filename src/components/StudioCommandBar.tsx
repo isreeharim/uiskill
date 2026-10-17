@@ -22,6 +22,7 @@ export const FRAMEWORK_CHIPS = [
   { id: "Reshaped", label: "Reshaped" },
   { id: "AlignUI", label: "AlignUI" },
   { id: "Tailark", label: "Tailark" },
+  { id: "Apple HIG", label: "Apple HIG" },
 ]
 
 export const SKILL_SOURCE_CHIPS = [
