@@ -33,6 +33,7 @@ A master-grade, multi-engine UI skill for AI coding assistants. Synthesizes arch
 19. **Ant Design (antd & mobile)** — Enterprise data-dense backoffice & touch fintech
 20. **21st.dev** — "The npm for design engineers", cutting-edge animated & micro-interaction components
 21. **Awesome React Components** — Curated directory of top-tier React components (`brillout/awesome-react-components`)
+22. **Apple Premium UI (macOS & iOS HIG)** — Human Interface Guidelines translated for web: spatial rhythm, anti-AI-slop rules, open layouts, collapsible large titles & native desktop/mobile controls
 
 ---
 
@@ -51,7 +52,8 @@ When deeper technical reference is required, inspect these dedicated documents i
 - [10-react-bits-catalog.md](references/10-react-bits-catalog.md) — React Bits (David Haz) 200+ animated components, typography & canvas backgrounds
 - [11-enterprise-giants-and-ecosystem.md](references/11-enterprise-giants-and-ecosystem.md) — Deep-dive on Base Web, Fluent UI, React Spectrum/Aria, Tremor, React Native Web, Virtualization
 - [12-awesome-react-components-directory.md](references/12-awesome-react-components-directory.md) — Curated directory of top-tier React components across 13 engineering categories
-- [skills/README.md](skills/README.md) — The 31 specialized UI/UX agent skills monorepo (motion, mobile, tokens, QA)
+- [.agents/skills/apple-premium-ui/SKILL.md](.agents/skills/apple-premium-ui/SKILL.md) — Apple Premium UI skill with macOS & iOS component specifications
+- [skills/README.md](skills/README.md) — The 32 specialized UI/UX agent skills monorepo (motion, mobile, tokens, QA)
 
 ---
 
