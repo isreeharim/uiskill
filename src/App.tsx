@@ -222,8 +222,8 @@ export function App() {
   }, [selectedCategory, skillSourceFilter, searchQuery])
 
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors">
-      {/* Precision 56px Sticky Top Bar */}
+    <div className="min-h-screen flex flex-col bg-[#F5F5F7] text-[#1D1D1F] dark:bg-[#000000] dark:text-[#F5F5F7] transition-colors">
+      {/* Precision 52px Sticky Top Bar */}
       <Header
         activeTab={studioTab}
         onTabChange={handleTabChange}
@@ -290,25 +290,25 @@ export function App() {
         {/* Mobile Off-Canvas Drawer */}
         {isMobileSidebarOpen && (
           <div
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs lg:hidden animate-in fade-in"
+            className="fixed inset-0 z-50 bg-black/40 dark:bg-black/60 backdrop-blur-xl lg:hidden animate-in fade-in"
             onClick={() => setIsMobileSidebarOpen(false)}
           >
             <div
-              className="absolute inset-y-0 left-0 w-80 max-w-[85vw] bg-white dark:bg-zinc-950 shadow-2xl overflow-y-auto p-4 flex flex-col justify-between"
+              className="absolute inset-y-0 left-0 w-80 max-w-[85vw] bg-white dark:bg-[#161617] shadow-2xl overflow-y-auto p-4 flex flex-col justify-between"
               onClick={(e) => e.stopPropagation()}
             >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-3">
+                <div className="flex items-center justify-between pb-3 border-b border-black/[0.08] dark:border-white/[0.08] mb-3">
                   <div className="flex items-center gap-2">
-                    <Layers className="h-4 w-4 text-blue-600" />
-                    <span className="font-bold text-xs text-zinc-900 dark:text-zinc-100">
+                    <Layers className="h-4 w-4 text-[#0071E3] dark:text-[#2997FF]" />
+                    <span className="font-semibold text-xs text-[#1D1D1F] dark:text-[#F5F5F7]">
                       Categories & Domains
                     </span>
                   </div>
                   <button
                     onClick={() => setIsMobileSidebarOpen(false)}
                     aria-label="Close navigation drawer"
-                    className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    className="w-7 h-7 rounded-full bg-black/[0.05] dark:bg-white/[0.08] flex items-center justify-center text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition active:scale-[0.95]"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -347,17 +347,17 @@ export function App() {
           {studioTab === "components" ? (
             /* UI Components Studio */
             filteredComponents.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white p-10 text-center dark:border-zinc-800 dark:bg-zinc-900/40">
-                <Search className="mx-auto h-7 w-7 text-zinc-400" />
-                <h3 className="mt-3 text-sm font-bold text-zinc-950 dark:text-zinc-50">
+              <div className="rounded-2xl border border-black/[0.08] bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#161617]">
+                <Search className="mx-auto h-7 w-7 text-[#86868B]" />
+                <h3 className="mt-3 text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
                   No matching components found
                 </h3>
-                <p className="mt-1 text-xs text-zinc-500 max-w-md mx-auto">
+                <p className="mt-1 text-xs text-[#86868B] max-w-md mx-auto">
                   No components match the active filter criteria. Try resetting framework or category filters.
                 </p>
                 <button
                   onClick={handleResetFilters}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#1D1D1F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white transition active:scale-[0.97]"
                 >
                   <RotateCcw className="h-3 w-3" />
                   <span>Reset All Filters</span>
@@ -393,17 +393,17 @@ export function App() {
           ) : (
             /* Agent Skills Studio */
             filteredSkills.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white p-10 text-center dark:border-zinc-800 dark:bg-zinc-900/40">
-                <Search className="mx-auto h-7 w-7 text-zinc-400" />
-                <h3 className="mt-3 text-sm font-bold text-zinc-950 dark:text-zinc-50">
+              <div className="rounded-2xl border border-black/[0.08] bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#161617]">
+                <Search className="mx-auto h-7 w-7 text-[#86868B]" />
+                <h3 className="mt-3 text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
                   No matching agent skills found
                 </h3>
-                <p className="mt-1 text-xs text-zinc-500 max-w-md mx-auto">
+                <p className="mt-1 text-xs text-[#86868B] max-w-md mx-auto">
                   Try searching for keywords like "animate", "audit", "lint", "qa", "design", or "bug".
                 </p>
                 <button
                   onClick={handleResetFilters}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-purple-500 transition"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#1D1D1F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white transition active:scale-[0.97]"
                 >
                   <RotateCcw className="h-3 w-3" />
                   <span>Reset All Filters</span>
@@ -441,26 +441,26 @@ export function App() {
       </div>
 
       {/* Sleek Minimalist Footer */}
-      <footer className="border-t border-zinc-200/80 bg-white/70 py-4 text-xs text-zinc-500 dark:border-zinc-800/80 dark:bg-zinc-950/70 backdrop-blur-xs transition-colors">
+      <footer className="border-t border-black/[0.08] bg-[#F5F5F7]/80 py-4 text-xs text-[#86868B] dark:border-white/[0.08] dark:bg-[#161617]/50 backdrop-blur-md transition-colors">
         <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <p className="flex items-center gap-2">
             <img src="/logo.png" alt="uiskill" className="h-4 w-4 rounded object-contain inline-block" />
-            <span className="font-semibold text-zinc-900 dark:text-zinc-200">uiskill Studio</span>
-            <span className="text-zinc-400">·</span>
+            <span className="font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">uiskill Studio</span>
+            <span className="text-[#86868B]/40">·</span>
             <span>53 Live UI Templates</span>
-            <span className="text-zinc-400">·</span>
+            <span className="text-[#86868B]/40">·</span>
             <span>93 Certified Agent Skills</span>
           </p>
           <div className="flex items-center gap-4 text-xs">
             <button
               onClick={() => handleTabChange("components")}
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+              className="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition"
             >
               Templates
             </button>
             <button
               onClick={() => handleTabChange("skills")}
-              className="hover:text-purple-600 dark:hover:text-purple-400 transition"
+              className="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition"
             >
               Skills
             </button>
@@ -468,7 +468,7 @@ export function App() {
               href="https://github.com/isreeharim/uiskill"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-zinc-900 dark:hover:text-zinc-100 transition"
+              className="hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition"
             >
               GitHub
             </a>

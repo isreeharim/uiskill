@@ -43,12 +43,12 @@ export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
   const lines = code.split("\n")
 
   return (
-    <div className="relative flex flex-col rounded-2xl border border-zinc-200 bg-zinc-950 text-zinc-100 overflow-hidden shadow-xl dark:border-zinc-800">
-      <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/90 px-4 py-3">
+    <div className="relative flex flex-col rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-[#161617] text-[#F5F5F7] overflow-hidden shadow-xl">
+      <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#1D1D1F] px-4 py-3">
         <div className="flex items-center gap-2">
-          <FileCode className="h-4 w-4 text-blue-400" />
-          <span className="font-mono text-xs font-medium text-zinc-300">{fileName}</span>
-          <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-400">
+          <FileCode className="h-4 w-4 text-[#2997FF]" />
+          <span className="font-mono text-xs font-medium text-[#F5F5F7]">{fileName}</span>
+          <span className="rounded-md bg-white/[0.08] px-2 py-0.5 text-[10px] font-mono text-[#86868B]">
             {lines.length} lines • {(new TextEncoder().encode(code).length / 1024).toFixed(1)} KB
           </span>
         </div>
@@ -56,7 +56,7 @@ export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
           <button
             onClick={handleDownload}
             title="Download .tsx file"
-            className="flex items-center gap-1.5 rounded-lg border border-zinc-700/60 bg-zinc-800/80 px-2.5 py-1.5 text-xs font-medium text-zinc-300 hover:bg-zinc-700 hover:text-white transition"
+            className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] px-2.5 py-1.5 text-xs font-medium text-[#F5F5F7] hover:bg-white/[0.08] transition active:scale-[0.97]"
           >
             <Download className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Download</span>
@@ -64,8 +64,10 @@ export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
           <button
             onClick={handleCopy}
             title="Copy component code"
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-              copied ? "bg-emerald-600 text-white" : "bg-blue-600 text-white hover:bg-blue-500 shadow-sm"
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
+              copied
+                ? "bg-emerald-600 text-white"
+                : "bg-[#0071E3] text-white hover:bg-[#0077ED] dark:bg-[#2997FF] dark:text-black dark:hover:bg-[#47A6FF]"
             }`}
           >
             {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
@@ -74,12 +76,12 @@ export function CodeViewer({ code, fileName, onCopy }: CodeViewerProps) {
         </div>
       </div>
 
-      <div className="overflow-x-auto p-4 max-h-[600px] font-mono text-xs leading-relaxed selection:bg-blue-500/40">
+      <div className="overflow-x-auto p-4 max-h-[600px] font-mono text-xs leading-relaxed selection:bg-[#2997FF]/30">
         <pre className="table w-full">
           {lines.map((line, i) => (
-            <div key={i} className="table-row hover:bg-zinc-900/60">
-              <span className="table-cell select-none pr-4 text-right text-zinc-600 text-[11px] w-10">{i + 1}</span>
-              <span className="table-cell whitespace-pre text-zinc-200">{line || " "}</span>
+            <div key={i} className="table-row hover:bg-white/[0.02]">
+              <span className="table-cell select-none pr-4 text-right text-[#86868B]/60 text-[11px] w-10">{i + 1}</span>
+              <span className="table-cell whitespace-pre text-[#F5F5F7]">{line || " "}</span>
             </div>
           ))}
         </pre>

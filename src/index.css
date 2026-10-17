@@ -4,32 +4,96 @@
    uiskill has an explicit theme toggle, so dark: must follow the .dark class. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
+}
+
 @layer base {
   :root {
-    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --bg-canvas: #F5F5F7;
+    --bg-surface: #FFFFFF;
+    --bg-surface-elevated: #FFFFFF;
+    --fg-primary: #1D1D1F;
+    --fg-secondary: #86868B;
+    --fg-tertiary: #A1A1A6;
+    --border-hairline: rgba(0, 0, 0, 0.08);
+    --border-subtle: rgba(0, 0, 0, 0.06);
+    --accent-primary: #0071E3;
+    --accent-hover: #0077ED;
     color-scheme: light;
   }
 
   html.dark {
+    --bg-canvas: #000000;
+    --bg-surface: #161617;
+    --bg-surface-elevated: #1D1D1F;
+    --fg-primary: #F5F5F7;
+    --fg-secondary: #86868B;
+    --fg-tertiary: #6E6E73;
+    --border-hairline: rgba(255, 255, 255, 0.10);
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --accent-primary: #2997FF;
+    --accent-hover: #40A4FF;
     color-scheme: dark;
+  }
+
+  * {
+    border-color: var(--border-hairline);
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: #fafafa;
-    color: #18181b;
-    transition: background-color 180ms ease, color 180ms ease;
-  }
-
-  html.dark body {
-    background-color: #09090b;
-    color: #f4f4f5;
+    background-color: var(--bg-canvas);
+    color: var(--fg-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 200ms cubic-bezier(0.16, 1, 0.3, 1), color 200ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   code, pre, kbd {
     font-family: var(--font-mono);
   }
+}
+
+/* Apple HIG Translucent Material */
+.apple-glass {
+  background-color: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.dark .apple-glass {
+  background-color: rgba(22, 22, 23, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Apple Subtle Ambient Card Elevation */
+.apple-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 4px 16px 0 rgba(0, 0, 0, 0.02);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms ease;
+}
+
+.dark .apple-card {
+  background-color: #161617;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.apple-card:hover {
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.05), 0 8px 24px 0 rgba(0, 0, 0, 0.04);
+}
+
+.dark .apple-card:hover {
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.5), 0 8px 24px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Apple Spring Motion & Transitions */
+.apple-spring {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Animations and helpers used across templates */
@@ -39,17 +103,17 @@
 }
 
 @keyframes zoomIn95 {
-  from { opacity: 0; transform: scale(0.95); }
+  from { opacity: 0; transform: scale(0.96); }
   to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes slideInFromTop2 {
-  from { opacity: 0; transform: translateY(-0.5rem); }
+  from { opacity: 0; transform: translateY(-0.35rem); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-in {
-  animation-duration: 200ms;
+  animation-duration: 180ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   animation-fill-mode: forwards;
 }
@@ -66,7 +130,17 @@
   animation-name: slideInFromTop2;
 }
 
-/* Custom scrollbars */
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom scrollbars - Apple style minimal */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -77,15 +151,15 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(161, 161, 170, 0.3);
+  background: rgba(140, 140, 145, 0.3);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(161, 161, 170, 0.5);
+  background: rgba(140, 140, 145, 0.5);
 }
 
-/* No scrollbar utility for clean pill carousels */
+/* No scrollbar utility */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -94,15 +168,15 @@
   scrollbar-width: none;
 }
 
-/* Blueprint / dot grid background for preview frames */
+/* Blueprint / subtle dot grid background for preview frames */
 .bg-grid-pattern {
   background-size: 20px 20px;
-  background-image: radial-gradient(circle, rgba(161, 161, 170, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.07) 1px, transparent 1px);
 }
 
 .dark .bg-grid-pattern {
   background-size: 20px 20px;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
 }
 
 /* DaisyUI compatibility styles */
@@ -135,34 +209,36 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  border-radius: 0.625rem;
   padding: 0.5rem 1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.97);
 }
 .btn-outline {
-  border: 1px solid rgba(161, 161, 170, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   background: transparent;
 }
-.btn-outline:hover {
-  background: rgba(161, 161, 170, 0.15);
+.dark .btn-outline {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 .btn-primary {
-  background-color: #2563eb;
+  background-color: var(--accent-primary);
   color: #ffffff;
-  border: 1px solid #2563eb;
+  border: 1px solid var(--accent-primary);
 }
 .btn-primary:hover {
-  background-color: #1d4ed8;
-  border-color: #1d4ed8;
+  background-color: var(--accent-hover);
 }
 .btn-sm {
   padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
 }
 .rounded-box {
-  border-radius: 1rem;
+  border-radius: 0.875rem;
 }
 .menu {
   display: flex;
@@ -176,17 +252,20 @@
   transition: background 0.15s;
 }
 .menu li button:hover {
-  background-color: rgba(161, 161, 170, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.dark .menu li button:hover {
+  background-color: rgba(255, 255, 255, 0.08);
 }
 .menu li button.active {
-  background-color: #2563eb;
+  background-color: var(--accent-primary);
   color: #ffffff;
 }
 .bg-base-200 {
-  background-color: #f4f4f5;
-  color: #18181b;
+  background-color: #F5F5F7;
+  color: #1D1D1F;
 }
 .dark .bg-base-200 {
-  background-color: #18181b;
-  color: #f4f4f5;
+  background-color: #161617;
+  color: #F5F5F7;
 }

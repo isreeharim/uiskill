@@ -53,34 +53,34 @@ export function ComponentRow({
   return (
     <div
       onClick={() => onInspect(item)}
-      className="group relative flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-zinc-200/80 bg-white hover:border-zinc-300 hover:bg-zinc-50/70 dark:border-zinc-800/80 dark:bg-zinc-950 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/50 transition-all duration-150 cursor-pointer"
+      className="group relative flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-black/[0.08] bg-white hover:border-black/[0.16] hover:bg-black/[0.01] dark:border-white/[0.08] dark:bg-[#161617] dark:hover:border-white/[0.16] dark:hover:bg-white/[0.02] transition-all duration-150 cursor-pointer"
     >
       {/* Left: Name, Framework, Category, & Description */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0 text-blue-600 dark:text-blue-400 group-hover:scale-105 transition-transform duration-150">
+        <div className="h-8 w-8 rounded-lg bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center shrink-0 text-[#1D1D1F] dark:text-[#F5F5F7] group-hover:scale-105 transition-transform duration-150">
           <Layers className="h-4 w-4" />
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-xs text-zinc-950 dark:text-zinc-50 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <span className="font-semibold text-xs text-[#1D1D1F] dark:text-[#F5F5F7] truncate group-hover:text-[#0071E3] dark:group-hover:text-[#2997FF] transition-colors">
               {item.name}
             </span>
-            <span className="font-mono text-[10px] rounded-md px-1.5 py-0.5 bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 border border-zinc-200/60 dark:border-zinc-700/60 shrink-0">
+            <span className="font-mono text-[10px] rounded-md px-1.5 py-0.5 bg-black/[0.04] text-[#86868B] dark:bg-white/[0.06] dark:text-[#86868B] border border-black/[0.06] dark:border-white/[0.08] shrink-0">
               {item.system}
             </span>
-            <span className="rounded-md px-1.5 py-0.5 text-[10px] font-medium bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/40 shrink-0">
+            <span className="rounded-md px-1.5 py-0.5 text-[10px] font-medium bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#2997FF]/15 dark:text-[#2997FF] border border-[#0071E3]/20 dark:border-[#2997FF]/30 shrink-0">
               {item.category}
             </span>
           </div>
-          <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400 truncate max-w-xl">
+          <p className="mt-0.5 text-[11px] text-[#86868B] truncate max-w-xl">
             {item.description}
           </p>
         </div>
       </div>
 
       {/* Middle: File Name */}
-      <div className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-zinc-400 dark:text-zinc-500 shrink-0">
+      <div className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-[#86868B] shrink-0">
         <FileCode2 className="h-3.5 w-3.5" />
         <span>{item.fileName}</span>
       </div>
@@ -90,7 +90,7 @@ export function ComponentRow({
         <button
           onClick={handleCopyCli}
           title={`Copy install command: ${item.installCommand}`}
-          className="rounded-lg border border-zinc-200 bg-zinc-50 p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+          className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-1.5 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
         >
           {copiedCli ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Terminal className="h-3.5 w-3.5" />}
         </button>
@@ -101,7 +101,7 @@ export function ComponentRow({
           className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
             copiedCode
               ? "bg-emerald-600 text-white"
-              : "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+              : "bg-[#1D1D1F] text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white"
           }`}
         >
           {copiedCode ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
@@ -111,7 +111,7 @@ export function ComponentRow({
         <button
           onClick={() => onInspect(item)}
           title="Inspect component in sandbox"
-          className="rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+          className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-1.5 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
         >
           <Maximize2 className="h-3.5 w-3.5" />
         </button>
@@ -176,26 +176,26 @@ export function ComponentCard({
     <div
       ref={cardRef}
       onMouseLeave={handleMouseLeave}
-      className="group relative flex flex-col rounded-2xl border border-zinc-200/80 bg-white shadow-xs transition-all duration-200 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800/80 dark:bg-zinc-950 dark:hover:border-zinc-700/80 overflow-hidden"
+      className="apple-card group relative flex flex-col rounded-2xl border border-black/[0.08] bg-white dark:border-white/[0.08] dark:bg-[#161617] overflow-hidden"
     >
-      {/* Card Header: Linear/Raycast Precision */}
-      <div className="flex items-start justify-between border-b border-zinc-100 p-4 dark:border-zinc-800/60">
+      {/* Card Header */}
+      <div className="flex items-start justify-between border-b border-black/[0.06] p-4 dark:border-white/[0.06]">
         <div className="min-w-0 flex-1 mr-2">
           {/* Badges */}
           <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
-            <span className="font-mono text-[10px] font-medium rounded-md px-2 py-0.5 bg-zinc-100 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 border border-zinc-200/60 dark:border-zinc-700/60">
+            <span className="font-mono text-[10px] font-medium rounded-md px-2 py-0.5 bg-black/[0.04] text-[#86868B] dark:bg-white/[0.06] dark:text-[#86868B] border border-black/[0.06] dark:border-white/[0.08]">
               {item.system}
             </span>
-            <span className="rounded-md px-2 py-0.5 text-[10px] font-semibold bg-blue-50/80 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/40">
+            <span className="rounded-md px-2 py-0.5 text-[10px] font-medium bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#2997FF]/15 dark:text-[#2997FF] border border-[#0071E3]/20 dark:border-[#2997FF]/30">
               {item.category}
             </span>
           </div>
 
           {/* Title & Description */}
-          <h3 className="text-sm font-semibold tracking-tight text-zinc-950 dark:text-zinc-50 truncate">
+          <h3 className="text-sm font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7] truncate">
             {item.name}
           </h3>
-          <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 leading-relaxed">
+          <p className="mt-0.5 text-xs text-[#86868B] line-clamp-1 leading-relaxed">
             {item.description}
           </p>
         </div>
@@ -206,7 +206,7 @@ export function ComponentCard({
             onClick={handleCopyCli}
             title={`Copy install command: ${item.installCommand}`}
             aria-label="Copy install CLI"
-            className="rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+            className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-2 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
           >
             {copiedCli ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Terminal className="h-3.5 w-3.5" />}
           </button>
@@ -217,7 +217,7 @@ export function ComponentCard({
             className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
               copiedCode
                 ? "bg-emerald-600 text-white"
-                : "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white shadow-xs"
+                : "bg-[#1D1D1F] text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white shadow-xs"
             }`}
           >
             {copiedCode ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
@@ -228,7 +228,7 @@ export function ComponentCard({
             onClick={() => onInspect(item)}
             title="Inspect in full view"
             aria-label="Inspect component"
-            className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+            className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-2 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
           >
             <Maximize2 className="h-3.5 w-3.5" />
           </button>
@@ -242,7 +242,7 @@ export function ComponentCard({
         the page over tables, sliders, and nested lists without wheel-jacking!
         Clicking 'Interact' unlocks the live stage or clicking the inspect banner opens the sandbox.
       */}
-      <div className="relative h-[224px] w-full overflow-hidden bg-zinc-50/50 dark:bg-zinc-900/25 border-b border-zinc-100 dark:border-zinc-800/60 select-none">
+      <div className="relative h-[224px] w-full overflow-hidden bg-[#F5F5F7]/70 dark:bg-[#000000]/40 border-b border-black/[0.06] dark:border-white/[0.06] select-none">
         {/* Subtle grid pattern background */}
         <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
 
@@ -266,16 +266,16 @@ export function ComponentCard({
               className="flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 backdrop-blur-md hover:bg-emerald-500/20 transition active:scale-[0.97]"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Interactive Active</span>
+              <span>Interactive</span>
               <Lock className="h-2.5 w-2.5 ml-0.5 text-emerald-600 dark:text-emerald-400" />
             </button>
           ) : (
             <button
               onClick={() => setIsInteractive(true)}
               title="Click to interact with inputs, sliders, and buttons inside preview"
-              className="flex items-center gap-1 rounded-full bg-white/90 border border-zinc-200/80 px-2 py-0.5 text-[10px] font-medium text-zinc-600 dark:bg-zinc-900/90 dark:border-zinc-800 dark:text-zinc-400 backdrop-blur-md opacity-80 group-hover:opacity-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition active:scale-[0.97]"
+              className="flex items-center gap-1 rounded-full bg-white/90 border border-black/[0.08] px-2 py-0.5 text-[10px] font-medium text-[#1D1D1F] dark:bg-[#161617]/90 dark:border-white/[0.1] dark:text-[#F5F5F7] backdrop-blur-md opacity-80 group-hover:opacity-100 hover:bg-white dark:hover:bg-[#161617] transition active:scale-[0.97]"
             >
-              <MousePointer2 className="h-2.5 w-2.5 text-blue-500" />
+              <MousePointer2 className="h-2.5 w-2.5 text-[#0071E3] dark:text-[#2997FF]" />
               <span>Interact</span>
             </button>
           )}
@@ -285,10 +285,10 @@ export function ComponentCard({
         {!isInteractive && (
           <div
             onClick={() => onInspect(item)}
-            className="absolute inset-x-0 bottom-0 py-2 bg-gradient-to-t from-zinc-950/40 via-zinc-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer"
+            className="absolute inset-x-0 bottom-0 py-2 bg-gradient-to-t from-black/30 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer"
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-medium text-zinc-900 shadow-md backdrop-blur-md dark:bg-zinc-900/95 dark:text-zinc-100 border border-zinc-200/60 dark:border-zinc-800/80 transition active:scale-[0.97]">
-              <Maximize2 className="h-3 w-3 text-blue-500" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-medium text-[#1D1D1F] shadow-sm backdrop-blur-md dark:bg-[#161617]/95 dark:text-[#F5F5F7] border border-black/[0.08] dark:border-white/[0.1] transition active:scale-[0.97]">
+              <Maximize2 className="h-3 w-3 text-[#0071E3] dark:text-[#2997FF]" />
               <span>Click card to open full Sandbox</span>
             </span>
           </div>
@@ -296,21 +296,21 @@ export function ComponentCard({
       </div>
 
       {/* Card Footer: Metadata & Direct Inspect Link */}
-      <div className="flex items-center justify-between px-4 py-2.5 text-[11px] text-zinc-400 dark:text-zinc-500 bg-white dark:bg-zinc-950">
+      <div className="flex items-center justify-between px-4 py-2.5 text-[11px] text-[#86868B] bg-white dark:bg-[#161617]">
         <div className="flex items-center gap-1.5 font-mono text-[10px]">
-          <FileCode2 className="h-3 w-3 text-zinc-400" />
-          <span className="text-zinc-500 dark:text-zinc-400">{item.fileName}</span>
+          <FileCode2 className="h-3 w-3 text-[#86868B]" />
+          <span className="text-[#86868B]">{item.fileName}</span>
         </div>
 
         <div className="flex items-center gap-2">
           {item.tags.slice(0, 2).map((tag) => (
-            <span key={tag} className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500">
+            <span key={tag} className="font-mono text-[10px] text-[#86868B]">
               #{tag}
             </span>
           ))}
           <button
             onClick={() => onInspect(item)}
-            className="text-[11px] font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 ml-1 transition"
+            className="text-[11px] font-medium text-[#0071E3] hover:underline dark:text-[#2997FF] ml-1 transition"
           >
             Inspect ➔
           </button>

@@ -24,50 +24,52 @@ export interface SkillCardProps {
   density?: "grid" | "list"
 }
 
-// Domain styling and icons with subtle, refined palette
+// Domain styling and icons with subtle, refined Apple palette
 function getCategoryTheme(category: string) {
+  const baseBadge = "bg-black/[0.04] text-[#1D1D1F] dark:bg-white/[0.06] dark:text-[#F5F5F7] border border-black/[0.06] dark:border-white/[0.08]"
+
   switch (category) {
     case "UI, Design & Motion":
       return {
         icon: Sparkles,
-        badgeBg: "bg-purple-50 text-purple-600 dark:bg-purple-950/50 dark:text-purple-400 border-purple-200/60 dark:border-purple-800/50",
-        iconColor: "text-purple-500",
+        badgeBg: baseBadge,
+        iconColor: "text-[#0071E3] dark:text-[#2997FF]",
       }
     case "Architecture & Code Review":
       return {
         icon: ShieldCheck,
-        badgeBg: "bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400 border-blue-200/60 dark:border-blue-800/50",
-        iconColor: "text-blue-500",
+        badgeBg: baseBadge,
+        iconColor: "text-[#0071E3] dark:text-[#2997FF]",
       }
     case "Debugging & Performance":
       return {
         icon: Bug,
-        badgeBg: "bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400 border-amber-200/60 dark:border-amber-800/50",
-        iconColor: "text-amber-500",
+        badgeBg: baseBadge,
+        iconColor: "text-[#86868B]",
       }
     case "Testing & QA Automation":
       return {
         icon: CheckCircle2,
-        badgeBg: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400 border-emerald-200/60 dark:border-emerald-800/50",
+        badgeBg: baseBadge,
         iconColor: "text-emerald-500",
       }
     case "Product & Planning":
       return {
         icon: Compass,
-        badgeBg: "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400 border-indigo-200/60 dark:border-indigo-800/50",
-        iconColor: "text-indigo-500",
+        badgeBg: baseBadge,
+        iconColor: "text-[#0071E3] dark:text-[#2997FF]",
       }
     case "Workflows & Agent Ops":
       return {
         icon: Workflow,
-        badgeBg: "bg-teal-50 text-teal-600 dark:bg-teal-950/50 dark:text-teal-400 border-teal-200/60 dark:border-teal-800/50",
-        iconColor: "text-teal-500",
+        badgeBg: baseBadge,
+        iconColor: "text-[#86868B]",
       }
     default:
       return {
         icon: Cpu,
-        badgeBg: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 border-zinc-200/60 dark:border-zinc-700/60",
-        iconColor: "text-zinc-500",
+        badgeBg: baseBadge,
+        iconColor: "text-[#86868B]",
       }
   }
 }
@@ -107,35 +109,35 @@ export function SkillRow({
   return (
     <div
       onClick={() => onInspect(skill)}
-      className="group relative flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-zinc-200/80 bg-white hover:border-zinc-300 hover:bg-zinc-50/70 dark:border-zinc-800/80 dark:bg-zinc-950 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/50 transition-all duration-150 cursor-pointer"
+      className="group relative flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-black/[0.08] bg-white hover:border-black/[0.16] hover:bg-black/[0.01] dark:border-white/[0.08] dark:bg-[#161617] dark:hover:border-white/[0.16] dark:hover:bg-white/[0.02] transition-all duration-150 cursor-pointer"
     >
       {/* Left: Domain Icon, Identifier & Badges */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className={`h-8 w-8 rounded-lg bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center shrink-0 ${iconColor} group-hover:scale-105 transition-transform duration-150`}>
+        <div className={`h-8 w-8 rounded-lg bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center shrink-0 ${iconColor} group-hover:scale-105 transition-transform duration-150`}>
           <CategoryIcon className="h-4 w-4" />
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono font-semibold text-xs text-zinc-950 dark:text-zinc-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <span className="font-mono font-semibold text-xs text-[#1D1D1F] dark:text-[#F5F5F7] group-hover:text-[#0071E3] dark:group-hover:text-[#2997FF] transition-colors">
               {skill.name}
             </span>
             <span className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-medium border ${badgeBg} shrink-0`}>
               <span>{skill.category}</span>
             </span>
-            <span className="font-mono text-[10px] rounded-md px-1.5 py-0.5 bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60 shrink-0">
+            <span className="font-mono text-[10px] rounded-md px-1.5 py-0.5 bg-black/[0.04] text-[#86868B] dark:bg-white/[0.06] dark:text-[#86868B] border border-black/[0.06] dark:border-white/[0.08] shrink-0">
               {skill.sourceType}
             </span>
           </div>
-          <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400 truncate max-w-xl">
+          <p className="mt-0.5 text-[11px] text-[#86868B] truncate max-w-xl">
             {skill.description}
           </p>
         </div>
       </div>
 
       {/* Middle: Short prompt snippet */}
-      <div className="hidden xl:flex items-center gap-1.5 text-[11px] font-mono text-zinc-400 dark:text-zinc-500 shrink-0 max-w-xs truncate">
-        <Terminal className="h-3.5 w-3.5 text-zinc-400 shrink-0" />
+      <div className="hidden xl:flex items-center gap-1.5 text-[11px] font-mono text-[#86868B] shrink-0 max-w-xs truncate">
+        <Terminal className="h-3.5 w-3.5 text-[#86868B] shrink-0" />
         <span className="truncate">{skill.activationPrompt}</span>
       </div>
 
@@ -144,7 +146,7 @@ export function SkillRow({
         <button
           onClick={handleCopyPath}
           title={`Copy skill path: ${skill.path}`}
-          className="rounded-lg border border-zinc-200 bg-zinc-50 p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+          className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-1.5 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
         >
           {copiedPath ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <FolderOpen className="h-3.5 w-3.5" />}
         </button>
@@ -155,7 +157,7 @@ export function SkillRow({
           className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
             copiedPrompt
               ? "bg-emerald-600 text-white"
-              : "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+              : "bg-[#1D1D1F] text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white"
           }`}
         >
           {copiedPrompt ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
@@ -165,7 +167,7 @@ export function SkillRow({
         <button
           onClick={() => onInspect(skill)}
           title="View full guidelines and instructions"
-          className="rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+          className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-1.5 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
         >
           <BookOpen className="h-3.5 w-3.5" />
         </button>
@@ -175,7 +177,7 @@ export function SkillRow({
 }
 
 /**
- * Precision Skill Card modeled after GitHub & Raycast extension cards
+ * Precision Skill Card modeled after Apple HIG guidelines
  */
 export function SkillCard({
   skill,
@@ -199,7 +201,7 @@ export function SkillCard({
 
   const [copiedPrompt, setCopiedPrompt] = useState(false)
   const [copiedPath, setCopiedPath] = useState(false)
-  const { icon: CategoryIcon, badgeBg } = getCategoryTheme(skill.category)
+  const { icon: CategoryIcon, badgeBg, iconColor } = getCategoryTheme(skill.category)
 
   const handleCopyPrompt = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -220,20 +222,20 @@ export function SkillCard({
   return (
     <div
       onClick={() => onInspect(skill)}
-      className="group relative flex flex-col justify-between rounded-2xl border border-zinc-200/80 bg-white shadow-xs transition-all duration-200 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800/80 dark:bg-zinc-950 dark:hover:border-zinc-700/80 overflow-hidden cursor-pointer h-[320px]"
+      className="apple-card group relative flex flex-col justify-between rounded-2xl border border-black/[0.08] bg-white dark:border-white/[0.08] dark:bg-[#161617] overflow-hidden cursor-pointer h-[320px]"
     >
       {/* Top Header */}
-      <div className="p-4 border-b border-zinc-100 dark:border-zinc-800/60">
+      <div className="p-4 border-b border-black/[0.06] dark:border-white/[0.06]">
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="flex flex-wrap items-center gap-1.5">
             <span
-              className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[10px] font-semibold ${badgeBg}`}
+              className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-medium ${badgeBg}`}
             >
-              <CategoryIcon className="h-3 w-3" />
+              <CategoryIcon className={`h-3 w-3 ${iconColor}`} />
               <span>{skill.category}</span>
             </span>
 
-            <span className="font-mono text-[10px] rounded-md px-1.5 py-0.5 bg-zinc-100 text-zinc-600 dark:bg-zinc-800/80 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60">
+            <span className="font-mono text-[10px] rounded-md px-1.5 py-0.5 bg-black/[0.04] text-[#86868B] dark:bg-white/[0.06] dark:text-[#86868B] border border-black/[0.06] dark:border-white/[0.08]">
               {skill.sourceType}
             </span>
           </div>
@@ -244,15 +246,16 @@ export function SkillCard({
               onClick={handleCopyPath}
               title={`Copy skill path: ${skill.path}`}
               aria-label="Copy skill path"
-              className="rounded-lg border border-zinc-200 bg-zinc-50 p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+              className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-1.5 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
             >
               {copiedPath ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <FolderOpen className="h-3.5 w-3.5" />}
             </button>
+
             <button
               onClick={() => onInspect(skill)}
               title="Inspect guidelines and instructions"
               aria-label="Inspect guidelines"
-              className="rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition active:scale-[0.97]"
+              className="rounded-lg border border-black/[0.08] bg-black/[0.02] p-1.5 text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#86868B] dark:hover:text-[#F5F5F7] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>
@@ -260,27 +263,27 @@ export function SkillCard({
         </div>
 
         {/* Skill Name */}
-        <h3 className="text-sm font-bold font-mono tracking-tight text-zinc-950 dark:text-zinc-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+        <h3 className="text-sm font-semibold font-mono tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7] group-hover:text-[#0071E3] dark:group-hover:text-[#2997FF] transition-colors truncate">
           {skill.name}
         </h3>
 
         {/* Description */}
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-2">
+        <p className="mt-1 text-xs text-[#86868B] leading-relaxed line-clamp-2">
           {skill.description}
         </p>
       </div>
 
       {/* Middle Interactive Activation Box */}
-      <div className="p-3.5 bg-zinc-50/50 dark:bg-zinc-900/30 border-b border-zinc-100 dark:border-zinc-800/60 flex-1 flex flex-col justify-between">
+      <div className="p-3.5 bg-[#F5F5F7]/60 dark:bg-[#000000]/30 border-b border-black/[0.06] dark:border-white/[0.06] flex-1 flex flex-col justify-between">
         <div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1.5">
-            <span className="flex items-center gap-1">
-              <Terminal className="h-3 w-3 text-blue-500" />
+          <div className="flex items-center justify-between text-[10px] font-mono text-[#86868B] uppercase tracking-wider mb-1.5">
+            <span className="flex items-center gap-1.5">
+              <Terminal className="h-3 w-3 text-[#0071E3] dark:text-[#2997FF]" />
               <span>Activation Prompt</span>
             </span>
-            <span className="text-[10px] text-zinc-400">1-Click</span>
+            <span className="text-[10px] text-[#86868B]">1-Click</span>
           </div>
-          <div className="rounded-lg border border-zinc-200/80 bg-white p-2 font-mono text-[11px] text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 line-clamp-2 select-all leading-snug">
+          <div className="rounded-xl border border-black/[0.08] bg-white p-2.5 font-mono text-[11px] text-[#1D1D1F] dark:border-white/[0.08] dark:bg-[#161617] dark:text-[#F5F5F7] line-clamp-2 select-all leading-snug">
             {skill.activationPrompt}
           </div>
         </div>
@@ -290,7 +293,7 @@ export function SkillCard({
           {skill.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="rounded-md bg-zinc-100 px-1.5 py-0.5 text-[10px] font-mono text-zinc-500 dark:bg-zinc-800/80 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-800"
+              className="rounded-md bg-black/[0.04] px-1.5 py-0.5 text-[10px] font-mono text-[#86868B] dark:bg-white/[0.06] dark:text-[#86868B] border border-black/[0.06] dark:border-white/[0.08]"
             >
               #{tag}
             </span>
@@ -299,12 +302,12 @@ export function SkillCard({
       </div>
 
       {/* Card Footer Actions */}
-      <div className="p-3 bg-white dark:bg-zinc-950 flex items-center justify-between gap-2" onClick={(e) => e.stopPropagation()}>
+      <div className="p-3 bg-white dark:bg-[#161617] flex items-center justify-between gap-2" onClick={(e) => e.stopPropagation()}>
         <button
           onClick={() => onInspect(skill)}
-          className="flex items-center gap-1.5 text-xs font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition px-1 py-1"
+          className="flex items-center gap-1.5 text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition px-1 py-1"
         >
-          <BookOpen className="h-3.5 w-3.5 text-zinc-400" />
+          <BookOpen className="h-3.5 w-3.5 text-[#86868B]" />
           <span>View Guidelines</span>
         </button>
 
@@ -313,7 +316,7 @@ export function SkillCard({
           className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold shadow-xs transition active:scale-[0.97] ${
             copiedPrompt
               ? "bg-emerald-600 text-white"
-              : "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+              : "bg-[#1D1D1F] text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white"
           }`}
         >
           {copiedPrompt ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}

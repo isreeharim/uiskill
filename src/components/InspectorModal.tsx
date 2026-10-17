@@ -114,24 +114,24 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/40 dark:bg-black/60 backdrop-blur-xl animate-in fade-in duration-200"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative flex flex-col h-full max-h-[92vh] w-full max-w-6xl rounded-3xl border border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-950 overflow-hidden"
+        className="relative flex flex-col h-full max-h-[92vh] w-full max-w-6xl rounded-2xl border border-black/[0.1] dark:border-white/[0.12] bg-white dark:bg-[#161617] shadow-2xl overflow-hidden"
       >
-        <div className="shrink-0 border-b border-zinc-200 p-4 sm:px-6 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+        <div className="shrink-0 border-b border-black/[0.06] dark:border-white/[0.06] p-4 sm:px-6 bg-white dark:bg-[#161617]">
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+                <span className="rounded-md bg-[#0071E3]/10 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-[#0071E3] dark:bg-[#2997FF]/15 dark:text-[#2997FF] border border-[#0071E3]/20 dark:border-[#2997FF]/30">
                   {item.category}
                 </span>
-                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[10px] sm:text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                <span className="rounded-md bg-black/[0.04] px-2 py-0.5 text-[10px] sm:text-xs font-mono text-[#86868B] dark:bg-white/[0.06] dark:text-[#86868B] border border-black/[0.06] dark:border-white/[0.08]">
                   {item.system}
                 </span>
               </div>
-              <h2 className="text-base sm:text-xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50 truncate mt-1">
+              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7] truncate mt-1">
                 {item.name}
               </h2>
             </div>
@@ -139,81 +139,144 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
             <button
               onClick={onClose}
               aria-label="Close inspector"
-              className="shrink-0 rounded-xl border border-zinc-200 p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:border-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition"
+              className="shrink-0 w-7 h-7 rounded-full bg-black/[0.05] dark:bg-white/[0.08] hover:bg-black/[0.1] dark:hover:bg-white/[0.14] text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] flex items-center justify-center transition-all active:scale-[0.95]"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-zinc-100 dark:border-zinc-900">
-            <div className="flex items-center rounded-xl border border-zinc-200 bg-zinc-100 p-1 dark:border-zinc-800 dark:bg-zinc-900">
-              <button onClick={() => setActiveTab("preview")} className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${activeTab === "preview" ? "bg-white text-zinc-950 shadow-xs dark:bg-zinc-800 dark:text-zinc-50" : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"}`}>
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-black/[0.04] dark:border-white/[0.04]">
+            {/* macOS Segmented Tab Switcher */}
+            <div className="flex items-center rounded-lg bg-black/[0.05] dark:bg-white/[0.08] p-0.5 border border-black/[0.04] dark:border-white/[0.06]">
+              <button
+                onClick={() => setActiveTab("preview")}
+                className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
+                  activeTab === "preview"
+                    ? "bg-white text-[#1D1D1F] shadow-xs dark:bg-[#2C2C2E] dark:text-[#F5F5F7]"
+                    : "text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
+                }`}
+              >
                 <Eye className="h-3.5 w-3.5" />
                 <span>Preview</span>
               </button>
-              <button onClick={() => setActiveTab("code")} className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${activeTab === "code" ? "bg-white text-zinc-950 shadow-xs dark:bg-zinc-800 dark:text-zinc-50" : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"}`}>
+              <button
+                onClick={() => setActiveTab("code")}
+                className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
+                  activeTab === "code"
+                    ? "bg-white text-[#1D1D1F] shadow-xs dark:bg-[#2C2C2E] dark:text-[#F5F5F7]"
+                    : "text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
+                }`}
+              >
                 <Code2 className="h-3.5 w-3.5" />
                 <span>Source Code</span>
               </button>
-              <button onClick={() => setActiveTab("docs")} className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${activeTab === "docs" ? "bg-white text-zinc-950 shadow-xs dark:bg-zinc-800 dark:text-zinc-50" : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"}`}>
+              <button
+                onClick={() => setActiveTab("docs")}
+                className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition active:scale-[0.98] ${
+                  activeTab === "docs"
+                    ? "bg-white text-[#1D1D1F] shadow-xs dark:bg-[#2C2C2E] dark:text-[#F5F5F7]"
+                    : "text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
+                }`}
+              >
                 <FileText className="h-3.5 w-3.5" />
                 <span>Integration</span>
               </button>
             </div>
 
             <div className="flex items-center gap-2 ml-auto">
-              <button onClick={handleCopyCli} title={`Copy install: ${item.installCommand}`} className="hidden md:flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-50 px-2.5 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition">
-                <Terminal className="h-3.5 w-3.5 text-blue-500" />
+              <button
+                onClick={handleCopyCli}
+                title={`Copy install: ${item.installCommand}`}
+                className="hidden md:flex items-center gap-1.5 rounded-lg border border-black/[0.08] bg-black/[0.02] dark:border-white/[0.08] dark:bg-white/[0.03] px-2.5 py-1.5 text-xs font-medium text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
+              >
+                <Terminal className="h-3.5 w-3.5 text-[#0071E3] dark:text-[#2997FF]" />
                 <span className="font-mono text-[11px]">{item.installCommand}</span>
                 {copiedCli ? <Check className="h-3 w-3 text-emerald-500" /> : null}
               </button>
 
-              <button onClick={handleDownload} title="Download component .tsx" className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 transition">
+              <button
+                onClick={handleDownload}
+                title="Download component .tsx"
+                className="flex items-center gap-1.5 rounded-lg border border-black/[0.08] bg-black/[0.02] dark:border-white/[0.08] dark:bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
+              >
                 <Download className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Download</span>
               </button>
 
-              <button onClick={handleCopyCode} className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-semibold transition ${copiedCode ? "bg-emerald-600 text-white" : "bg-blue-600 text-white hover:bg-blue-500 shadow-sm shadow-blue-500/20 active:scale-95"}`}>
+              <button
+                onClick={handleCopyCode}
+                className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${
+                  copiedCode
+                    ? "bg-emerald-600 text-white"
+                    : "bg-[#0071E3] text-white hover:bg-[#0077ED] dark:bg-[#2997FF] dark:text-black dark:hover:bg-[#47A6FF]"
+                }`}
+              >
                 {copiedCode ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                <span>{copiedCode ? "Copied!" : "Copy Code"}</span>
+                <span>{copiedCode ? "Copied" : "Copy Code"}</span>
               </button>
             </div>
           </div>
         </div>
 
         {activeTab === "preview" && (
-          <div className="shrink-0 flex items-center justify-between border-b border-zinc-200 bg-zinc-50/70 px-4 sm:px-6 py-2 dark:border-zinc-800/80 dark:bg-zinc-900/40 overflow-x-auto no-scrollbar">
+          <div className="shrink-0 flex items-center justify-between border-b border-black/[0.06] dark:border-white/[0.06] bg-[#F5F5F7]/80 px-4 sm:px-6 py-2 dark:bg-[#161617]/50 overflow-x-auto no-scrollbar">
             <div className="flex items-center gap-1 shrink-0">
-              <span className="text-[11px] font-semibold text-zinc-400 mr-1 sm:mr-2 uppercase tracking-wider">Viewport:</span>
-              <button onClick={() => setViewport("desktop")} className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium transition ${viewport === "desktop" ? "bg-white text-zinc-900 shadow-xs dark:bg-zinc-800 dark:text-zinc-100 font-semibold" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"}`}>
-                <Monitor className="h-3.5 w-3.5" />
-                <span>Desktop</span>
-              </button>
-              <button onClick={() => setViewport("tablet")} className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium transition ${viewport === "tablet" ? "bg-white text-zinc-900 shadow-xs dark:bg-zinc-800 dark:text-zinc-100 font-semibold" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"}`}>
-                <Tablet className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Tablet (768px)</span>
-                <span className="sm:hidden">Tablet</span>
-              </button>
-              <button onClick={() => setViewport("mobile")} className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium transition ${viewport === "mobile" ? "bg-white text-zinc-900 shadow-xs dark:bg-zinc-800 dark:text-zinc-100 font-semibold" : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"}`}>
-                <Smartphone className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Mobile (390px)</span>
-                <span className="sm:hidden">Mobile</span>
-              </button>
+              <span className="text-[11px] font-semibold text-[#86868B] mr-1 sm:mr-2 uppercase tracking-wider">Viewport:</span>
+              <div className="flex items-center rounded-lg bg-black/[0.05] dark:bg-white/[0.08] p-0.5 border border-black/[0.04] dark:border-white/[0.06]">
+                <button
+                  onClick={() => setViewport("desktop")}
+                  className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition ${
+                    viewport === "desktop"
+                      ? "bg-white text-[#1D1D1F] shadow-xs dark:bg-[#2C2C2E] dark:text-[#F5F5F7] font-semibold"
+                      : "text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
+                  }`}
+                >
+                  <Monitor className="h-3.5 w-3.5" />
+                  <span>Desktop</span>
+                </button>
+                <button
+                  onClick={() => setViewport("tablet")}
+                  className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition ${
+                    viewport === "tablet"
+                      ? "bg-white text-[#1D1D1F] shadow-xs dark:bg-[#2C2C2E] dark:text-[#F5F5F7] font-semibold"
+                      : "text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
+                  }`}
+                >
+                  <Tablet className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Tablet (768px)</span>
+                  <span className="sm:hidden">Tablet</span>
+                </button>
+                <button
+                  onClick={() => setViewport("mobile")}
+                  className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition ${
+                    viewport === "mobile"
+                      ? "bg-white text-[#1D1D1F] shadow-xs dark:bg-[#2C2C2E] dark:text-[#F5F5F7] font-semibold"
+                      : "text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
+                  }`}
+                >
+                  <Smartphone className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Mobile (390px)</span>
+                  <span className="sm:hidden">Mobile</span>
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0 ml-4">
-              <button onClick={() => setPreviewDark(!previewDark)} className="flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 transition">
-                {previewDark ? <Sun className="h-3.5 w-3.5 text-amber-400" /> : <Moon className="h-3.5 w-3.5" />}
+              <button
+                onClick={() => setPreviewDark(!previewDark)}
+                className="flex items-center gap-1.5 rounded-lg border border-black/[0.08] bg-black/[0.02] dark:border-white/[0.08] dark:bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]"
+              >
+                {previewDark ? <Sun className="h-3.5 w-3.5 text-amber-500" /> : <Moon className="h-3.5 w-3.5 text-[#86868B]" />}
                 <span className="hidden sm:inline">{previewDark ? "Light Canvas" : "Dark Canvas"}</span>
               </button>
             </div>
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-zinc-100/50 dark:bg-zinc-950/60">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#F5F5F7]/50 dark:bg-[#000000]/60">
           {activeTab === "preview" && (
             <div className="flex min-h-full items-center justify-center">
-              <div className={`transition-all duration-300 mx-auto ${getViewportWidthClass()} ${previewDark ? "dark bg-zinc-950 text-zinc-50" : "bg-white text-zinc-900"} rounded-2xl p-4 sm:p-8 shadow-sm border border-zinc-200/80 dark:border-zinc-800/80 overflow-x-auto`}>
+              <div className={`transition-all duration-300 mx-auto ${getViewportWidthClass()} ${previewDark ? "dark bg-[#161617] text-[#F5F5F7]" : "bg-white text-[#1D1D1F]"} rounded-2xl p-4 sm:p-8 shadow-sm border border-black/[0.08] dark:border-white/[0.08] overflow-x-auto`}>
                 <Component />
               </div>
             </div>
@@ -227,16 +290,16 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
 
           {activeTab === "docs" && (
             <div className="max-w-3xl mx-auto space-y-6 py-4">
-              <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-                <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-sm mb-2">
+              <div className="rounded-2xl border border-black/[0.08] bg-white p-6 dark:border-white/[0.08] dark:bg-[#161617]">
+                <div className="flex items-center gap-2 text-[#0071E3] dark:text-[#2997FF] font-semibold text-sm mb-2">
                   <Sparkles className="h-4 w-4" />
-                  <span>Design System Paradigm: {item.system}</span>
+                  <span>Design Paradigm: {item.system}</span>
                 </div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">{item.description}</p>
+                <p className="text-sm text-[#86868B] leading-relaxed">{item.description}</p>
 
                 <div className="mt-5 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400">Target File Destination</h4>
-                  <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 font-mono text-xs text-zinc-800 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-[#86868B]">Target File Destination</h4>
+                  <div className="flex items-center justify-between rounded-xl border border-black/[0.08] bg-black/[0.02] px-4 py-2.5 font-mono text-xs text-[#1D1D1F] dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-[#F5F5F7]">
                     <span>{item.fileName}</span>
                     <button
                       onClick={async () => {
@@ -244,7 +307,7 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
                         if (copied) onTriggerToast("Copied file path!")
                         else onTriggerToast("Could not copy file path", "Clipboard access was unavailable.")
                       }}
-                      className="text-blue-600 hover:underline dark:text-blue-400"
+                      className="text-[#0071E3] hover:underline dark:text-[#2997FF]"
                     >
                       Copy Path
                     </button>
@@ -252,26 +315,26 @@ export function InspectorModal({ item, onClose, onTriggerToast }: InspectorModal
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-                <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-3">1. Install Required Dependencies</h3>
-                <div className="flex items-center justify-between rounded-xl bg-zinc-950 p-4 font-mono text-xs text-zinc-200">
+              <div className="rounded-2xl border border-black/[0.08] bg-white p-6 dark:border-white/[0.08] dark:bg-[#161617]">
+                <h3 className="text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7] mb-3">1. Install Required Dependencies</h3>
+                <div className="flex items-center justify-between rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.06] p-4 font-mono text-xs text-[#1D1D1F] dark:text-[#F5F5F7]">
                   <span>{item.installCommand}</span>
-                  <button onClick={handleCopyCli} className="rounded-lg bg-zinc-800 px-2.5 py-1 text-xs text-zinc-300 hover:bg-zinc-700 hover:text-white transition">Copy</button>
+                  <button onClick={handleCopyCli} className="rounded-lg border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#161617] px-2.5 py-1 text-xs text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition active:scale-[0.97]">Copy</button>
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-                <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-2">2. Next.js / React Server Components Compliance</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed mb-3">
+              <div className="rounded-2xl border border-black/[0.08] bg-white p-6 dark:border-white/[0.08] dark:bg-[#161617]">
+                <h3 className="text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7] mb-2">2. Next.js / React Server Components Compliance</h3>
+                <p className="text-xs text-[#86868B] leading-relaxed mb-3">
                   This component uses interactive React hooks (<code>useState</code>, <code>useEffect</code>). Always ensure the top of your file includes the directive:
                 </p>
-                <pre className="rounded-xl bg-zinc-950 p-3 font-mono text-xs text-blue-400">"use client"</pre>
+                <pre className="rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.06] p-3 font-mono text-xs text-[#0071E3] dark:text-[#2997FF]">"use client"</pre>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-medium text-zinc-400">Tagged:</span>
+                <span className="text-xs font-medium text-[#86868B]">Tagged:</span>
                 {item.tags.map((tag) => (
-                  <span key={tag} className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 font-mono text-[11px] text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+                  <span key={tag} className="rounded-lg border border-black/[0.08] bg-black/[0.02] px-2.5 py-1 font-mono text-[11px] text-[#86868B] dark:border-white/[0.08] dark:bg-white/[0.03]">
                     #{tag}
                   </span>
                 ))}
