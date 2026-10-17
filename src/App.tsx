@@ -449,7 +449,7 @@ export function App() {
                 <span className="text-[#86868B]/40">·</span>
                 <span>53 Live UI Templates</span>
                 <span className="text-[#86868B]/40">·</span>
-                <span>93 Certified Agent Skills</span>
+                <span>93 Agent Skills</span>
               </p>
               <div className="flex items-center gap-4 text-xs">
                 <button

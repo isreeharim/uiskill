@@ -290,18 +290,6 @@ export function Sidebar({
         </div>
       </div>
 
-      {/* AgentSkills Standard pill */}
-      <div className="mt-4 pt-3 border-t border-black/[0.08] dark:border-white/[0.08]">
-        <div className="rounded-xl border border-black/[0.08] bg-black/[0.02] p-2.5 text-[11px] dark:border-white/[0.08] dark:bg-white/[0.03]">
-          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
-            <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-            <span>AgentSkills Certified</span>
-          </div>
-          <p className="mt-0.5 text-[10px] text-[#86868B] leading-tight">
-            93 tools across UI, Design, QA, Architecture & Workflows.
-          </p>
-        </div>
-      </div>
     </aside>
   )
 }
