@@ -52,7 +52,7 @@ export function Header({
 }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-black/[0.08] dark:border-white/[0.08] apple-glass transition-colors">
-      <div className="mx-auto flex h-[52px] max-w-7xl items-center justify-between gap-3 px-3 sm:px-6">
+      <div className="flex h-[52px] w-full items-center justify-between gap-3 px-3 sm:px-5 lg:px-6">
         {/* Left Section: Nav trigger, Logo & macOS Segmented Switcher */}
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           {onToggleMobileSidebar && (

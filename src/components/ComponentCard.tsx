@@ -206,7 +206,7 @@ export function ComponentCard({
         the page over tables, sliders, and nested lists without wheel-jacking!
         Clicking 'Interact' unlocks the live stage or clicking the inspect banner opens the sandbox.
       */}
-      <div className="relative h-[224px] w-full overflow-hidden bg-[#F5F5F7]/70 dark:bg-[#000000]/40 border-b border-black/[0.06] dark:border-white/[0.06] select-none">
+      <div className="relative h-[260px] sm:h-[280px] w-full overflow-hidden bg-[#F5F5F7]/70 dark:bg-[#000000]/40 border-b border-black/[0.06] dark:border-white/[0.06] select-none">
         {/* Subtle grid pattern background */}
         <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
 
@@ -216,7 +216,7 @@ export function ComponentCard({
             isInteractive ? "pointer-events-auto" : "pointer-events-none"
           }`}
         >
-          <div className="w-full flex items-center justify-center scale-[0.92] origin-center">
+          <div className="w-full flex items-center justify-center scale-[0.95] origin-center">
             <Component />
           </div>
         </div>

@@ -240,30 +240,10 @@ export function App() {
         onToggleSidebarCollapse={handleToggleSidebarCollapse}
       />
 
-      {/* Sleek Horizontal Studio Command Bar with 1-Click Framework Filter Chips */}
-      <StudioCommandBar
-        studioTab={studioTab}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        selectedFramework={selectedFramework}
-        setSelectedFramework={setSelectedFramework}
-        skillSourceFilter={skillSourceFilter}
-        setSkillSourceFilter={setSkillSourceFilter}
-        viewMode={viewMode}
-        setViewMode={handleSetViewMode}
-        totalCount={studioTab === "components" ? COMPONENTS_DATA.length : AGENT_SKILLS_DATA.length}
-        filteredCount={studioTab === "components" ? filteredComponents.length : filteredSkills.length}
-        frameworkCounts={frameworkCounts}
-        sourceCounts={sourceCounts}
-        onResetFilters={handleResetFilters}
-      />
-
-      {/* Main Studio Workspace */}
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col lg:flex-row">
-        {/* Desktop Left Category Sidebar (Collapsible rail or full width) */}
-        <div className="hidden lg:block shrink-0 sticky top-14 self-start max-h-[calc(100vh-3.5rem)] transition-all duration-200">
+      {/* Edge-to-Edge Studio Workspace */}
+      <div className="flex w-full flex-1 min-h-[calc(100vh-52px)]">
+        {/* Desktop Left Category Sidebar (Docked to left edge, full height) */}
+        <div className="hidden lg:block shrink-0 transition-all duration-200">
           <Sidebar
             activeTab={studioTab}
             categories={activeCategories}
@@ -341,140 +321,162 @@ export function App() {
           </div>
         )}
 
-        {/* Right Main Studio Canvas */}
-        <main className="flex-1 p-3 sm:p-5 lg:p-6 min-w-0">
-          {/* Render Active Studio Mode */}
-          {studioTab === "components" ? (
-            /* UI Components Studio */
-            filteredComponents.length === 0 ? (
-              <div className="rounded-2xl border border-black/[0.08] bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#161617]">
-                <Search className="mx-auto h-7 w-7 text-[#86868B]" />
-                <h3 className="mt-3 text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
-                  No matching components found
-                </h3>
-                <p className="mt-1 text-xs text-[#86868B] max-w-md mx-auto">
-                  No components match the active filter criteria. Try resetting framework or category filters.
-                </p>
-                <button
-                  onClick={handleResetFilters}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#1D1D1F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white transition active:scale-[0.97]"
-                >
-                  <RotateCcw className="h-3 w-3" />
-                  <span>Reset All Filters</span>
-                </button>
-              </div>
-            ) : viewMode === "grid" ? (
-              /* Grid Density View */
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-                {filteredComponents.map((item) => (
-                  <ComponentCard
-                    key={item.id}
-                    item={item}
-                    onInspect={(c) => setInspectedComponent(c)}
-                    onTriggerToast={triggerToast}
-                    viewMode="grid"
-                  />
-                ))}
-              </div>
-            ) : (
-              /* List / Table Density View */
-              <div className="space-y-2">
-                {filteredComponents.map((item) => (
-                  <ComponentCard
-                    key={item.id}
-                    item={item}
-                    onInspect={(c) => setInspectedComponent(c)}
-                    onTriggerToast={triggerToast}
-                    viewMode="list"
-                  />
-                ))}
-              </div>
-            )
-          ) : (
-            /* Agent Skills Studio */
-            filteredSkills.length === 0 ? (
-              <div className="rounded-2xl border border-black/[0.08] bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#161617]">
-                <Search className="mx-auto h-7 w-7 text-[#86868B]" />
-                <h3 className="mt-3 text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
-                  No matching agent skills found
-                </h3>
-                <p className="mt-1 text-xs text-[#86868B] max-w-md mx-auto">
-                  Try searching for keywords like "animate", "audit", "lint", "qa", "design", or "bug".
-                </p>
-                <button
-                  onClick={handleResetFilters}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#1D1D1F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white transition active:scale-[0.97]"
-                >
-                  <RotateCcw className="h-3 w-3" />
-                  <span>Reset All Filters</span>
-                </button>
-              </div>
-            ) : viewMode === "grid" ? (
-              /* Grid Density View for Skills */
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {filteredSkills.map((skill) => (
-                  <SkillCard
-                    key={skill.id}
-                    skill={skill}
-                    onInspect={(s) => setInspectedSkill(s)}
-                    onTriggerToast={triggerToast}
-                    viewMode="grid"
-                  />
-                ))}
-              </div>
-            ) : (
-              /* List / Table Density View for Skills */
-              <div className="space-y-2">
-                {filteredSkills.map((skill) => (
-                  <SkillCard
-                    key={skill.id}
-                    skill={skill}
-                    onInspect={(s) => setInspectedSkill(s)}
-                    onTriggerToast={triggerToast}
-                    viewMode="list"
-                  />
-                ))}
-              </div>
-            )
-          )}
-        </main>
-      </div>
+        {/* Right Main Studio Content Area (CommandBar + Canvas + Footer) */}
+        <div className="flex-1 flex flex-col min-w-0 bg-[#FAFAFA] dark:bg-[#000000]">
+          {/* Sticky Command & Filter Bar */}
+          <StudioCommandBar
+            studioTab={studioTab}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            selectedFramework={selectedFramework}
+            setSelectedFramework={setSelectedFramework}
+            skillSourceFilter={skillSourceFilter}
+            setSkillSourceFilter={setSkillSourceFilter}
+            viewMode={viewMode}
+            setViewMode={handleSetViewMode}
+            totalCount={studioTab === "components" ? COMPONENTS_DATA.length : AGENT_SKILLS_DATA.length}
+            filteredCount={studioTab === "components" ? filteredComponents.length : filteredSkills.length}
+            frameworkCounts={frameworkCounts}
+            sourceCounts={sourceCounts}
+            onResetFilters={handleResetFilters}
+          />
 
-      {/* Sleek Minimalist Footer */}
-      <footer className="border-t border-black/[0.08] bg-[#F5F5F7]/80 py-4 text-xs text-[#86868B] dark:border-white/[0.08] dark:bg-[#161617]/50 backdrop-blur-md transition-colors">
-        <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2.5">
-          <p className="flex items-center gap-2">
-            <img src="/logo.png" alt="uiskill" className="h-4 w-4 rounded object-contain inline-block" />
-            <span className="font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">uiskill Studio</span>
-            <span className="text-[#86868B]/40">·</span>
-            <span>53 Live UI Templates</span>
-            <span className="text-[#86868B]/40">·</span>
-            <span>93 Certified Agent Skills</span>
-          </p>
-          <div className="flex items-center gap-4 text-xs">
-            <button
-              onClick={() => handleTabChange("components")}
-              className="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition"
-            >
-              Templates
-            </button>
-            <button
-              onClick={() => handleTabChange("skills")}
-              className="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition"
-            >
-              Skills
-            </button>
-            <a
-              href="https://github.com/isreeharim/uiskill"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition"
-            >
-              GitHub
-            </a>
-          </div>
+          {/* Right Main Studio Canvas */}
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">
+            {studioTab === "components" ? (
+              /* UI Components Studio */
+              filteredComponents.length === 0 ? (
+                <div className="rounded-2xl border border-black/[0.08] bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#161617]">
+                  <Search className="mx-auto h-7 w-7 text-[#86868B]" />
+                  <h3 className="mt-3 text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
+                    No matching components found
+                  </h3>
+                  <p className="mt-1 text-xs text-[#86868B] max-w-md mx-auto">
+                    No components match the active filter criteria. Try resetting framework or category filters.
+                  </p>
+                  <button
+                    onClick={handleResetFilters}
+                    className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#1D1D1F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white transition active:scale-[0.97]"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                    <span>Reset All Filters</span>
+                  </button>
+                </div>
+              ) : viewMode === "grid" ? (
+                /* Grid Density View - Spacious Fluid 2 to 3 Columns */
+                <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+                  {filteredComponents.map((item) => (
+                    <ComponentCard
+                      key={item.id}
+                      item={item}
+                      onInspect={(c) => setInspectedComponent(c)}
+                      onTriggerToast={triggerToast}
+                      viewMode="grid"
+                    />
+                  ))}
+                </div>
+              ) : (
+                /* List / Table Density View */
+                <div className="space-y-2.5">
+                  {filteredComponents.map((item) => (
+                    <ComponentCard
+                      key={item.id}
+                      item={item}
+                      onInspect={(c) => setInspectedComponent(c)}
+                      onTriggerToast={triggerToast}
+                      viewMode="list"
+                    />
+                  ))}
+                </div>
+              )
+            ) : (
+              /* Agent Skills Studio */
+              filteredSkills.length === 0 ? (
+                <div className="rounded-2xl border border-black/[0.08] bg-white p-10 text-center dark:border-white/[0.08] dark:bg-[#161617]">
+                  <Search className="mx-auto h-7 w-7 text-[#86868B]" />
+                  <h3 className="mt-3 text-sm font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">
+                    No matching agent skills found
+                  </h3>
+                  <p className="mt-1 text-xs text-[#86868B] max-w-md mx-auto">
+                    Try searching for keywords like "animate", "audit", "lint", "qa", "design", or "bug".
+                  </p>
+                  <button
+                    onClick={handleResetFilters}
+                    className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#1D1D1F] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-black dark:bg-[#F5F5F7] dark:text-[#1D1D1F] dark:hover:bg-white transition active:scale-[0.97]"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                    <span>Reset All Filters</span>
+                  </button>
+                </div>
+              ) : viewMode === "grid" ? (
+                /* Grid Density View for Skills */
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                  {filteredSkills.map((skill) => (
+                    <SkillCard
+                      key={skill.id}
+                      skill={skill}
+                      onInspect={(s) => setInspectedSkill(s)}
+                      onTriggerToast={triggerToast}
+                      viewMode="grid"
+                    />
+                  ))}
+                </div>
+              ) : (
+                /* List / Table Density View for Skills */
+                <div className="space-y-2">
+                  {filteredSkills.map((skill) => (
+                    <SkillCard
+                      key={skill.id}
+                      skill={skill}
+                      onInspect={(s) => setInspectedSkill(s)}
+                      onTriggerToast={triggerToast}
+                      viewMode="list"
+                    />
+                  ))}
+                </div>
+              )
+            )}
+          </main>
+
+          {/* Sleek Minimalist Footer */}
+          <footer className="border-t border-black/[0.08] bg-[#F5F5F7]/80 py-4 text-xs text-[#86868B] dark:border-white/[0.08] dark:bg-[#161617]/50 backdrop-blur-md transition-colors">
+            <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+              <p className="flex items-center gap-2">
+                <img src="/logo.png" alt="uiskill" className="h-4 w-4 rounded object-contain inline-block" />
+                <span className="font-semibold text-[#1D1D1F] dark:text-[#F5F5F7]">uiskill Studio</span>
+                <span className="text-[#86868B]/40">·</span>
+                <span>53 Live UI Templates</span>
+                <span className="text-[#86868B]/40">·</span>
+                <span>93 Certified Agent Skills</span>
+              </p>
+              <div className="flex items-center gap-4 text-xs">
+                <button
+                  onClick={() => handleTabChange("components")}
+                  className="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition"
+                >
+                  Templates
+                </button>
+                <button
+                  onClick={() => handleTabChange("skills")}
+                  className="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition"
+                >
+                  Skills
+                </button>
+                <a
+                  href="https://github.com/isreeharim/uiskill"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7] transition"
+                >
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </footer>
         </div>
-      </footer>
+      </div>
 
       {/* Modals & Overlays */}
       <InspectorModal

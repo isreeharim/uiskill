@@ -74,8 +74,8 @@ export function StudioCommandBar({
     (!isComponents && skillSourceFilter !== "All")
 
   return (
-    <div className="w-full border-b border-black/[0.08] dark:border-white/[0.08] bg-[#F5F5F7]/80 dark:bg-[#161617]/80 backdrop-blur-md transition-colors">
-      <div className="mx-auto max-w-7xl px-3 sm:px-6 py-2.5 space-y-2">
+    <div className="sticky top-[52px] z-30 w-full border-b border-black/[0.08] dark:border-white/[0.08] apple-glass transition-colors">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-2.5 space-y-2">
         {/* Breadcrumb Context & Count */}
         <div className="flex items-center justify-between gap-2.5 text-xs">
           <div className="flex items-center gap-2">

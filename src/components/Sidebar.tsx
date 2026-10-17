@@ -101,7 +101,7 @@ export function Sidebar({
   // Collapsed desktop rail view (w-14)
   if (isCollapsed) {
     return (
-      <aside className="w-14 shrink-0 border-r border-black/[0.08] bg-[#F5F5F7]/80 dark:border-white/[0.08] dark:bg-[#161617]/50 py-3 flex flex-col items-center justify-between select-none">
+      <aside className="w-14 shrink-0 border-r border-black/[0.08] bg-[#F5F5F7]/90 dark:border-white/[0.08] dark:bg-[#161617]/90 backdrop-blur-md py-3 flex flex-col items-center justify-between select-none lg:sticky lg:top-[52px] lg:h-[calc(100vh-52px)] overflow-y-auto">
         <div className="flex flex-col items-center space-y-1.5 w-full px-1.5">
           {onToggleCollapse && (
             <button
@@ -153,7 +153,7 @@ export function Sidebar({
 
   // Expanded sidebar view (w-64 or w-72)
   return (
-    <aside className="w-full lg:w-64 xl:w-72 shrink-0 border-r border-black/[0.08] bg-[#F5F5F7]/80 dark:border-white/[0.08] dark:bg-[#161617]/50 p-3 sm:p-3.5 flex flex-col justify-between overflow-y-auto max-h-[calc(100vh-3.5rem)] select-none">
+    <aside className="w-full lg:w-64 xl:w-72 shrink-0 border-r border-black/[0.08] bg-[#F5F5F7]/90 dark:border-white/[0.08] dark:bg-[#161617]/90 backdrop-blur-md p-3 sm:p-3.5 flex flex-col justify-between overflow-y-auto lg:sticky lg:top-[52px] lg:h-[calc(100vh-52px)] select-none">
       <div className="space-y-4">
         {/* Categories Section */}
         <div>
