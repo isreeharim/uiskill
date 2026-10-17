@@ -149,7 +149,8 @@ export function ComponentCard({
     <div
       ref={cardRef}
       onMouseLeave={handleMouseLeave}
-      className="apple-card group relative flex flex-col rounded-2xl border border-black/[0.08] bg-white dark:border-white/[0.08] dark:bg-[#161617] overflow-hidden"
+      onClick={() => !isInteractive && onInspect(item)}
+      className="apple-card group relative flex flex-col rounded-2xl border border-black/[0.08] bg-white dark:border-white/[0.08] dark:bg-[#161617] overflow-hidden cursor-pointer"
     >
       {/* Card Header */}
       <div className="flex items-start justify-between border-b border-black/[0.06] p-4 dark:border-white/[0.06]">
@@ -204,7 +205,7 @@ export function ComponentCard({
         Scroll-Safe Isolation:
         When !isInteractive, pointer-events are disabled on the embedded preview so users can freely scroll
         the page over tables, sliders, and nested lists without wheel-jacking!
-        Clicking 'Interact' unlocks the live stage or clicking the inspect banner opens the sandbox.
+        Clicking 'Interact' unlocks the live stage or clicking the card instantly opens the sandbox.
       */}
       <div className="relative h-[260px] sm:h-[280px] w-full overflow-hidden bg-[#F5F5F7]/70 dark:bg-[#000000]/40 border-b border-black/[0.06] dark:border-white/[0.06] select-none">
         {/* Subtle grid pattern background */}
@@ -222,7 +223,10 @@ export function ComponentCard({
         </div>
 
         {/* Top-Right Stage Mode Affordance Pill */}
-        <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5">
+        <div
+          className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5"
+          onClick={(e) => e.stopPropagation()}
+        >
           {isInteractive ? (
             <button
               onClick={() => setIsInteractive(false)}
@@ -244,19 +248,6 @@ export function ComponentCard({
             </button>
           )}
         </div>
-
-        {/* Bottom Hover Bar: Click to Inspect */}
-        {!isInteractive && (
-          <div
-            onClick={() => onInspect(item)}
-            className="absolute inset-x-0 bottom-0 py-2 bg-gradient-to-t from-black/30 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer"
-          >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-medium text-[#1D1D1F] shadow-sm backdrop-blur-md dark:bg-[#161617]/95 dark:text-[#F5F5F7] border border-black/[0.08] dark:border-white/[0.1] transition active:scale-[0.97]">
-              <Maximize2 className="h-3 w-3 text-[#0071E3] dark:text-[#2997FF]" />
-              <span>Click card to open full Sandbox</span>
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Card Footer: Metadata & Direct Inspect Link */}
@@ -273,7 +264,10 @@ export function ComponentCard({
             </span>
           ))}
           <button
-            onClick={() => onInspect(item)}
+            onClick={(e) => {
+              e.stopPropagation()
+              onInspect(item)
+            }}
             className="text-[11px] font-medium text-[#0071E3] hover:underline dark:text-[#2997FF] ml-1 transition"
           >
             Inspect ➔
