@@ -23,6 +23,29 @@ const SkillInspectorModal = lazy(() =>
   import("./components/SkillInspectorModal").then((mod) => ({ default: mod.SkillInspectorModal }))
 )
 
+const UI_CATEGORIES = [
+  "All",
+  "SaaS Dashboards",
+  "Marketing & Bento",
+  "Auth & Flow",
+  "Overlays & Actions",
+  "Theming",
+  "Creative & Motion",
+  "Forms & Inputs",
+  "Data & Tables",
+  "Feedback & Status",
+]
+
+const SKILL_CATEGORIES = [
+  "All",
+  "UI, Design & Motion",
+  "Architecture & Code Review",
+  "Debugging & Performance",
+  "Testing & QA Automation",
+  "Product & Planning",
+  "Workflows & Agent Ops",
+]
+
 export function App() {
   const [studioTab, setStudioTab] = useState<"components" | "skills">("components")
   const [searchQuery, setSearchQuery] = useState("")
@@ -198,29 +221,6 @@ export function App() {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [handleToggleSidebarCollapse])
 
-  const UI_CATEGORIES = [
-    "All",
-    "SaaS Dashboards",
-    "Marketing & Bento",
-    "Auth & Flow",
-    "Overlays & Actions",
-    "Theming",
-    "Creative & Motion",
-    "Forms & Inputs",
-    "Data & Tables",
-    "Feedback & Status",
-  ]
-
-  const SKILL_CATEGORIES = [
-    "All",
-    "UI, Design & Motion",
-    "Architecture & Code Review",
-    "Debugging & Performance",
-    "Testing & QA Automation",
-    "Product & Planning",
-    "Workflows & Agent Ops",
-  ]
-
   const activeCategories = studioTab === "components" ? UI_CATEGORIES : SKILL_CATEGORIES
 
   // Precomputed Framework counts for chips
@@ -321,7 +321,7 @@ export function App() {
             activeTab={studioTab}
             categories={activeCategories}
             selectedCategory={selectedCategory}
-            onSelectCategory={(cat) => setSelectedCategory(cat)}
+            onSelectCategory={setSelectedCategory}
             selectedItemId={selectedItemId}
             onSelectItem={handleJumpToItem}
             components={COMPONENTS_DATA}

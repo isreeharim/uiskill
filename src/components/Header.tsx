@@ -1,4 +1,4 @@
-import { memo } from "react"
+import { memo, useState, useEffect } from "react"
 import {
   Search,
   Sparkles,
@@ -51,6 +51,21 @@ export const Header = memo(function Header({
   isSidebarCollapsed = false,
   onToggleSidebarCollapse,
 }: HeaderProps) {
+  const [localQuery, setLocalQuery] = useState(searchQuery)
+
+  useEffect(() => {
+    setLocalQuery(searchQuery)
+  }, [searchQuery])
+
+  const handleInputChange = (val: string) => {
+    setLocalQuery(val)
+    setSearchQuery(val)
+  }
+
+  const handleClear = () => {
+    setLocalQuery("")
+    setSearchQuery("")
+  }
   return (
     <header className="sticky top-0 z-40 w-full border-b border-black/[0.08] dark:border-white/[0.08] apple-glass transition-colors">
       <div className="flex h-[52px] w-full items-center justify-between gap-3 px-3 sm:px-5 lg:px-6">
@@ -155,14 +170,14 @@ export const Header = memo(function Header({
               type="text"
               placeholder={activeTab === "components" ? `Search ${componentsCount} templates... (⌘K)` : `Search ${skillsCount} skills... (⌘K)`}
               aria-label="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={localQuery}
+              onChange={(e) => handleInputChange(e.target.value)}
               className="h-8 w-full rounded-lg border border-transparent bg-black/[0.04] pl-8 pr-12 text-xs text-[#1D1D1F] placeholder-[#86868B] outline-none transition-all focus:border-[#0071E3] focus:bg-white focus:ring-2 focus:ring-[#0071E3]/20 dark:bg-white/[0.06] dark:text-[#F5F5F7] dark:placeholder-[#86868B] dark:focus:border-[#2997FF] dark:focus:bg-[#1C1C1E] dark:focus:ring-[#2997FF]/20"
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-              {searchQuery ? (
+              {localQuery ? (
                 <button
-                  onClick={() => setSearchQuery("")}
+                  onClick={handleClear}
                   aria-label="Clear search query"
                   className="p-0.5 text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
                 >
@@ -244,13 +259,13 @@ export const Header = memo(function Header({
               enterKeyHint="search"
               placeholder={activeTab === "components" ? `Search ${componentsCount} templates` : `Search ${skillsCount} skills`}
               aria-label="Search templates and skills"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={localQuery}
+              onChange={(e) => handleInputChange(e.target.value)}
               className="h-9 w-full rounded-lg border border-black/[0.08] bg-black/[0.04] pl-9 pr-9 text-xs text-[#1D1D1F] placeholder-[#86868B] outline-none focus:border-[#0071E3] focus:bg-white dark:border-white/[0.1] dark:bg-white/[0.06] dark:text-[#F5F5F7]"
             />
-            {searchQuery && (
+            {localQuery && (
               <button
-                onClick={() => setSearchQuery("")}
+                onClick={handleClear}
                 aria-label="Clear search query"
                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-[#F5F5F7]"
               >

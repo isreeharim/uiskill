@@ -57,7 +57,26 @@ export const Squares: React.FC<SquaresProps> = ({
     canvas.addEventListener("mousemove", handleMouseMove)
     canvas.addEventListener("mouseleave", handleMouseLeave)
 
+    let isVisible = true
+    let observer: IntersectionObserver | null = null
+
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(([entry]) => {
+        const nextVisible = entry.isIntersecting
+        if (nextVisible && !isVisible) {
+          isVisible = true
+          cancelAnimationFrame(animationFrameId)
+          animationFrameId = requestAnimationFrame(draw)
+        } else {
+          isVisible = nextVisible
+        }
+      })
+      observer.observe(canvas)
+    }
+
     const draw = () => {
+      if (!isVisible) return
+
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       offset = (offset + speed) % squareSize
@@ -94,6 +113,7 @@ export const Squares: React.FC<SquaresProps> = ({
       window.removeEventListener("resize", resize)
       canvas.removeEventListener("mousemove", handleMouseMove)
       canvas.removeEventListener("mouseleave", handleMouseLeave)
+      observer?.disconnect()
       cancelAnimationFrame(animationFrameId)
     }
   }, [direction, speed, borderColor, squareSize, hoverFillColor])

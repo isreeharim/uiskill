@@ -21,20 +21,30 @@ export function IOSLiquidGlass() {
   const [spatialMode, setSpatialMode] = useState<"off" | "fixed" | "tracked">("tracked")
   const [isMuted, setIsMuted] = useState(false)
   const [activePreset, setActivePreset] = useState("Vocal")
-  const [specular, setSpecular] = useState({ x: 50, y: 30, opacity: 0.8 })
   const containerRef = useRef<HTMLDivElement>(null)
+  const causticRef = useRef<HTMLDivElement>(null)
+  const rafId = useRef<number | null>(null)
 
-  // Track pointer for real-time specular light refraction across the curved glass
+  // Track pointer for real-time specular light refraction with zero React re-renders
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return
+    if (!containerRef.current || !causticRef.current) return
     const rect = containerRef.current.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    setSpecular({ x, y, opacity: 1 })
+    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100)
+    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100)
+
+    if (rafId.current) cancelAnimationFrame(rafId.current)
+    rafId.current = requestAnimationFrame(() => {
+      if (causticRef.current) {
+        causticRef.current.style.background = `radial-gradient(circle 180px at ${x}% ${y}%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 80%)`
+        causticRef.current.style.opacity = "1"
+      }
+    })
   }, [])
 
   const handlePointerLeave = useCallback(() => {
-    setSpecular({ x: 50, y: 30, opacity: 0.6 })
+    if (causticRef.current) {
+      causticRef.current.style.opacity = "0.6"
+    }
   }, [])
 
   const handleVolumeClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -57,10 +67,11 @@ export function IOSLiquidGlass() {
     >
       {/* Specular curved glass caustic & refraction overlay that tracks cursor */}
       <div
+        ref={causticRef}
         className="pointer-events-none absolute inset-0 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(circle 180px at ${specular.x}% ${specular.y}%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 80%)`,
-          opacity: specular.opacity,
+          background: `radial-gradient(circle 180px at 50% 30%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 80%)`,
+          opacity: 0.8,
         }}
       />
 

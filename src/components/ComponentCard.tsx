@@ -1,4 +1,4 @@
-import React, { useState, useRef, memo } from "react"
+import React, { useState, useRef, useEffect, memo } from "react"
 import {
   Copy,
   Check,
@@ -130,10 +130,33 @@ export const ComponentCard = memo(function ComponentCard({
   // Call all hooks at the top unconditionally to strictly satisfy the Rules of Hooks
   const [copiedCode, setCopiedCode] = useState(false)
   const [isInteractive, setIsInteractive] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
   const Component = item.previewComponent
 
   const activeMode = density || viewMode
+
+  // Viewport observation: only mount live preview when within 400px of viewport
+  useEffect(() => {
+    if (activeMode === "list") return
+    const el = cardRef.current
+    if (!el) return
+
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { rootMargin: "400px 0px 400px 0px", threshold: 0 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [activeMode])
 
   const handleCopyCode = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -247,9 +270,17 @@ export const ComponentCard = memo(function ComponentCard({
             isInteractive ? "pointer-events-auto" : "pointer-events-none"
           }`}
         >
-          <div className="w-full flex items-center justify-center scale-[0.95] origin-center">
-            <Component />
-          </div>
+          {isVisible ? (
+            <div className="w-full flex items-center justify-center scale-[0.95] origin-center">
+              <Component />
+            </div>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center text-[#86868B]/40">
+              <div className="h-8 w-8 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] flex items-center justify-center">
+                <Layers className="h-4 w-4 opacity-40 text-[#86868B]" />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Top-Right Stage Mode Affordance Pill */}
